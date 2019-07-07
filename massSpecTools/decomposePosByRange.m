@@ -1,4 +1,8 @@
 function decomposePosByRange(pos,rng,decomposeType)
+% written by Peter Felfer, Friedrich-Alexander Universität
+% Erlangen-Nürnberg. copyleft. Have fun!
+
+
 %splits pos file by range, provided as a struct by the readrrng
 %the posfile will be decomposed. By default by range type ('rangeName'). If
 %'atomic' is parsed as decomposeType, variables of the atomic species are
@@ -23,6 +27,8 @@ function decomposePosByRange(pos,rng,decomposeType)
 
 OFFSETINCREMENT = 0.01; %if complex ions are decomposed, each iteration fo the positions will be shifted by this value
 
+
+varName = inputname(1);
 
 if ~exist('decomposeType','var')
     decomposeType = 'atomic';
@@ -49,22 +55,20 @@ end
 
 
 %% decompose by range
-if strcmp(decomposeType,'range');
-    
-    
-    
+if strcmp(decomposeType,'range')
+  
     for r = 1:numRanges
         %adding range limits to name
         rngName = [rng(r).rangeName(~isspace(rng(r).rangeName)) '_' num2str(round(rng(r).mcbegin))];
         
         %writing range to base workspace
-        assignin('base',[rngName 'pos'],rng(r).pos);
+        assignin('base',[varName '_' rngName],rng(r).pos);
         
         %build up variable of ranged atoms
         allRng = [allRng; rng(r).pos];
     end
     
-    assignin('base','allRanged',allRng); %creates a variable only containing ranged ions
+    assignin('base',[varName '_allRanged'],allRng); %creates a variable only containing ranged ions
     
 end
 
@@ -84,14 +88,14 @@ if strcmp(decomposeType,'rangeName')
                 allRng = [allRng; rng(r).pos];
             end
         end
-        assignin('base', [types{t}(~isspace(types{t})) '_pos'],tmpPos);
+        assignin('base', [varName '_' types{t}(~isspace(types{t}))],tmpPos);
         conc{t,1} = types{t};
         conc{t,2} = length(tmpPos);
         
         
     end
     
-    assignin('base','allRanged',allRng);
+    assignin('base',[varName '_allRanged'],allRng);
     
     %calculating concentration per type
     numAtom = sum(cell2mat(conc(:,2)));
@@ -103,7 +107,7 @@ if strcmp(decomposeType,'rangeName')
 end
 
 %% decompose by type (e.g. chemical element)
-if strcmp(decomposeType,'type');
+if strcmp(decomposeType,'type')
     %build list of all 'types' and multipliers in range variable
     types = struct2cell(rng);
     types = types(1,:);
@@ -141,7 +145,7 @@ if strcmp(decomposeType,'type');
             numTypes = length(rng(r).types);
             for ti = 1:numTypes
                 offset = 0;
-                if strcmp(type,rng(r).types{ti});
+                if strcmp(type,rng(r).types{ti})
                     for m = 1:rng(r).multi
                         tmpPos = [tmpPos; rng(r).pos + offset];
                         allRng = [allRng; rng(r).pos + offset];
@@ -151,14 +155,14 @@ if strcmp(decomposeType,'type');
             end
         end
         
-        assignin('base', [type '_pos'],tmpPos);
+        assignin('base', [varName '_' type],tmpPos);
         conc{t,1} = uniqueTypes{t};
         conc{t,2} = length(tmpPos);
         
         
     end
     
-    assignin('base','allRanged',allRng);
+    assignin('base',[varName '_allRanged'],allRng);
     
     %calculating concentration per type
     numAtom = sum(cell2mat(conc(:,2)));

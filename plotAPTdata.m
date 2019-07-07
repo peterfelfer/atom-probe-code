@@ -1,12 +1,21 @@
-function plotAPTdata(pos,sample,color,size)
+function p = plotAPTdata(pos,sample,color,size,plotAxis)
 %plots APT data in the usual style. Sample allows the specificaiton of a
 %subset to plot. If sample <1, it is a fraction of the overall number of
 %atoms, if >1, it is a fixed number. 'color' is provided as RGB vector
 %'crop' crops data before plotting rather than just setting axes limits.
-%Makes for more responsive plots and smaller fiels when saving a figure
+%Makes for more responsive plots and smaller fiels when saving a figure. If
+%an axis is parsed, it will be plotted in that axis.
 
 varName = inputname(1);
-f = figure('Name',varName);
+
+if exist('plotAxis','var')
+    ax = plotAxis;
+    hold on
+    
+else
+    f = figure('Name',varName);
+    ax = axes();
+end
 
 
 
@@ -16,11 +25,12 @@ end
 
 
 if iscell(color)
-    color = pickFromColorscheme(color);
+    varName = varName(5:end);
+    color = color{contains(color(:,1),varName),2};
 end
 if isstruct(color) %rng struct can be parsed for coloring
-    %search if variable name exists in rng struct 
-    varName = varName(1:end-4);
+    %search if variable name exists in rng struct
+    varName = varName(5:end);
     rng = color;
     numRng = length(rng);
     for r = 1:numRng
@@ -61,10 +71,14 @@ if sample<=1
 end
 sample = randsample(numAtoms,sample);
 
+displayName = inputname(1);
+displayName(displayName == '_') = ' ';
 
-scatter3(pos(sample,1),pos(sample,2),pos(sample,3),markerStyle,'MarkerEdgeColor',edgeColor,...
-        'MarkerFaceColor',fillColor,'SizeData',size); 
-axis equal; 
+p = scatter3(pos(sample,1),pos(sample,2),pos(sample,3),markerStyle,'MarkerEdgeColor',edgeColor,...
+    'MarkerFaceColor',fillColor,'SizeData',size,'DisplayName',displayName,'Parent',ax);
+
+
+axis equal;
 rotate3d on;
 
 set(gca,'Box','On');

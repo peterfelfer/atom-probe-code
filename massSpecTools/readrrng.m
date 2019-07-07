@@ -3,7 +3,7 @@ function rng = readrrng(fileName)
 
 %pick file if not parsed
 if ~exist('fileName','var')
-    [file path idx] = uigetfile('*.rrng','Select a rrng file');
+    [file path idx] = uigetfile({'*.rrng';'*.RRNG'},'Select a rrng file');
     fileName = [path file];
     disp(['file ' file ' parsed']);
 end

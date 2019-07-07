@@ -1,4 +1,4 @@
-function [pos, varargout] = readpos(fileName)
+function varargout = readpos(fileName)
 % function [pos]=readpos(fileName)
 % Reads data from a .pos file (4 floats-big endian) or .epos file
 % and extract 1 matrix with x,y,z and m (Nx4)
@@ -7,7 +7,7 @@ function [pos, varargout] = readpos(fileName)
 % given
 
 if ~exist('fileName','var')
-    [file path idx] = uigetfile({'*.pos';'*.epos'},'Select a pos file');
+    [file, path, idx] = uigetfile({'*.pos';'*.epos'},'Select a pos file');
     fileName = [path file];
     disp(['file ' file ' loaded']);
 end
@@ -51,8 +51,9 @@ if idx == 1
     numAtoms = length(pos)/4;
     pos=reshape(pos, [4 numAtoms]);
     pos=pos';
+    pos = single(pos);
     
-    varargout{1} = 0;
+    
     %% reads .epos
 elseif idx == 2
     
@@ -65,26 +66,47 @@ elseif idx == 2
     fseek(fid,36,'bof');
     
     pul = fread(fid, inf, '2*uint32', 36 ,'ieee-be');
-
+    
     %% Makes an array with the list of floats
     numAtoms = length(pos)/9;
     
     pos = reshape(pos, [9 numAtoms]);
     pos = single(pos);
     pos = pos';
+    pos = single(pos);
     
     
     pulse = reshape(pul, [2,numAtoms]);
     pulse = pulse';
     
-    varargout{1} = pulse;
+    varargout{1} = pos;
+    varargout{2} = pulse;
     
     
 end
 
-
-
+% close file
 fclose(fid);
+
+
+%define outputs based on loaded file and assigend output variables
+if nargout() == 0
+    [~,name,~] = fileparts(fileName);
+    name(name == '-') = '_';
+    assignin('base',genvarname(name),pos);
+    
+elseif nargout() == 1
+    varargout{1} = pos;
+    
+elseif nargout() == 2
+    if idx == 2
+        varargout{1} = pos;
+        varargout{2} = pulse;
+    else
+        error('load *.epos file for pulse information output')
+    end
+    
+end
 
 
 end
