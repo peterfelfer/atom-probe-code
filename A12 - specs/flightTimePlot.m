@@ -1,6 +1,6 @@
 % Script to make a plot of flight times and pulse frequency limitations
 flightPathLength = 110;%mm
-detectorDiameter = 40;%mm
+detectorDiameter = 80;%mm
 distance = sqrt(flightPathLength^2 + (detectorDiameter/2)^2);
 detectorVeto = 20;
 maxPulseAmplitude = 3200;%V

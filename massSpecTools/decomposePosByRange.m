@@ -102,7 +102,7 @@ if strcmp(decomposeType,'rangeName')
     for el = 1:length(types)
         conc{el,3} = conc{el,2} / numAtom;
     end
-    assignin('base','ionicConc',conc);
+    assignin('base',[varName '_ionicConc'],conc);
     
 end
 
@@ -169,6 +169,6 @@ if strcmp(decomposeType,'type')
     for el = 1:length(uniqueTypes)
         conc{el,3} = conc{el,2} / numAtom;
     end
-    assignin('base','atomicConc',conc);
+    assignin('base',[varName '_atomicConc'],conc);
     
 end
