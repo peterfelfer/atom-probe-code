@@ -1,5 +1,6 @@
 function [profile, binVec] = calculate1Dprofile(axis,bin,solutes,allAtoms)
-%calculates a 1D concentration profile along the axis given
+%calculates a 1D concentration profile along the axis given. allAtoms is
+%optional, if not given, profile will be counts. 
 solutes = solutes(:,1:3);
 numSol = length(solutes(:,1));
 

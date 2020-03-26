@@ -217,5 +217,6 @@ switch Z
         sym = 'U';
         
     otherwise
+        sym = 'undef';
         disp(' symbol undefined!');
 end

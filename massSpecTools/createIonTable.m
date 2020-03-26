@@ -1,132 +1,68 @@
-function list = createIonList(elements,chargeStates,maxComplexity,complexFormers,abundanceThreshold)
+function list = createIonTable(elements,chargeStates,isotopeTable,maxComplexity,complexFormers,abundanceThreshold)
+% creates a table of all possible ions up to a max complexity
+% maxComplexity of elements (can be a list of atomic numbers, symbols or
+% 'all' for a list of chargeStates e.g. [1,2,3]. Complex formers can be
+% specified.
 
-%% creates a list of all possible ions up to a max complexity
-%% maxComplexity of elements (can be a list of atomic numbers, symbols or
-%% 'all' for a list of chargeStates e.g. [1,2,3]. Complex formers can be
-%% specified.
+% Output is a struct with .massToCharge (sorted), ionType{},
+% relativeAbundance()
 
-%% Output is a struct with .massToCharge (sorted), ionType{},
-%% relativeAbundance()
+% if complexformers = 'std' complexformers = H, H2, H3, He, B, C, C2, C3,
+% N, O, O2, Ne. If complexFormers = 'and C P ....' it takes the elements
+% in elements and adds the additional specified elements
 
-%% if complexformers = 'std' complexformers = H, H2, H3, He, B, C, C2, C3,
-%% N, O, O2, Ne. If complexFormers = 'and C P ....' it takes the elements
-%% in elements and adds the additional specified elements
 
+%% input interpretation (character inputs ==> list of atomic numbers)
+% elements are parsed as a character array or string (whitespace delimited, 'Fe Ni Mo ...')
+if isstring(elements)
+    elements = char(elements);
+end
+
+if strcmp(elements,'all')
+    % suggest all elements
+    elements = unique(isotopeTable.element);
+else
+    elements = strread(elements,'%s');
+    for i=1:length(elements)
+        elements{i} = number4sym(elements{i});
+    end
+    elements = cell2mat(elements);
+end
+elements = sort(elements); % final sorted list of atomic numbers of elements given
+
+
+% include complex formers and interpret keywords 'std', 'same', 'and'
 if exist('complexFormers','var')
-    
+    % interpretation of keywords
     if strcmp(complexFormers,'std')
-        
-        if ischar(elements)
-            complexFormers = 'H C N O';
-        else
-            complexFormers = [1 2 6 7 8];
-        end
-    end
-    
-    if strcmp(complexFormers ,'same')
+        complexFormers = 'H C N O';
+    elseif strcmp(complexFormers ,'same')
         complexFormers = elements;
+    elseif strcmp(complexFormers(1:3),'and')
+        complexFormers = [elements complexFormers(4:end)];
     end
     
-    
-    if ischar(complexFormers)
-        tempCF = strread(complexFormers,'%s');
-        
-        if strcmp(tempCF{1}, 'and')
-            
-            complexFormers = [elements complexFormers(4:end)];
-        end
+    % create list of elements used as complex formers
+    complexFormers = strread(complexFormers,'%s');
+    for i=1:length(complexFormers)
+        complexFormers{i} = number4sym(complexFormers{i});
     end
-end
-    
-    
-    
-    
-    
-
-
-%% elements can be parsed as a string (whitespace delimited, 'Fe Ni Mo ...') or atomic numbers
-%% [26 28 42 ...]
-if ischar(elements)
-    
-    if strcmp(elements,'all')
-        
-        % suggest all elements
-        availableElements = nucleideList;
-        elements = unique(availableElements(:,1));
-        
-    else
-        
-        elements = strread(elements,'%s');
-        for i=1:length(elements)
-            elements{i} = number4sym(elements{i});
-        end
-        
-        elements = cell2mat(elements);
-    end
-    
+    complexFormers = cell2mat(complexFormers);
+    complexFormers = sort(complexFormers); % final sorted list of atomic numbers of elements given
 end
 
-elements = sort(elements);
-
-
-%% chargeStates are parsed as either a vector [1 2 3] or a string('1 2 3').
-if ischar(chargeStates)
-    chargeStates = sort(str2num(chargeStates));
-end
-    
-
-
-%% same parsing as for elements applies for complexFormers
-if exist('complexFormers','var')
-    
-    if ischar(complexFormers)
-        complexFormers = strread(complexFormers,'%s');
-        for i=1:length(complexFormers)
-            complexFormers{i} = number4sym(complexFormers{i});
-        end
-        
-        complexFormers = cell2mat(complexFormers);
-        
-    end
-    
-    complexFormers = sort(complexFormers);
-    
-end
-
-
+% if ion complexity is not parsed
 if ~exist('maxComplexity','var')
     maxComplexity = 1;
 end
 
 
-if ischar(maxComplexity)
-    maxComplexity = str2num(maxComplexity);
-end
-
-
-
-
-
-
-
-
 %% create list of all nucleides used
-nucleides = nucleideList;
+%nucleides = nucleideList;
 
 if ~strcmp(elements,'all')
-    nucleidesUsed = [];
-    for element = 1:length(elements)
-        nucleidesUsed = [nucleidesUsed; nucleides(nucleides(:,1) == elements(element),:)];
-    end
-    
-    nucleides = nucleidesUsed;
+    nucleides = isotopeTable(ismember(isotopeTable.element{'Fe'}),:);%XXXXXXX
 end
-
-
-
-
-
-
 
 
 
@@ -209,12 +145,12 @@ for state = 1:length(chargeStates)
     list.relativeAbundance = [list.relativeAbundance; tempAbundance];
     list.chargeState = [list.chargeState; repmat(chargeStates(state),length(tempIon),1)];
     list.ionID = [list.ionID; tempIonID];
-
+    
     
 end
 
 % sorted according to mass to charge ratio
-[list.massToCharge idx] = sort(list.massToCharge);
+[list.massToCharge, idx] = sort(list.massToCharge);
 list.ionSpecies = list.ionSpecies(idx);
 list.relativeAbundance = list.relativeAbundance(idx);
 list.chargeState = list.chargeState(idx);

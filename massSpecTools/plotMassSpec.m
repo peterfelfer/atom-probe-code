@@ -1,4 +1,9 @@
-function handle = plotMassSpec(mc, bin, rng, oldPlot)
+function handle = plotMassSpec(mc, bin, mode, rng, oldPlot)
+%mode can be 'count', 'normalized'
+
+if istable(mc)
+    mc = mc.mc;
+end
 
 if length(mc(1,:)) > 1
     mc = mc(:,4);
@@ -14,25 +19,31 @@ if exist('oldPlot','var')
     y = oldPlot.YData;
     delete(plots);
     handle = area(ax,x,y,'FaceColor',[.9 .9 .9]);
+    handle.UserData.plotType = "massSpectrum";
     hold on;
     
     f = get(ax,'Parent');
     
 else
     f = figure('Name','mass spectrum');
+    ax = axes(f);
     
     mcmax = max(mc);
     
     x = linspace(0,mcmax,round(mcmax/bin));
     
-    % calculate as counts/(Da * totalCts) so that mass spectra with different
-    % count numbers are comparable
-    y = hist(mc,x) / bin / length(mc) *100;
-    
-    %med = median(y);
+    if strcmp(mode,'count')
+        y = hist(mc,x);
+    elseif strcmp(mode,'normalised')
+        % calculate as counts/(Da * totalCts) so that mass spectra with different
+        % count numbers are comparable
+        y = hist(mc,x) / bin / length(mc);
+        %med = median(y);
+    end
     
     % plot all mass spectrum
     handle = area(x,y,'FaceColor',[.9 .9 .9]);
+    handle.UserData.plotType = "massSpectrum";
     hold on;
     ax = get(handle,'Parent');
     
@@ -40,7 +51,13 @@ else
     set(gcf, 'Name', 'Mass spectrum');
     set(gcf, 'Color', [1 1 1]);
     set(get(gca,'XLabel'),'String','mass-to-chargestate [Da]');
-    set(get(gca,'YLabel'),'String','frequency [% / Da]');
+    
+    if strcmp(mode,'count')
+        ylabel('frequency [counts]');
+    elseif strcmp(mode,'normalised')
+        ylabel('frequency [cts / Da / totCts]');
+    end
+    
     
     %% annotation with range stats
     t = annotation('textbox');
@@ -52,7 +69,7 @@ else
     t.String = {['bin width: ' num2str(bin) ' Da'], ['num atoms: ' num2str(length(mc)) ], ['backG @ 4Da: ' num2str(BG4,3) ' ppm/Da']};
     t.BackgroundColor = 'w';
     t.FaceAlpha = 0.8;
-    t.Position = [.6 .8 .27 .1];
+    t.Position = [.15 .8 .27 .1];
     pan xon
     zoom xon
 end
@@ -67,6 +84,8 @@ if exist('rng','var')
         inRng = (x>=rng(r).mcbegin) & (x<rng(r).mcend);
         rngPlotHandles(r) = area(x(inRng),y(inRng),'Parent',ax);
         rngPlotHandles(r).FaceColor = rng(r).color;
+        rngPlotHandles(r).DisplayName = rng(r).rangeName;
+        rngPlotHandles(r).UserData.plotType = "range";
         
         %find peak and add label
         peakloc = find(y(inRng) == max(y(inRng)));
@@ -74,14 +93,15 @@ if exist('rng','var')
         locs = y(inRng);
         locs = locs(peakloc);
         
-        th = text(rng(r).mcbegin,max(y(inRng)) * 1.25,rng(r).rangeName,'clipping','on');
+        th(r) = text(rng(r).mcbegin,max(y(inRng)) * 1.25,rng(r).rangeName,'clipping','on');
         %th.Color = [.5 .5 .5];
-        
+        th(r).UserData.plotType = "rangeName";
         
         
     end
 end
 
+handle.DisplayName = 'mass spectrum';
 
 
 

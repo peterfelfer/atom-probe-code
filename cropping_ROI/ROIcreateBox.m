@@ -23,3 +23,4 @@ ch.FaceAlpha = 0.5;
 ch.UserData.ROIzaxis = [0,0,0 ; 0,0,height];
 ch.UserData.ROIyaxis = [0,0,0 ; 0,width,0];
 ch.UserData.ROIxaxis = [0,0,0 ; width,0,0];
+ch.DisplayName = 'ROI box';

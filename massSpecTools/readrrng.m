@@ -49,18 +49,30 @@ for r = 1:numRng
     numIons = length(ions);
     for i = 1:numIons
         ion = strsplit(ions{i},':');
-        rng(r).atoms(i).atom = ion{1};
-        rng(r).atoms(i).atomicNumber = number4sym(ion{1});
-        rng(r).atoms(i).count = str2num(ion{2});
-        
-        multi = rng(r).atoms(i).count;
-        if multi == 1
-            multi = '';
+        if strcmp(ion{1},'Name') % if range is manually named
+            rng(r).atoms(i).atom = ion{2};
+            rng(r).atoms(i).atomicNumber = 0;
+            rng(r).atoms(i).count = 1;
+            rng(r).rangeName = [ion{2} ' '];
+            
+            
         else
-            multi = num2str(multi);
+            % if range corresponds to a selected ion
+            rng(r).atoms(i).atom = ion{1};
+            rng(r).atoms(i).atomicNumber = number4sym(ion{1});
+            rng(r).atoms(i).count = str2num(ion{2});
+            
+            
+            multi = rng(r).atoms(i).count;
+            if multi == 1
+                multi = '';
+            else
+                multi = num2str(multi);
+            end
+            
+            rng(r).rangeName = [rng(r).rangeName ion{1} multi ' '];
         end
         
-        rng(r).rangeName = [rng(r).rangeName ion{1} multi ' '];
     end
     rng(r).rangeName(end) = [];
     

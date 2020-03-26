@@ -180,6 +180,9 @@ switch Z
     case 'Nd'
         num = 60;
         
+    case 'Yb'
+        num = 70;
+        
     case 'Hf'
         num = 72;
         
@@ -220,5 +223,6 @@ switch Z
         num = 92;
         
     otherwise
+        num = 0;
         disp([' element undefined!' Z]);
 end

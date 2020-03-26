@@ -25,12 +25,16 @@ end
 
 
 if iscell(color)
-    varName = varName(5:end);
+    last_ = find(varName == '_');
+    last_ = last_(end);
+    varName = varName(last_+1:end);
     color = color{contains(color(:,1),varName),2};
 end
 if isstruct(color) %rng struct can be parsed for coloring
     %search if variable name exists in rng struct
-    varName = varName(5:end);
+    last_ = find(varName == '_');
+    last_ = last_(end);
+    varName = varName(last_+1:end);
     rng = color;
     numRng = length(rng);
     for r = 1:numRng

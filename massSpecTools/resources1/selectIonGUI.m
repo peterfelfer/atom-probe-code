@@ -80,7 +80,7 @@ handles.binSize = handles.bins(2)-handles.bins(1);
 
 %% get range and plot it
 axes(get(handles.mcPlot,'Parent'));
-[x, y] = ginput(2);
+[x, ~] = ginput(2);
 x = sort(x);
 handles.mcBegin = x(1);
 handles.mcEnd = x(2);

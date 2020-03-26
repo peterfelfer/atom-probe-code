@@ -35,7 +35,7 @@ if exist('NminTmp','var')
 end
 
 %% Kolmogorov - Smirnov test:
-significanceLimit = 1.92 / sqrt(length(clusterPos(:,1)));
+significanceLimit = 1.92 / sqrt(length(clusterPos(:,1))) *100;
 
 pass = (numClustered/length(clusterPos(:,1))) > significanceLimit
 
