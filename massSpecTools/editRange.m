@@ -46,5 +46,5 @@ if type == "range"
     range.YData = yData(isIn);
     
 else
-    error('object is not a range');
+    error('selected object is not a range');
 end

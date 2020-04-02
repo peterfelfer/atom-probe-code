@@ -1,3 +1,5 @@
+%error when range table only contains one range
+
 function pos = allocateRange(pos,rng,options)
 % takes a pos variable (table form) and a range variable (table form) and
 % allocates ion hits to it.

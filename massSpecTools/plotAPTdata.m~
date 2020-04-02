@@ -1,4 +1,4 @@
-function p = plotAPTdata(pos,species,sample,colorScheme,size,plotAxis)
+function p = plotAPTdata(pos,species,colorScheme,sample,size,plotAxis)
 %plots APT data in the usual style. Sample allows the specificaiton of a
 %subset to plot. If sample <1, it is a fraction of the overall number of
 %atoms, if >1, it is a fixed number. 'color' is provided as RGB vector
@@ -9,8 +9,7 @@ function p = plotAPTdata(pos,species,sample,colorScheme,size,plotAxis)
 
 %sample needs to be scalar or vector with same length as species
 
-%if multiple species are given, array of axes is plotted with synced axis
-%movement
+%if multiple species 
 
 
 if exist('plotAxis','var')

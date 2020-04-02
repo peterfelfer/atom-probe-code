@@ -1,6 +1,8 @@
 function [h, txt] = addRange(spec,colorScheme)
 %adds a range to a spectrum using graphical input
 %output is the handle to the area plot and the corresponding text
+% if mutiple isotopic combinations of the same ion are within the range,
+% automatically the one with the higher abundance (peak height) will be taken
 
 % set current axes
 ax = spec.Parent;
@@ -36,6 +38,10 @@ if ~isempty(ionPlots)
     for pl = 1:length(ionPlots)
         isIn = (ionPlots(pl).XData > lim(1)) & (ionPlots(pl).XData < lim(2));
         if any(isIn)
+            % if mutiple isotopic combinations of the ion are within the range, 
+            % the most aundant one is automatically chosen
+            isIn = (ionPlots(pl).YData == max(ionPlots(pl).YData(isIn))) & isIn; 
+            
             potentialIon{end+1} = ionPlots(pl).UserData.ion{isIn};
             potentialIonChargeState(end+1) = ionPlots(pl).UserData.chargeState(isIn);
             potentialIonPeakHeight(end+1) = ionPlots(pl).YData(isIn);
@@ -71,8 +77,13 @@ else % selection
         names{i} = [convertIonName(potentialIon{i}, potentialIonChargeState(1)) '   ' num2str(potentialIonPeakHeight(i))];
     end
     % select the ion, defaulting to most abundant.
-    [idx, ~] = listdlg('ListString',names,'PromptString','Select ion species','SelectionMode','single',...
+    [idx, isSelection] = listdlg('ListString',names,'PromptString','Select ion species','SelectionMode','single',...
         'InitialValue',find(potentialIonPeakHeight == max(potentialIonPeakHeight)));
+    
+    if ~isSelection
+        delete(h);
+        return
+    end
     
     h.UserData.ion = potentialIon{idx};
     h.UserData.chargeState = potentialIonChargeState(idx);
@@ -86,4 +97,5 @@ h.UserData.hitMultiplicities = [0 Inf];
 % add text to denote range
 txt = text(h.XData(1),max(h.YData)*1.4,convertIonName(h.UserData.ion,h.UserData.chargeState,'LaTeX'),'clipping','on');
 txt.UserData.plotType = "text";
+txt.DisplayName = convertIonName(h.UserData.ion,h.UserData.chargeState,'plain');
 

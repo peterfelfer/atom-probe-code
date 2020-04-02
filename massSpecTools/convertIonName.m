@@ -1,7 +1,7 @@
 function varargout = convertIonName(varargin)
 %converts an ion name to a table variable and reverse
 %formats:
-
+%
 %name:
 % (isotope element count) x N chargestate e.g.   '56Fe2 16O3 ++'
 % (element count) x N chargestate                'Fe2 O3 ++'
@@ -10,7 +10,7 @@ function varargout = convertIonName(varargin)
 % use:
 % ionTable = convertIonName(ionName);
 % [ionTable chargeState] = convertIonName(ionName);
-
+%
 %table:
 % element isotope x N
 % use:
@@ -19,7 +19,7 @@ function varargout = convertIonName(varargin)
 % ionName = convertIonName(ionTable,NaN,format);
 % ionName = convertIonName(ionTable);
 % format can be 'plain' or 'LaTeX'
-
+%
 %categorical;
 % ionName = convertIonName(ionCategorical,chargeState,format);
 % ionName = convertIonName(ionCategorical,chargeState);
@@ -53,9 +53,9 @@ if istable(varargin{1})
     for i = 1:max(isotopeGroup)
         idx = find(isotopeGroup == i,1);
         if strcmp(format,'LaTeX')
-            ionName = [ionName '^{' char(ionTable.isotope(idx)) '}' char(ionTable.element(idx))];
+            ionName = [ionName '^{' num2str(ionTable.isotope(idx)) '}' char(ionTable.element(idx))];
         else
-            ionName = [ionName ' ' char(ionTable.isotope(idx)) char(ionTable.element(idx))];
+            ionName = [ionName ' ' num2str(ionTable.isotope(idx)) char(ionTable.element(idx))];
         end
         
         if sum(isotopeGroup == i) > 1
