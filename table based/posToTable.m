@@ -1,8 +1,18 @@
-function pos = pos2table(fileName)
-% returns data from a .pos or .epos file and returns a table with the
-% entries
+function pos = posToTable(fileName)
+% posToTable returns data from a .pos or .epos file and returns a table with the
+% entries and units from an atom probe measurement
 %
-%fileName is optional. A dialog box will pop up if no file name is given.
+% pos = posToTable(fileName)
+% pos = posToTable()
+%
+% INPUT
+% fileName: is the Name of the .pos or .epos file, it is optional. 
+%           A dialog box will pop up if no file name is given.
+% 
+% OUTPUT
+% pos: is the variable that contains the entire data from the atom probe for further analysis,
+%       table
+
 
 if ~exist('fileName','var')
     [file, path, idx] = uigetfile({'*.pos';'*.epos'},'Select a pos file');
