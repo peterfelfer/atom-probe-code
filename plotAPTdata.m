@@ -78,8 +78,7 @@ sample = randsample(numAtoms,sample);
 displayName = inputname(1);
 displayName(displayName == '_') = ' ';
 
-p = scatter3(pos(sample,1),pos(sample,2),pos(sample,3),markerStyle,'MarkerEdgeColor',edgeColor,...
-    'MarkerFaceColor',fillColor,'SizeData',size,'DisplayName',displayName,'Parent',ax);
+
 
 
 axis equal;
