@@ -1,7 +1,7 @@
 function pos = pos2table(fileName)
 % returns data from a .pos or .epos file and returns a table with the
 % entries
-
+%
 %fileName is optional. A dialog box will pop up if no file name is given.
 
 if ~exist('fileName','var')
