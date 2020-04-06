@@ -52,12 +52,19 @@ if istable(varargin{1})
     isotopeGroup = sortedFindgroups(ionTable);
     for i = 1:max(isotopeGroup)
         idx = find(isotopeGroup == i,1);
-        if strcmp(format,'LaTeX')
-            ionName = [ionName '^{' num2str(ionTable.isotope(idx)) '}' char(ionTable.element(idx))];
-        else
-            ionName = [ionName ' ' num2str(ionTable.isotope(idx)) char(ionTable.element(idx))];
+        % add isotope to the name
+        if ~isnan(ionTable.isotope(idx))
+            if strcmp(format,'LaTeX')
+                ionName = [ionName '^{' num2str(ionTable.isotope(idx)) '}'];
+            else
+                ionName = [ionName ' ' num2str(ionTable.isotope(idx))];
+            end
         end
         
+        % add chemical element to the name
+        ionName = [ionName char(ionTable.element(idx))];
+        
+        % add chemical element to the name
         if sum(isotopeGroup == i) > 1
             if strcmp(format,'LaTeX')
                 ionName = [ionName '_{' num2str(sum(isotopeGroup == i)) '}'];
@@ -67,7 +74,7 @@ if istable(varargin{1})
         end
     end
     
-    % add + (or -) for chargestates
+    % add + (or -) for chargestates to the name
     if nargin > 1
         chargeState = varargin{2};
         if ~isnan(chargeState) %NaN for undefined chargestate, e.g. in noise
@@ -172,9 +179,9 @@ if ischar(varargin{1})
     % split individual elemental / isotopic parts
     parts = strsplit(ionName);
     numElements = length(parts);
-    isotope = categorical();
+    isotope = [];
     elementOut = categorical();
-    isotopeOut = categorical();
+    isotopeOut = [];
     
     for el = 1:numElements
         % find the chemical element
@@ -183,9 +190,9 @@ if ischar(varargin{1})
         isDigit = isstrprop(parts{el},'digit');
         % find the isotope
         if isDigit(1) == true
-            isotope = parts{el}(1:find(~isDigit,1)-1);
+            isotope = str2num(parts{el}(1:find(~isDigit,1)-1));
         else
-            isotope = '<undefined>';
+            isotope = NaN;
         end
         
         % find the count
@@ -210,6 +217,11 @@ if ischar(varargin{1})
 end
 
 function group = sortedFindgroups(ionTable)
+% replace all NaN isotopes with 0, for findgroups command
+% this is hacky, but we get NaN outputs if any entry in the table is NaN
+if any(string(ionTable.Properties.VariableNames) == "isotope")
+    ionTable.isotope(isnan(ionTable.isotope)) = 0;
+end
 
 isotopeGroup = findgroups(ionTable); % need to re-sort REALLY HOPE THAT WONT MAKE PROBLEMS
 groupIdx = unique(isotopeGroup,'stable');
@@ -218,6 +230,10 @@ for i = 1:length(isotopeGroup)
     isotopeGroup(i) = idx(isotopeGroup(i));
 end
 
+%replace 0s with NaNs again
+if any(string(ionTable.Properties.VariableNames) == "isotope")
+    ionTable.isotope(ionTable.isotope == 0) = NaN;
+end
 group = isotopeGroup;
 
 

@@ -8,8 +8,8 @@ function [p, ax] = scatterPlotPosData(pos,species,sample,colorScheme,size,plotAx
 
 % alternatively to a colorScheme, also raw color values can be given.
 
-%TO BE IMPLEMENTED:
-%automatic detection if an ion species or atom species is used.
+% for single atom ions with no chargeState definition:
+% uses ions when no atom range allocated (not 'decomposed'), atoms when allocated
 
 % ax axis output is only important if a tiled plot is created
 
@@ -19,6 +19,7 @@ function [p, ax] = scatterPlotPosData(pos,species,sample,colorScheme,size,plotAx
 %if multiple species are given and no plotAxis, array of axes is plotted with synced axis
 %movement. Otehrwise they all go into the same axis. plothandle (p) and
 %axis (ax) output can therefore be scalar or aray
+
 
 % find how many plots need to be done
 if iscell(species)
@@ -32,6 +33,11 @@ end
 if ~exist('size','var')
     size = 15;
 end
+
+
+% check if the pos file is decomposed
+isDecomposed = any(string(pos.Properties.VariableNames) == "atom");
+
 
 %% set up the sample and size variables for multiple plots, if needed also color
 if numPlots > 1
@@ -69,15 +75,55 @@ end
 for pl = 1:numPlots
     
     % finding the atoms in the pos file
-    speciesIdx = find(pos.atom == species{pl});
+    % element: 'Fe'
+    % elemental isotope: '56Fe'
+    % ion: 'Fe+' or 'Fe' if pos variable is not decomposed
+    [ionTable, ionChargeState] = convertIonName(species{pl});
+    displayName = convertIonName(ionTable, ionChargeState, 'LaTeX');
+    
+    % finds chemical elements
+    if any(isnan(ionTable.isotope)) & isDecomposed & isnan(ionChargeState) & height(ionTable) == 1
+        %use atoms
+        speciesIdx = find(pos.atom == species{pl});
+        color = colorScheme.color(colorScheme.ion == species{pl},:);
+        
+    % finds isotopes (only single atom basis)    
+    elseif ~any(isnan(ionTable.isotope)) & isDecomposed & isnan(ionChargeState) 
+        if height(ionTable) > 1
+            error('plotting of ions based on isotopic information not currently supported');
+        end
+        speciesIdx = find(pos.atom == convertIonName(ionTable.element) & pos.isotope == ionTable.isotope);
+        color = colorScheme.color(colorScheme.ion == convertIonName(ionTable.element),:);
+        
+    elseif ~any(isnan(ionTable.isotope)) & ~isnan(ionChargeState)
+        error('plotting of ions based on isotopic information not currently supported');
+    
+    % finds specific ions with charge state
+    elseif ~isnan(ionChargeState)
+        speciesIdx = find(pos.ion == convertIonName(ionTable.element) & pos.chargeState == ionChargeState);
+        color = colorScheme.color(colorScheme.ion == convertIonName(ionTable.element),:);
+    % finds specific ions without chargestate
+    else
+        speciesIdx = find(pos.ion == convertIonName(ionTable.element));
+        if height(ionTable) == 1
+            displayName = [displayName ' (ion)'];
+        end
+        color = colorScheme.color(colorScheme.ion == convertIonName(ionTable.element),:);
+    end
+    
+    
+    
+    
+    
     numAtoms = length(speciesIdx);
     
-    % checking if enough atoms are in the bracket
+    % checking if number of atoms/ions requested is greater than number
+    % available
     if sample(pl) > numAtoms
         sample(pl) = numAtoms;
         warning(['number of requested ' species{pl}...
             ' atoms/ions greater than number of atoms in dataset. All atoms plotted']);
-    elseif sample(pl) < 1
+    elseif sample(pl) <= 1
         sample(pl) = round(numAtoms * sample(pl));
     end
     % calculating sample indices
@@ -96,10 +142,9 @@ for pl = 1:numPlots
         end
     end
     
-    displayName = species{pl};
+    %displayName = species{pl};
     
-    % find color to plot in
-    color = colorScheme.color(colorScheme.ion == species{pl},:);
+
     
     % marker setup depending on marker size
     if size(pl) > 35
@@ -129,7 +174,7 @@ for pl = 1:numPlots
         ax(pl).YColor = [0 1 0];
         ax(pl).ZColor = [0 0 1];
         ax(pl).ZDir = 'reverse';
-        if isTilePlot; title(ax(pl),species{pl}); end
+        if isTilePlot; title(ax(pl),displayName); end
         axis equal;
     end
     

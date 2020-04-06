@@ -1,3 +1,10 @@
+%missing functionality: 
+%check for range overlaps
+%possible cases- total overlap: range dismissed
+%partial overlap: range is clipped to the adjacent range
+%
+%integrate delete function, such that text is deleted with range.
+
 function [h, txt] = addRange(spec,colorScheme)
 %adds a range to a spectrum using graphical input
 %output is the handle to the area plot and the corresponding text
