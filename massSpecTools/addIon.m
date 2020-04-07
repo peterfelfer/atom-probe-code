@@ -1,30 +1,45 @@
-%implement checking for duplicate ions
+
 
 function h = addIon(spec,ion,chargeStates,isotopeTable,colorScheme,sumMargin,minAbundance,maxHeight,maxSeparation)
-%creates a stem plot of the relative abundance of an ion for the charge
-%states given in te axis ax. maxHeight is the height of the most abundant
-%isotope (counts or relative frequency); il is the handle to the stem plot.
-%the parsed iostopeTable is the basis of the relative abundances. sumMargin
-%specifies a Margin within which two peaks will be summed up. maxSeparation
-%is used when peak detection is used (maxHeight = 'most abundant' or 'least
-%squares'). Tme maximum of the mass spectrum within this range will be used
-%for scaling.
+% addIon creates a stem plot of the relative abundance of an ion for the
+% charge states given in the axis ax
 %
-% the stem line will be according to charge state!
+% addIon(spec,ion,chargeStates,isotopeTable,colorScheme,sumMargin,minAbundance,maxHeight,maxSeparation)
 %
-% ion can be a scalar string or a string array. If ion is a string array,
-% chargeStates can be a scalar, a vector of chargeStates for all ions (e.g.
-% [1 2 3]) or a vector with the same number of entries as the ion list
-%
-%maxheight will default to the YScale of the plotaxis by default. If a
-%numeric value is given, this value will be used. For specific scaling, use
-%'select'. This will use a graphical input to select a peak, to which the
-%nearest isotopic combination will be scaled.
-%
+% INPUT        
+% spec:         spectrum to whom the stem plot is added to
+% ion:          defines the ion that will be added
+% chargeStates: charge state of the ion
+% isotopeTable: the parsed isotope Table is the basis of the relative
+% abundances
+% colorScheme:  each ion has a different color
+% sumMargin:    specifies a margin within two peaks will be summed up
+% minAbundance: is the minimal abundance, value between 0 and 1
+% maxHeight:    is the height of the most abundant isotope (counts or
+% relative frequency)
+%               default: to the YScale of the plotaxis
+%               numeric value: you can type in the hight of the highest
+%               peak
+%               'select': This will use a graphical input to which the
+%               nearest isotopic combination will be scaled
+% maxSeparation:is used when peak detection is used. The maximum of the
+% mass spectrum within this range will be used for scaling
+% 
 %THE FOLLOWING WILL BE STORED IN THE USER DATA SECTION OF THE PLOT:
 %plotType = 'ion'
 %isotopicCombinations: list of peaks vs. nucleides in the ion and
 %chargestate
+%
+% ToDo:
+% the stem line will be according to charge state! - Was meinst du damit?
+%
+% ion can be a scalar string or a string array. If ion is a string array,
+% chargeStates can be a scalar, a vector of chargeStates for all ions (e.g.
+% [1 2 3]) or a vector with the same number of entries as the ion list -
+% muss noch getestet werden
+%
+%implement checking for duplicate ions
+
 
 if isstring(ion)
     ion = char(ion);
