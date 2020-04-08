@@ -44,7 +44,7 @@ f = figure;
 f.Color = 'w';
 ax = axes(f);
 if numVolumes == 1
-    f.Name = [char(conc.volume) ' ' char(conc.type) ' ' char(conc.format) ' plot'];
+    f.Name = [char(conc.volume(1)) ' ' char(conc.type(1)) ' ' char(conc.format(1)) ' plot'];
 else
     f.Name = [char(conc.type(1)) ' ' char(conc.format(1)) ' plot'];
 end

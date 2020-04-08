@@ -20,6 +20,12 @@ function handle = plotMassSpec(mc, bin, mode, rng, oldPlot)
 %           (counts/Dalton)/totalCounts over Dalton. Used in further
 %           analysis to find new ions
 
+
+% count is default mode
+if ~exist('mode','var')
+    mode = 'count';
+end
+
 if istable(mc)
     mc = mc.mc;
 end
