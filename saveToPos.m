@@ -1,4 +1,4 @@
-function varargout = saveToPos(pos,fileName)
+function nargout = saveToPos(pos,fileName)
 % saveToPos creates a numatoms*4 matrix out of the pos variable and saves
 % it as a binary file made of 4 float with big endian called fileName.pos
 %
@@ -13,7 +13,7 @@ function varargout = saveToPos(pos,fileName)
 %           type in the name of the file
 %
 % OUTPUT
-% varargout: is an optional output argument, you don't need it. if you
+% nargout: is an optional output argument, you don't need it. if you
 %            choose to have an output argument it will save your filepath to it
 
 %% 
