@@ -7,8 +7,14 @@ function varargout = saveToPos(pos,fileName)
 %
 % INPUT
 % pos: is a table that contains all the data that will be saved as a binary file
-% fileName: is the Name of the file that will be created and will store the data 
-
+% fileName: is the Name of the file that will be created and will store the
+%           data, if not parsed, a dialog window will open where you can
+%           chose the folder where the file should be saved and you can
+%           type in the name of the file
+%
+% OUTPUT
+% varargout: is an optional output argument, you don't need it. if you
+%            choose to have an output argument it will save your filepath to it
 
 %% 
 if ~exist('fileName','var')
