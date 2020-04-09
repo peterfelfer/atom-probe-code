@@ -8,6 +8,7 @@ function w = ionWeight(ion, isotopeTable, chargeState)
 % ion: the definition of the ion as a table with ion.element (categorical vector of chemical element)
 % and ion.isotope (int vector of isotope number)
 % isotopeTable: table of all isotopes from APT Toolbox database
+% chargeState: charge state of ion, optional
 %
 % OUTPUTS
 % w: weight of ion in amu (w/o chargeState) or Da
