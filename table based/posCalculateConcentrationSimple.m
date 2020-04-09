@@ -1,17 +1,31 @@
 function conc = posCalculateConcentrationSimple(pos, detEff, excludeList,volumeName)
-% calculates the concentration of a categorical list of atoms or ions
-% the output is a table with categories for each category of atom/ion and
-% its count, concentration and statistical scatter. 
+% posCalculateConcentrationSimple calculates the concentration of a 
+% categorical list of atoms or ions
 %
-% detEff is the detection efficiency
+% conc = posCalculateConcentrationSimple(pos, detEff, excludeList,
+% volumeName);
+% conc = posCalculateConcentrationSimple(pos, detEff, excludeList)
+% conc = posCalculateConcentrationSimple(pos, detEff)
 %
-% concentrations are only calculated for elements not on exclude list.
-% unranged atoms appear as 'unranged'
+% INPUT:
+% pos:  pos file that contains ion and chargestate of the individual atoms,
+% pos file with the ranges
+% detEff: detector Efficiency of the atom probe, can be parsed as % or as a
+% fraction(LEAP 4000XHR 0.37)
+% excludeList: is a cell array that contains as character the individual
+% ions that shall not be considered for the concentration calculation,
+% unranged atoms appear as 'unranged', if not parsed, no atoms will be
+% excluded
+% volumeName: name of the volume, parsed as character array, if not parsed,
+% the volume will be named after pos
 %
+% OUTPUT:
+% conc: is a table that contains the count, concentration, and variance for
+% each atom/ion that is not on the excludeList. 
 % statistical deviation calculated after Danoix et al., https://doi.org/10.1016/j.ultramic.2007.02.005
-% variance(conc) = conc*(1-conc)/numAtomsDetected * (1 - detEff)
+% variance(conc) = conc*(1-conc)/numAtomsDetected * (1 - detEff)%
 
-%detector efficiency can be in % or as a fraction
+%% detector efficiency 
 if detEff > 1
     detEff = detEff/100;
 end
