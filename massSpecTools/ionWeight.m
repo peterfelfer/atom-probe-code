@@ -16,7 +16,7 @@ function w = ionWeight(ion, isotopeTable, chargeState)
 %% extract the individual ions and get weight
 
 w = 0;
-for i = 1:height(ion)
+for i = 1:height(ion)             % sums up the weight in case of complex/molecular ions
     w = w + isotopeTable.weight(isotopeTable.element == ion.element(i) ...     
         & isotopeTable.isotope == ion.isotope(i));
 end
