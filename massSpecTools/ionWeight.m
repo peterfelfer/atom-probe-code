@@ -9,6 +9,7 @@ function w = ionWeight(ion, isotopeTable, chargeState)
 % and ion.isotope (int vector of isotope number)
 % isotopeTable: table of all isotopes from APT Toolbox database
 % chargeState: charge state of ion, optional
+% chargeState: charge state of the searched ion
 %
 % OUTPUTS
 % w: weight of ion in amu (w/o chargeState) or Da
