@@ -1,8 +1,12 @@
 function pos = posUnDecompose(pos)
-% takes a decomposed post table variable and turns it into a state with
+% takes a decomposed pos table variable and turns it into a state with
 % only ranges allocated
-% input: decomposed pos file or not decomposed file with ranges allocated
-%output: undecomposed file with only the ranges allocated to the ions
+%
+% INPUT: 
+% pos: decomposed pos file or not decomposed file with ranges allocated
+%
+% OUTPUT: 
+% pos: undecomposed file with only the ranges allocated to the ions
 
 [~, uniqueIonIdx] = unique(pos.ionIdx);
 
