@@ -9,8 +9,8 @@ function [p, ax, f] = concentrationPlot(conc,excludeList, plotType, colorScheme)
 % [p, ax, f] = concentrationPlot(conc)
 %
 % INPUT:
-% conc: is a table that contains the count, concentration, and variance for
-% each atom/ion, if multiple volumes are in the variable, the name will be
+% conc: is a table that contains the count or the concentration of one or
+% more volumes. If multiple volumes are in the variable, the name will be
 % atom/ion + volume name
 % excludeList: is a cell array that contains as character the individual
 % ions that shall not be considered for the plot of the concentration,
@@ -23,9 +23,22 @@ function [p, ax, f] = concentrationPlot(conc,excludeList, plotType, colorScheme)
 %               not parsed, Matlabs default will be used
 %
 % OUTPUT:
-% p: plot, with variables that can change the plot to individualt purposes
-% ax: Axes of the plot with the corresponding variables
-% f: figure that contains the plot (pie or bar diagram)
+% p: Bar/Pie chart of the volume, with properties (BarLayout, BarWidth, FaceColor,
+% EdgeColor, BaseValue, XData, YData)
+% ax: Axes of the plot with properties (XLim, YLim, XScale, YScale,
+% GridlineStyle, Position, Units)
+% f: figure that contains the plot (pie or bar diagram) with properties
+% (Number, Name, Color, Position, Units)
+%
+% USEFUL Notes:
+% If the conc as OUTPUT of posCalculateConcentrationSimple function is used, either
+% concentration or counts must be specified in the INPUT Argument with the
+% following lines as INPUT argument
+%       concentration:  conc([conc.format=='concentration'], :)
+%       counts:         conc([conc.format=='counts'], :)
+%
+% Display the bar plot with a log lengtsh scale use
+%   ax.YScale = 'log';
 %
 %
 % missing: reduce distance between groups ob bars for multiple volumes
@@ -84,13 +97,13 @@ x = reordercats(x, plotTable.Properties.VariableNames(~isZero(1,:)));
 %% create actual plots
 if strcmp(plotType,'bar')
     ytrans = y'; % bar needs y in a row format
-    if conc.format == 'concentration'
+    if conc.format == 'concentration' % display concentration
         p = bar(x,ytrans*100);
         ax.YLabel.String = [char(conc.format(1)) ' [' char(conc.type(1)) ' %]'];
     else
-        p = bar(x,ytrans*100);
+        p = bar(x,ytrans); % display counts
         type = char(conc.type);
-        type = type(1:end-2); %loose the 'ic' in 'atomic'
+        type = type(1:end-2); % loose the 'ic' in 'atomic'
         ax.YLabel.String = [char(conc.format) ' [' type 's]'];
     end
     
