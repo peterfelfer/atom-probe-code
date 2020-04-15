@@ -1,21 +1,37 @@
-function [p, ax, f] = concentrationPlot(conc, excludeList, plotType, colorScheme)
-% creates a bar plot of the concentration in the variable conc.
-% can be counts or concentration with measurement error
-% coloring will be according to colorScheme
-% if multiple volumes are in the variable, the name will be atom/ion +
-% volume name
-% plot type can be bar or pie
+function [p, ax, f] = concentrationPlot(conc,excludeList, plotType, colorScheme)
+% concentrationPlot plots the concentration given by the variable conc. It
+% excludes all the atoms that are on the excludeList. The plot Type can be
+% a pie or bar. The coloring is along the colorScheme.
 %
-% option can be to color a bar series according to volume rather than
-% element 'color by volume'
-% if color scheme is not present, Matlabs default will be used.
-
+% [p, ax, f] = concentrationPlot(conc, excludeList, plotType, colorScheme)
+% [p, ax, f] = concentrationPlot(conc, excludeList, plotType)
+% [p, ax, f] = concentrationPlot(conc, excludeList)
+% [p, ax, f] = concentrationPlot(conc)
+%
+% INPUT:
+% conc: is a table that contains the count, concentration, and variance for
+% each atom/ion, if multiple volumes are in the variable, the name will be
+% atom/ion + volume name
+% excludeList: is a cell array that contains as character the individual
+% ions that shall not be considered for the plot of the concentration,
+% unranged atoms appear as 'unranged', if not parsed, no atoms will be
+% excluded
+% plotType: can be a 'pie' or 'bar'
+% colorScheme: coloring will be according to colorScheme
+%               'color by volume' color a bar series according to volume
+%               rather than element
+%               not parsed, Matlabs default will be used
+%
+% OUTPUT:
+% p: plot, with variables that can change the plot to individualt purposes
+% ax: Axes of the plot with the corresponding variables
+% f: figure that contains the plot (pie or bar diagram)
+%
+%
 % missing: reduce distance between groups ob bars for multiple volumes
 
-% exclude list is a cell array of the elements not to be plotted
 
-
-% default plot type is 'bar'
+%% default plot type is 'bar'
 if ~exist('plotType','var')
     plotType = 'bar';
 end
@@ -27,7 +43,7 @@ end
 conc = conc(:,~ismember(conc.Properties.VariableNames,excludeList));
 
 %% check for multiple volumes, presence of variance for error bars, options and compatibility
-%check if all variables have the same format
+% check if all variables have the same format
 if ~xor(any(conc.format == 'concentration'),any(conc.format == 'count'))
     error('only either concentration or count format is allowed as input');
 end
@@ -67,11 +83,12 @@ x = reordercats(x, plotTable.Properties.VariableNames(~isZero(1,:)));
 
 %% create actual plots
 if strcmp(plotType,'bar')
+    ytrans = y'; % bar needs y in a row format
     if conc.format == 'concentration'
-        p = bar(x,y*100);
+        p = bar(x,ytrans*100);
         ax.YLabel.String = [char(conc.format(1)) ' [' char(conc.type(1)) ' %]'];
     else
-        p = bar(x,y);
+        p = bar(x,ytrans*100);
         type = char(conc.type);
         type = type(1:end-2); %loose the 'ic' in 'atomic'
         ax.YLabel.String = [char(conc.format) ' [' type 's]'];

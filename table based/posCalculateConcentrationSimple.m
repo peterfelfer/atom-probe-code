@@ -8,8 +8,8 @@ function conc = posCalculateConcentrationSimple(pos, detEff, excludeList,volumeN
 % conc = posCalculateConcentrationSimple(pos, detEff)
 %
 % INPUT:
-% pos:  pos file that contains ion and chargestate of the individual atoms,
-% pos file with the ranges
+% pos:  a decomposed pos file that contains ion and chargestate of the
+% individual atoms
 % detEff: detector Efficiency of the atom probe, can be parsed as % or as a
 % fraction(LEAP 4000XHR 0.37)
 % excludeList: is a cell array that contains as character the individual
