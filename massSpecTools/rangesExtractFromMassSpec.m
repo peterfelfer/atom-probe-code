@@ -1,7 +1,13 @@
 function rangeTable = rangesExtractFromMassSpec(spec)
 % pulls all ranges and additional information from a mass spectrum plot
-
-% get all plots connected to the mass spectrum
+% gets all plots connected to the mass spectrum
+% 
+% INPUT: area plot that displays the mass spectrum (histogram of m/c frequencies) 
+%        either in raw counts or normalised to bin width and total ion count.
+%
+% OUTPUT: table with allocated ranges of the ions and additional information
+%         (charge state, corresponding color code)
+%
 plots = spec.Parent.Children;
 
 idx = 1;
@@ -17,7 +23,7 @@ for pl = 1:length(plots)
     if type == "range"
         mcbegin(idx,:) = plots(pl).XData(1);
         mcend(idx,:) = plots(pl).XData(end);
-        rangeName{idx,:} = convertIonName(plots(pl).UserData.ion.element);
+        rangeName{idx,:} = (plots(pl).UserData.ion.element);
         volume(idx,:) = 0;
         ion{idx,:} = plots(pl).UserData.ion;
         color(idx,:) = plots(pl).FaceColor;
