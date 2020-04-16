@@ -1,6 +1,6 @@
 function massSpecShowLegend(spec,items)
 % shows the legend of a mass spectrum plot, with only selected items as
-% shown in the default below
+% shown below, order of items is editable.
 %
 % massSpecShowLegend (spec)
 % massSpecShowLegend (spec,items)

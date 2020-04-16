@@ -1,6 +1,6 @@
 function massSpecReorderPlot(spec,order)
-%rearranges the mass spectrum visiblity in the selected order
-%order is a cell array of strings as below. right is bottom
+% rearranges the mass spectrum visiblity in the selected order
+% order is a cell array of strings as below. 
 %
 % massSpecReorderPlot(spec)
 % massSpecReorderPlot(spec,order)
