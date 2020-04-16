@@ -13,7 +13,7 @@ function massSpecShowLegend(spec,items)
 %           ion.
 %           "range" gives back one entry for every range, e.g. every
 %           Fe-peak has its one entry.
-%           default item is 'ion'
+%           default item is "ion"
 %
 % OUTPUTS
 %           Shows the legend of the ranged ions in the massspectrum.
