@@ -9,11 +9,7 @@ function massSpecShowLegend(spec,items)
 % spec:     spec is the name of the areaplot that contains the
 %           massspectrum, area.
 % items:    set what kind of information is writen in the legend
-%           "ion" gives back the type of ion, e.g. all Fe-peaks are one Fe
-%           ion.
-%           "range" gives back one entry for every range, e.g. every
-%           Fe-peak has its one entry.
-%           default item is 'ion'
+%           'ion' gives only the type of ion, e.g. a
 %
 % OUTPUTS
 %           Shows the legend of the ranged ions in the massspectrum.
