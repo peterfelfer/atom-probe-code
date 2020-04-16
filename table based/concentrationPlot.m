@@ -17,10 +17,9 @@ function [p, ax, f] = concentrationPlot(conc,excludeList, plotType, colorScheme)
 % unranged atoms appear as 'unranged', if not parsed, no atoms will be
 % excluded
 % plotType: can be a 'pie' or 'bar'
-% colorScheme: coloring will be according to colorScheme
-%               'color by volume' color a bar series according to volume
-%               rather than element
-%               not parsed, Matlabs default will be used
+% colorScheme:  coloring will be according to colorScheme
+% If multiple volumes are parsed and you want to color by volume, than don't
+% parse any colorScheme, the default will color the bars by volume.
 %
 % OUTPUT:
 % p: Bar/Pie chart of the volume, with properties (BarLayout, BarWidth, FaceColor,
@@ -37,7 +36,7 @@ function [p, ax, f] = concentrationPlot(conc,excludeList, plotType, colorScheme)
 %       concentration:  conc([conc.format=='concentration'], :)
 %       counts:         conc([conc.format=='counts'], :)
 %
-% Display the bar plot with a log lengtsh scale use
+% Display the bar plot with a log length scale use
 %   ax.YScale = 'log';
 %
 %
@@ -95,6 +94,7 @@ x = reordercats(x, plotTable.Properties.VariableNames(~isZero(1,:)));
 
 
 %% create actual plots
+% bar plot
 if strcmp(plotType,'bar')
     ytrans = y'; % bar needs y in a row format
     if conc.format == 'concentration' % display concentration
@@ -124,7 +124,7 @@ elseif strcmp(plotType,'pie')
         delete(f);
         error('pie plot for multiple volumes not possible');
     end
-    
+    % pie plot
     p = pie(y);
     for b = 1:length(y) % go through individual bars
         % pie charts are collections of patches. A text and a pie slice for
