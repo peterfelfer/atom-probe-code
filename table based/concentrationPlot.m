@@ -1,4 +1,4 @@
-function [p, ax, f] = concentrationPlot(conc, dataType, excludeList, plotType, colorScheme)
+function [p, ax, f] = concentrationPlot(conc,excludeList, plotType, colorScheme)
 % concentrationPlot plots the concentration given by the variable conc. It
 % excludes all the atoms that are on the excludeList. The plot Type can be
 % a pie or bar. The coloring is along the colorScheme.
@@ -9,12 +9,9 @@ function [p, ax, f] = concentrationPlot(conc, dataType, excludeList, plotType, c
 % [p, ax, f] = concentrationPlot(conc)
 %
 % INPUT:
-% conc: is a table that contains the count and the concentration of one or
+% conc: is a table that contains the count or the concentration of one or
 % more volumes. If multiple volumes are in the variable, the name will be
 % atom/ion + volume name
-% dataType: is the type of data you want to plot, 
-%           'concentration' plots the concentration
-%           'count' plots the counts
 % excludeList: is a cell array that contains as character the individual
 % ions that shall not be considered for the plot of the concentration,
 % unranged atoms appear as 'unranged', if not parsed, no atoms will be
@@ -33,20 +30,18 @@ function [p, ax, f] = concentrationPlot(conc, dataType, excludeList, plotType, c
 % (Number, Name, Color, Position, Units)
 %
 % USEFUL Notes:
+% If the conc as OUTPUT of posCalculateConcentrationSimple function is used, either
+% concentration or counts must be specified in the INPUT Argument with the
+% following lines as INPUT argument
+%       concentration:  conc([conc.format=='concentration'], :)
+%       counts:         conc([conc.format=='counts'], :)
+%
 % Display the bar plot with a log length scale use
 %   ax.YScale = 'log';
 %
 %
 % missing: reduce distance between groups ob bars for multiple volumes
-%% Just use the concentration or count row from conc
 
-if strcmp(dataType,'concentration')
-    concData = conc([conc.format=='concentration'], :);
-elseif strcmp(dataType,'count')
-    concData = conc([conc.format=='count'], :);
-else
-    error('no concentration or count data found');
-end
 
 %% default plot type is 'bar'
 if ~exist('plotType','var')
@@ -57,15 +52,15 @@ if ~exist('excludeList','var')
     excludeList = {};
 end
 % remove elements on the exclude list
-concData = concData(:,~ismember(concData.Properties.VariableNames,excludeList));
+conc = conc(:,~ismember(conc.Properties.VariableNames,excludeList));
 
 %% check for multiple volumes, presence of variance for error bars, options and compatibility
 % check if all variables have the same format
-if ~xor(any(concData.format == 'concentration'),any(concData.format == 'count'))
+if ~xor(any(conc.format == 'concentration'),any(conc.format == 'count'))
     error('only either concentration or count format is allowed as input');
 end
 
-volumes = categories(removecats(concData.volume));
+volumes = categories(removecats(conc.volume));
 numVolumes = length(volumes);
 
 isColorScheme = exist('colorScheme','var');
@@ -77,13 +72,13 @@ f = figure;
 f.Color = 'w';
 ax = axes(f);
 if numVolumes == 1
-    f.Name = [char(concData.volume(1)) ' ' char(concData.type(1)) ' ' char(concData.format(1)) ' plot'];
+    f.Name = [char(conc.volume(1)) ' ' char(conc.type(1)) ' ' char(conc.format(1)) ' plot'];
 else
-    f.Name = [char(concData.type(1)) ' ' char(concData.format(1)) ' plot'];
+    f.Name = [char(conc.type(1)) ' ' char(conc.format(1)) ' plot'];
 end
 % find which columns are atoms/ions
-isPlot = ismember(concData.Properties.VariableDescriptions,{'atom','ion'});
-plotTable = concData(:,isPlot);
+isPlot = ismember(conc.Properties.VariableDescriptions,{'atom','ion'});
+plotTable = conc(:,isPlot);
 
 
 % all categories that have a value of 0 will be deleted
@@ -102,14 +97,14 @@ x = reordercats(x, plotTable.Properties.VariableNames(~isZero(1,:)));
 % bar plot
 if strcmp(plotType,'bar')
     ytrans = y'; % bar needs y in a row format
-    if concData.format == 'concentration' % display concentration
+    if conc.format == 'concentration' % display concentration
         p = bar(x,ytrans*100);
-        ax.YLabel.String = [char(concData.format(1)) ' [' char(concData.type(1)) ' %]'];
+        ax.YLabel.String = [char(conc.format(1)) ' [' char(conc.type(1)) ' %]'];
     else
         p = bar(x,ytrans); % display counts
-        type = char(concData.type);
+        type = char(conc.type);
         type = type(1:end-2); % loose the 'ic' in 'atomic'
-        ax.YLabel.String = [char(concData.format) ' [' type 's]'];
+        ax.YLabel.String = [char(conc.format) ' [' type 's]'];
     end
     
     for pl = 1:length(p)
@@ -148,10 +143,10 @@ end
 %% set plot axis title
 % needs to be done after plotting, otherwise title will be reset by plot
 if length(p) == 1
-    ax.Title.String = [char(concData.volume) ' ' char(concData.type) ' ' char(concData.format)];
+    ax.Title.String = [char(conc.volume) ' ' char(conc.type) ' ' char(conc.format)];
 else
     volNames = char(join(string(volumes)));
-    ax.Title.String = [volNames ' ' char(concData.type(1)) ' ' char(concData.format(1))];
+    ax.Title.String = [volNames ' ' char(conc.type(1)) ' ' char(conc.format(1))];
 end
 
 
