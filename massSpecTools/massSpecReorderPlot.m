@@ -4,7 +4,7 @@ function massSpecReorderPlot(spec,order)
 %
 % massSpecReorderPlot(spec)
 % massSpecReorderPlot(spec,order)
-% massSpecReorderPlot(spec,["Info1","Info2",etc])
+% massSpecReorderPlot(spec,"order1","order2",etc])
 %
 % INPUTS
 % spec:     spec is the name of the areaplot that contains the
