@@ -32,104 +32,18 @@ end
 
 ax = spec.Parent;
 
-%% interpret ion name into a table [element count]
-
-parts = strsplit(ion);
-numElements = length(parts);
-
-for el = 1:numElements
-    element{el} = parts{el}(isstrprop(parts{el},'alpha'));
-    if ~sum(isstrprop(parts{el},'digit'))
-        count(el) = 1;
-    else
-        count(el) = str2num(parts{el}(isstrprop(parts{el},'digit')));
-    end
-end
-element = categorical(element');
-count = count';
-atomList = table(element,count);
+%% get individual isotopic combinations
+[ionType, abundance, weight] = ionsCreateIsotopeList(ion, isotopeTable);
 
 
-%% create individual isotopic abundances
-
-% create seperate isotope combination lists for each element
-for el = 1:numElements
-    isos = isotopeTable(isotopeTable.element == atomList.element(el),:);
-    isoList{el} = isos.isotope(nreplacek(height(isos),atomList.count(el)));
-    idx{el} = 1:length(isoList{el}(:,1)); %used later for indexing into ion List
-end
-% get combinations of elemental ion combinations
-grid = cell(1,numel(idx));
-[grid{:}] = ndgrid(idx{:});
-combos = reshape(cat(numElements+1,grid{:}), [], numElements);
-numCombos = length(combos(:,1));
-
-% calculate relative abundances and weights
-for c = 1:numCombos
-    weight(c) = 0;
-    abundance(c) = 1;
-    ionType{c} = table("",[0],'VariableNames',{'element','isotope'});
-    nucCount = 0;
-    for el = 1:numElements
-        isos = isoList{el}(combos(c,el),:);
-        for iso = 1:length(isos)
-            nucCount = nucCount + 1;
-            weight(c) = weight(c) + isotopeTable.weight((isotopeTable.element == atomList.element(el)) & (isotopeTable.isotope == isos(iso)));
-            abundance(c) = abundance(c) * isotopeTable.abundance((isotopeTable.element == atomList.element(el)) & (isotopeTable.isotope == isos(iso))) /100;
-            warning('off');
-            ionType{c}.element(nucCount) = char(atomList.element(el));
-            ionType{c}.isotope(nucCount) = isos(iso);
-        end
-    end
-    ionType{c}.element = categorical(ionType{c}.element);
-    ionType{c}.isotope = ionType{c}.isotope;
-end
-
-abundance = abundance/sum(abundance); % normalize. Abundances wont sum up exactly to 1
-
-
-%% sum Peaks if sumMargin > 0
+%% cluster Peaks together if Peaks if sumMargin > 0
+% if peaks are summed up, the dominant peak will be taken!
 if (sumMargin > 0) & (length(abundance) > 1)
-    
-    % sort by molecular weight
-    [weight, sortIdx] = sort(weight);
-    abundance = abundance(sortIdx);
-    ionType = ionType(sortIdx);
-    
-    % determine which peaks are closer than a margin and group them in
-    % clusters
-    diffs = weight(2:end) - weight(1:end-1);
-    isClose = diffs < sumMargin;
-    
-    peakCluster = 1;
-    peakClusterIdx(1) = peakCluster;
-    for i = 1:numCombos-1
-        if isClose(i)
-            peakClusterIdx(i+1) = peakCluster;
-        else
-            peakCluster = peakCluster + 1;
-            peakClusterIdx(i+1) = peakCluster;
-        end
-    end
-    
-    %merge individual peaks
-    for i = 1:peakCluster
-        weightTmp(i) = mean(weight(peakClusterIdx == i));
-        abundanceTmp(i) = sum(abundance(peakClusterIdx == i));
-        % ion type will be taken from the most abundant ion in the cluster
-        ionTypePkClust = ionType(peakClusterIdx == i);
-        ionTypeTmp{i} = ionTypePkClust{abundance(peakClusterIdx == i) == max(abundance(peakClusterIdx == i))};
-    end
-    weight = weightTmp;
-    abundance = abundanceTmp;
-    ionType = ionTypeTmp;
+    [ionType, abundance, weight] = ionsMergePeaks(ionType, abundance, weight, sumMargin);
 end
 
 
-
-
-
-%% eliminate peaks that are blow minAbundance
+%% eliminate peaks that are below minAbundance
 weight(abundance <= minAbundance) = [];
 ionType(abundance <= minAbundance) = [];
 abundance(abundance <= minAbundance) = [];
@@ -146,12 +60,6 @@ for cs = 1:length(chargeStates)
     ionTypeCS = [ionTypeCS ionType];
     ionCS = [ionCS repmat(chargeStates(cs), 1, length(abundance))];
 end
-
-
-
-
-%% create table with nucleides for each peak
-% if peaks are summed up, the dominant peak will be taken!
 
 
 %% normalise height
@@ -207,38 +115,7 @@ end
 
 
 
-
 %% plot
-h = stem(ax,plotWeight, plotAbundance);
-try
-    h.Color = colorScheme.color(colorScheme.ion == ion,:);
-catch
-    warning('ion color undefined');
-end
-
-if length(chargeStates) == 1
-    h.DisplayName = [ion repmat('+',1,chargeStates)];
-else
-    h.DisplayName = ion;
-end
-h.LineWidth = 2;
-h.UserData.plotType = "ion";
-h.UserData.ion = ionTypeCS;
-h.UserData.chargeState = ionCS;
-
-%change stem line depending on chargesate if only one charge state is given
-if length(chargeStates) == 1
-    switch chargeStates
-        case 1
-            h.LineStyle = '--';
-        case 2
-            h.LineStyle = ':';
-        case 3
-            h.LineStyle = '-.';
-        case 4
-            h.LineStyle = '-';
-            
-    end
-end
+h = ionStemPlot(ax, plotWeight, plotAbundance, ionTypeCS, chargeStates, colorScheme);
 
 
