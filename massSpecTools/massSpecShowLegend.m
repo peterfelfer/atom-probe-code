@@ -1,7 +1,4 @@
 function massSpecShowLegend(spec,items)
-% shows the legend of a mass spectrum plot, with only selected items as
-% shown below, order of items is editable.
-
 % shows the legend of a mass spectrum plot, with selected item in focus as 
 % shown below, order of items is editable. 
 % Unknown ions will not be shown in the legend.
