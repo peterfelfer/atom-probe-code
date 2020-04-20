@@ -1,7 +1,13 @@
-function ionTable = extractIons(spec)
+function ionTable = ionsExtractFromMassSpec(spec)
 % pulls all ions and corresponding information from a mass spectrum plot
 
 % get all plots connected to the mass spectrum
+%
+% INPUT: spec, 
+%
+% OUTPUT: ionTable, table 
+%
+
 plots = spec.Parent.Children;
 
 idx = 1;
