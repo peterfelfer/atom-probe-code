@@ -6,9 +6,8 @@ function ionTable = ionsExtractFromMassSpec(spec)
 % INPUT: spec, area plot that displays the mass spectrum (histogram of m/c frequencies) 
 %        either in raw counts or normalised to bin width and total ion count
 %
-% OUTPUT: ionTable, 
-% table with allocated ranges of the ions and additional information
-%         (charge state, corresponding color code)% 
+% OUTPUT: ionTable, table with allocated ions and additional information
+%         (charge state,
 %
 
 plots = spec.Parent.Children;
