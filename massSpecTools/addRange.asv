@@ -51,10 +51,8 @@ if ~isempty(ionPlots)
             
             potentialIon{end+1} = ionPlots(pl).UserData.ion{isIn};
             if isscalar(ionPlots(pl).UserData.chargeState)
-                potentialIonChargeState(end+1) = ionPlots(pl).UserData.chargeState;
-            else 
-                potentialIonChargeState(end+1) = ionPlots(pl).UserData.chargeState(isIn);
-            end
+                potentialIonChargeState(end+1) = ionPlots(pl).UserData.chargeState
+            potentialIonChargeState(end+1) = ionPlots(pl).UserData.chargeState(isIn);
             potentialIonPeakHeight(end+1) = ionPlots(pl).YData(isIn);
         end
     end
