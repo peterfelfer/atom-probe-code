@@ -1,3 +1,6 @@
+% function works fine if gco is input as range
+% how does it work for a specific 'range', which is not the current object?
+
 function rangeEdit(range,mcbegin,mcend)
 % edits range boundaries 
 % usual use: rangeEdit();  ==> uses current selected object if it is a range
@@ -6,7 +9,6 @@ function rangeEdit(range,mcbegin,mcend)
 % range"
 %
 % INPUTS: range, area
-%
 %         mcbegin, mcend, range boundaries
 %        
 
