@@ -46,11 +46,15 @@ if ~isempty(ionPlots)
         isIn = (ionPlots(pl).XData > lim(1)) & (ionPlots(pl).XData < lim(2));
         if any(isIn)
             % if mutiple isotopic combinations of the ion are within the range, 
-            % the most aundant one is automatically chosen
+            % the most abundant one is automatically chosen
             isIn = (ionPlots(pl).YData == max(ionPlots(pl).YData(isIn))) & isIn; 
             
             potentialIon{end+1} = ionPlots(pl).UserData.ion{isIn};
-            potentialIonChargeState(end+1) = ionPlots(pl).UserData.chargeState(isIn);
+            if isscalar(ionPlots(pl).UserData.chargeState)
+                potentialIonChargeState(end+1) = ionPlots(pl).UserData.chargeState;
+            else 
+                potentialIonChargeState(end+1) = ionPlots(pl).UserData.chargeState(isIn);
+            end
             potentialIonPeakHeight(end+1) = ionPlots(pl).YData(isIn);
         end
     end
@@ -105,4 +109,3 @@ h.UserData.hitMultiplicities = [0 Inf];
 txt = text(h.XData(1),max(h.YData)*1.4,convertIonName(h.UserData.ion,h.UserData.chargeState,'LaTeX'),'clipping','on');
 txt.UserData.plotType = "text";
 txt.DisplayName = convertIonName(h.UserData.ion,h.UserData.chargeState,'plain');
-
