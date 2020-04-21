@@ -34,7 +34,7 @@ function [p, ax, f] = concentrationPlot(conc,excludeList, plotType, colorScheme)
 % concentration or counts must be specified in the INPUT argument with the
 % following lines as INPUT argument
 %       concentration:  conc([conc.format=='concentration'], :)
-%       counts:         conc([conc.format=='counts'], :)
+%       count:         conc([conc.format=='count'], :)
 %
 % Display the bar plot with a log length scale use
 %   ax.YScale = 'log';
