@@ -1,6 +1,14 @@
-function editRange(range,mcbegin,mcend)
-%edit range boundaries 
-%usual use: editRange();  ==> uses current selected object if it is a range
+function rangeEdit(range,mcbegin,mcend)
+% edits range boundaries 
+% usual use: rangeEdit();  ==> uses current selected object if it is a range
+% and lets the user edit the range boundaries manually
+% if selected object is not a range ==> error "selected object is not a
+% range"
+%
+% INPUTS: range, area
+%
+%         mcbegin, mcend, range boundaries
+%        
 
 if ~exist('range','var')
     range = gco;
