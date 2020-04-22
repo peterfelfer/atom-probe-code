@@ -1,18 +1,19 @@
 
-function h = addIon(spec,ion,chargeStates,isotopeTable,colorScheme,sumMargin,minAbundance,maxHeight,maxSeparation)
-% addIon creates a stem plot of the relative abundance of an ion for the
-% charge states given in the axis ax
+function h = ionAdd(spec,ion,chargeState,isotopeTable,colorScheme,sumMargin,minAbundance,maxHeight,maxSeparation)
+% ionAdd creates a stem plot of the relative abundance of an ion for the
+% charge states given in the axis ax, the stem line will be according to
+% chargeState
 %
-% addIon(spec,ion,chargeStates,isotopeTable,colorScheme,sumMargin,minAbundance,maxHeight,maxSeparation)
+% ionAdd(spec,ion,chargeState,isotopeTable,colorScheme,sumMargin,minAbundance,maxHeight,maxSeparation)
 %
 % INPUT        
 % spec:         spectrum to whom the stem plot is added to
 % ion:          chemical symbol of the ion that will be added, 
-%               scalar string or a string array
-% chargeStates: charge state of the ion, if ion is a string array,
-%               chargeStates can be a scalar, a vector of chargeStates for
+%               scalar string or string array
+% chargeState:  charge state of the ion; if ion is a string array,
+%               chargeState can be a scalar, a vector of charge states for
 %               all ions (e.g.[1 2 3]) or a vector with the same number 
-%               of entries as the ion list 
+%               of entries as the ion list
 % isotopeTable: the parsed isotope table is the basis of the relative
 %               abundances
 % colorScheme:  each ion has a different color
@@ -27,26 +28,22 @@ function h = addIon(spec,ion,chargeStates,isotopeTable,colorScheme,sumMargin,min
 %               nearest isotopic combination will be scaled
 %               'most abundant': adjusts the height of the most abundant 
 %               peak to the closest peak in the mass spectrum
-% %              'least squares': adjusts the heights (of the height) of the
-%               peaks to least squares match the peaks in the mass spectrum. 
-%               Peaks that are close to other assigned peaks are not used.
+%               'least squares': adjusts the heights of the peaks to least 
+%               squares match the peaks in the mass spectrum. Peaks that 
+%               are close to other assigned peaks are not used.
 % maxSeparation:is used when peak detection is used. The maximum of the
 %               mass spectrum within this range will be used for scaling
 % 
-%THE FOLLOWING WILL BE STORED IN THE USER DATA SECTION OF THE PLOT:
-%plotType = 'ion'
-%isotopicCombinations: list of peaks vs. nucleides in the ion and
-%charge state
+% THE FOLLOWING WILL BE STORED IN THE USER DATA SECTION OF THE PLOT:
+% plotType = 'ion'
+% isotopicCombinations: list of peaks vs. nucleides in the ion and
+% charge state
 %
 % ToDo:
-% the stem line will be according to charge state! - Was meinst du damit?
-%
-% ion can be a scalar string or a string array. If ion is a string array,
-% chargeStates can be a scalar, a vector of chargeStates for all ions (e.g.
-% [1 2 3]) or a vector with the same number of entries as the ion list -
-% muss noch getestet werden
-%
-%implement checking for duplicate ions
+% create table with nucleides for each peak
+% normalise height: isnumeric('minHeight') & least squares fitting
+% implement checking for duplicate ions
+% 
 
 
 if isstring(ion)
@@ -77,13 +74,13 @@ atomList = table(element,count);
 
 % create seperate isotope combination lists for each element
 for el = 1:numElements
-    isos = isotopeTable(isotopeTable.element == atomList.element(el),:);    %laut guidelines eigentlich "iso"
+    isos = isotopeTable(isotopeTable.element == atomList.element(el),:);
     isoList{el} = isos.isotope(nreplacek(height(isos),atomList.count(el)));
     idx{el} = 1:length(isoList{el}(:,1)); %used later for indexing into ion list
 end
 % get combinations of elemental ion combinations
-grid = cell(1,numel(idx));                                  %müsste hier nicht numElements sein oder vorher numel() bereits definiert?
-[grid{:}] = ndgrid(idx{:});                                 %ist ndgrid() automatisch definiert?
+grid = cell(1,numel(idx));
+[grid{:}] = ndgrid(idx{:});
 combos = reshape(cat(numElements+1,grid{:}),[],numElements);
 numCombos = length(combos(:,1));
 
@@ -137,12 +134,13 @@ if (sumMargin > 0) & (length(abundance) > 1)
     
     %merge individual peaks
     for i = 1:peakCluster
-        weightTmp(i) = mean(weight(peakClusterIdx == i));           %Sollte das lieber weniger stark abgekürzt??
-        abundanceTmp(i) = sum(abundance(peakClusterIdx == i));      %-"-??
+        weightTmp(i) = mean(weight(peakClusterIdx == i));
+        abundanceTmp(i) = sum(abundance(peakClusterIdx == i));
         % ion type will be taken from the most abundant ion in the cluster
         ionTypePkClust = ionType(peakClusterIdx == i);
         ionTypeTmp{i} = ionTypePkClust{abundance(peakClusterIdx == i) == max(abundance(peakClusterIdx == i))};
     end
+    
     weight = weightTmp;
     abundance = abundanceTmp;
     ionType = ionTypeTmp;
@@ -163,31 +161,31 @@ plotWeight = [];
 plotAbundance = [];
 ionTypeCS = [];
 ionCS = [];
-for cs = 1:length(chargeStates)                             %CHANGE TO chargeState (singular)!
-    plotWeight = [plotWeight, weight/chargeStates(cs)];
+for cs = 1:length(chargeState)
+    plotWeight = [plotWeight, weight/chargeState(cs)];
     plotAbundance = [plotAbundance, abundance];
     ionTypeCS = [ionTypeCS ionType];
-    ionCS = [ionCS repmat(chargeStates(cs), 1, length(abundance))];
+    ionCS = [ionCS repmat(chargeState(cs), 1, length(abundance))];
 end
 
 
 
 
-%% create table with nucleides for each peak                    (TO DO?)
+%% create table with nucleides for each peak
 % if peaks are summed up, the dominant peak will be taken!
 
 
 %% normalise height
 if ~exist('maxHeight','var')
-    % default is to height of current axis scaling          --> lieber 'the' statt 'to'? -->verständlicher formulieren
+    % default is to height of current axis scaling
     maxPeak = max(abundance);
     maxDisp = ax.YLim(2);
     plotAbundance = plotAbundance * maxDisp / maxPeak;
 elseif isnumeric('minHeight')
-    warning('not implemented yet');                              %(TO DO?)
+    warning('not implemented yet');
     
 else
-    if strcmp(maxHeight,'selection')                            %In Kommentaren steht 'select'
+    if strcmp(maxHeight,'select')
         % selection of individual peak
         rect = getrect(ax);
         mcbegin = rect(1);
@@ -220,8 +218,8 @@ else
         plotAbundance = plotAbundance * maxDisp / peak;
         
     elseif strcmp(maxHeight,'least squares')
-        % adjusts the heights of the height of the peaks to least squares
-        % match the peaks in the mass spectrum. Peaks that are close to
+        % adjusts the heights of the peaks to least squares match the peaks
+        % in the mass spectrum. Peaks that are close to
         % other assigned peaks are not used.
         error('least squares fitting not implemented yet');
     end
@@ -239,8 +237,8 @@ catch
     warning('ion color undefined');
 end
 
-if length(chargeStates) == 1
-    h.DisplayName = [ion repmat('+',1,chargeStates)];
+if length(chargeState) == 1
+    h.DisplayName = [ion repmat('+',1,chargeState)];
 else
     h.DisplayName = ion;
 end
@@ -250,8 +248,8 @@ h.UserData.ion = ionTypeCS;
 h.UserData.chargeState = ionCS;
 
 %change stem line depending on chargesate if only one charge state is given
-if length(chargeStates) == 1
-    switch chargeStates
+if length(chargeState) == 1
+    switch chargeState
         case 1
             h.LineStyle = '--';
         case 2
