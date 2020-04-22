@@ -1,3 +1,8 @@
+% function does work when writing "rangeAdd(spec,colorScheme)", but not
+% for specific outputs like "[h, txt] = rangeAdd(spec,colorScheme)"
+% convertIonName needs to be changed to ionConvertNameTable (function
+% does not yet exist)
+%
 %missing functionality: 
 %check for range overlaps
 %possible cases- total overlap: range dismissed
@@ -6,16 +11,28 @@
 %integrate delete function, such that text is deleted with range.
 
 function [h, txt] = rangeAdd(spec,colorScheme)
-% adds a range to a spectrum using graphical input
+% adds a range to a mass spectrum using graphical input
 % output is the handle to the area plot and the corresponding text
+% 
 % if mutiple isotopic combinations of the same ion are within the range,
 % automatically the one with the higher abundance (peak height) will be taken
 %
-% INPUTS: spec,
-%         colorScheme
+% if no ion is located within the range, the user can manually enter a
+% range name (must be an ion)
+%
+% rangeAdd(spec,colorScheme)
+% generates only area (ans) but no handle or text in the workspace
+%
+% [h, txt] = rangeAdd(spec,colorScheme)
+% i can't make it work...bug or just my incompetence?
+%
+% INPUTS: spec, area plot that displays the mass spectrum (histogram of m/c frequencies) 
+%         either in raw counts or normalised to bin width and total ion count
+%
+%         colorScheme, table with elements assigned to color code
 %
 % OUTPUTS: h, handle to the area plot
-%          txt, corresponding text
+%          txt, corresponding text of the assigned ion
 %
 % set current axes
 ax = spec.Parent;
@@ -51,7 +68,7 @@ if ~isempty(ionPlots)
     for pl = 1:length(ionPlots)
         isIn = (ionPlots(pl).XData > lim(1)) & (ionPlots(pl).XData < lim(2));
         if any(isIn)
-            % if mutiple isotopic combinations of the ion are within the range, 
+            % if multiple isotopic combinations of the ion are within the range, 
             % the most abundant one is automatically chosen
             isIn = (ionPlots(pl).YData == max(ionPlots(pl).YData(isIn))) & isIn; 
             
@@ -68,7 +85,7 @@ if ~isempty(ionPlots)
 end
 
 
-%select which ion it is if necessary
+% select which ion it is if necessary
 
     % manual input
 if isempty(potentialIon) 
@@ -93,7 +110,7 @@ else % selection
     for i = 1:numPotIon
         names{i} = [convertIonName(potentialIon{i}, potentialIonChargeState(i)) '   ' num2str(potentialIonPeakHeight(i))];
     end
-    % select the ion, defaulting to most abundant.
+    % select the ion, defaulting to most abundant
     [idx, isSelection] = listdlg('ListString',names,'PromptString','Select ion species','SelectionMode','single',...
         'InitialValue',find(potentialIonPeakHeight == max(potentialIonPeakHeight)));
     
