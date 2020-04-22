@@ -6,11 +6,17 @@
 %integrate delete function, such that text is deleted with range.
 
 function [h, txt] = rangeAdd(spec,colorScheme)
-%adds a range to a spectrum using graphical input
-%output is the handle to the area plot and the corresponding text
+% adds a range to a spectrum using graphical input
+% output is the handle to the area plot and the corresponding text
 % if mutiple isotopic combinations of the same ion are within the range,
 % automatically the one with the higher abundance (peak height) will be taken
-
+%
+% INPUTS: spec,
+%         colorScheme
+%
+% OUTPUTS: h, handle to the area plot
+%          txt, corresponding text
+%
 % set current axes
 ax = spec.Parent;
 axes(ax);
