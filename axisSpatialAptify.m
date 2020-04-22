@@ -1,4 +1,4 @@
-function APTifyAxis
+function axisSpatialAptify
 %script that takes current axes and puts them into an APT style display
 %mode
 
