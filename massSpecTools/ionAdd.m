@@ -1,15 +1,15 @@
 
 function h = ionAdd(spec,ion,chargeState,isotopeTable,colorScheme,sumMargin,minAbundance,maxHeight,maxSeparation)
-% ionAdd creates a stem plot of the relative abundance of an ion for the
-% charge states given in the axis ax, the stem line will be according to
-% chargeState
+% ionAdd creates a stem plot in the mass spectrum (spec) fot the parsed ion
+% and its corresponding charge state. The stem line will be according to
+% charge state.
 %
 % ionAdd(spec,ion,chargeState,isotopeTable,colorScheme,sumMargin,minAbundance,maxHeight,maxSeparation)
 %
 % INPUT        
 % spec:         spectrum to whom the stem plot is added to
-% ion:          chemical symbol of the ion that will be added, 
-%               scalar string or string array
+% ion:          chemical symbol of the ion that will be added,
+%               string scalar or string array
 % chargeState:  charge state of the ion; if ion is a string array,
 %               chargeState can be a scalar, a vector of charge states for
 %               all ions (e.g.[1 2 3]) or a vector with the same number 
@@ -24,7 +24,7 @@ function h = ionAdd(spec,ion,chargeState,isotopeTable,colorScheme,sumMargin,minA
 %               default: to the YScale of the plotaxis
 %               numeric value: you can type in the hight of the highest
 %               peak
-%               'select': This will use a graphical input to which the
+%               'selection': This will use a graphical input to which the
 %               nearest isotopic combination will be scaled
 %               'most abundant': adjusts the height of the most abundant 
 %               peak to the closest peak in the mass spectrum
@@ -34,18 +34,21 @@ function h = ionAdd(spec,ion,chargeState,isotopeTable,colorScheme,sumMargin,minA
 % maxSeparation:is used when peak detection is used. The maximum of the
 %               mass spectrum within this range will be used for scaling
 % 
+% OUTPUT
+% h:            optional, is a 1x1 stem plot
+% 
 % THE FOLLOWING WILL BE STORED IN THE USER DATA SECTION OF THE PLOT:
 % plotType = 'ion'
 % isotopicCombinations: list of peaks vs. nucleides in the ion and
 % charge state
-%
+% 
 % ToDo:
-% create table with nucleides for each peak
-% normalise height: isnumeric('minHeight') & least squares fitting
-% implement checking for duplicate ions
+%   - create table with nucleides for each peak
+%   - implement isnumeric('minHeight') & 'least squares'
+%   - implement checking for duplicate ions
 % 
 
-
+%% Check ion name & make
 if isstring(ion)
     ion = char(ion);
 end
@@ -156,7 +159,7 @@ ionType(abundance <= minAbundance) = [];
 abundance(abundance <= minAbundance) = [];
 
 
-%% create charge states ("CS")
+%% create charge state ("CS")
 plotWeight = [];
 plotAbundance = [];
 ionTypeCS = [];
@@ -177,7 +180,7 @@ end
 
 %% normalise height
 if ~exist('maxHeight','var')
-    % default is to height of current axis scaling
+    % default is the height of current axis scaling         
     maxPeak = max(abundance);
     maxDisp = ax.YLim(2);
     plotAbundance = plotAbundance * maxDisp / maxPeak;
@@ -185,7 +188,7 @@ elseif isnumeric('minHeight')
     warning('not implemented yet');
     
 else
-    if strcmp(maxHeight,'select')
+    if strcmp(maxHeight,'selection')                           
         % selection of individual peak
         rect = getrect(ax);
         mcbegin = rect(1);
