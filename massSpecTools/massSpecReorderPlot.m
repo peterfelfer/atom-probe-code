@@ -4,7 +4,7 @@ function massSpecReorderPlot(spec,order)
 %
 % massSpecReorderPlot(spec)
 % massSpecReorderPlot(spec,order)
-% massSpecReorderPlot(spec,["Info1","Info2",etc])
+% massSpecReorderPlot(spec,["order1","order2",etc])
 %
 % INPUTS
 % spec:     spec is the name of the areaplot that contains the
@@ -20,7 +20,8 @@ function massSpecReorderPlot(spec,order)
 %           ["text","ion","range","massSpectrum","unknown"]
 %           
 % OUTPUTS
-%          Massspectrum with focus on wanted informations
+%          Massspectrum with focus on wanted informations 
+
 
 
 if ~exist('order','var')
