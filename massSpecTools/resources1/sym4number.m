@@ -1,4 +1,4 @@
-function sym = sym4number(Z)
+function sym = atomicNumbertoSymbol(Z)
 
 
 
