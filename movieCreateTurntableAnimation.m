@@ -1,6 +1,16 @@
-function mov = turntableAnimation(deg,fileName)
-%creates turntable animation of the current figure and returns movie
-%variable. deg is the step in degrees
+function mov = movieCreateTurntableAnimation(deg,fileName)
+% creates turntable animation of the current figure and returns movie
+% variable.
+%
+% 
+%
+% INPUTS
+% deg:      step sice in degree in which the animation rotates. determines
+%           the length and speed of the film.
+% fileName: name under which the film is saved.
+%
+% OUTPUT
+%           movie of the turning atom probe tip.
 
 
 if ~exist('fileName','var')
