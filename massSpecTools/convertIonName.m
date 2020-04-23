@@ -25,6 +25,11 @@ function varargout = convertIonName(varargin)
 % ionName = convertIonName(ionCategorical,chargeState);
 % ionName = convertIonName(ionCategorical)
 % format can be 'plain' or 'LaTeX'
+%
+%array
+%[element, isotope; element, isotope;....]
+% ionName = convertIonName(ionArray, chargeState, format); %% MISSING
+% IMPLEMENTATION
 
 %% conversion from table to name
 if istable(varargin{1})

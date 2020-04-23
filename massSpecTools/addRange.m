@@ -50,7 +50,11 @@ if ~isempty(ionPlots)
             isIn = (ionPlots(pl).YData == max(ionPlots(pl).YData(isIn))) & isIn; 
             
             potentialIon{end+1} = ionPlots(pl).UserData.ion{isIn};
-            potentialIonChargeState(end+1) = ionPlots(pl).UserData.chargeState(isIn);
+            if isscalar(ionPlots(pl).UserData.chargeState)
+                potentialIonChargeState(end+1) = ionPlots(pl).UserData.chargeState;
+            else 
+                potentialIonChargeState(end+1) = ionPlots(pl).UserData.chargeState(isIn);
+            end
             potentialIonPeakHeight(end+1) = ionPlots(pl).YData(isIn);
         end
     end
@@ -81,7 +85,7 @@ elseif length(potentialIon) == 1
 else % selection
     numPotIon = length(potentialIon);
     for i = 1:numPotIon
-        names{i} = [convertIonName(potentialIon{i}, potentialIonChargeState(1)) '   ' num2str(potentialIonPeakHeight(i))];
+        names{i} = [convertIonName(potentialIon{i}, potentialIonChargeState(i)) '   ' num2str(potentialIonPeakHeight(i))];
     end
     % select the ion, defaulting to most abundant.
     [idx, isSelection] = listdlg('ListString',names,'PromptString','Select ion species','SelectionMode','single',...
