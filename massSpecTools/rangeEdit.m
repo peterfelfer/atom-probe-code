@@ -1,12 +1,17 @@
 % function works fine if gco is input as range
 % how does it work for a specific 'range', which is not the current object?
+% how do you generate/put in a range
 
 function rangeEdit(range,mcbegin,mcend)
 % edits range boundaries 
-% usual use: rangeEdit();  ==> uses current selected object if it is a range
-% and lets the user edit the range boundaries manually
+% usual use: rangeEdit();  ==> uses current selected object in the mass spectrum
+% and lets the user edit the range boundaries manually within the mass spectrum 
+% (if the object is a range)
 % if selected object is not a range ==> error "selected object is not a
 % range"
+%
+% rangeEdit(gco,mcbegin,mcend) changes range boundaries of selected range 
+% according to input values for mcbegin und mcend
 %
 % INPUTS: range, area
 %         mcbegin, mcend, range boundaries
