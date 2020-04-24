@@ -1,5 +1,3 @@
-% function does work when writing "rangeAdd(spec,colorScheme)", but not
-% for specific outputs like "[h, txt] = rangeAdd(spec,colorScheme)"
 % convertIonName needs to be changed to ionConvertNameTable (function
 % does not yet exist)
 %
@@ -14,26 +12,30 @@ function [h, txt] = rangeAdd(spec,colorScheme)
 % adds a range to a mass spectrum using graphical input
 % output is the handle to the area plot and the corresponding text
 % 
-% if mutiple isotopic combinations of the same ion are within the range,
+% if multiple isotopic combinations of the same element are within the range,
 % automatically the one with the higher abundance (peak height) will be taken
 %
-% if no ion is located within the range, the user can manually enter a
-% range name (must be an ion)
+% if various ions of different element species are within one range, 
+% the user can choose the desired ion out of a list in a pop-up window; 
+% default selection is set to the ion with higher natural abundance
+% 
+% if no inserted ion is located within the range, the user can manually enter a
+% range name (must be an ion, which is included in colorScheme) in a pop-up window
 %
-% rangeAdd(spec,colorScheme)
+% possible use without specific outputs: rangeAdd(spec,colorScheme)
 % generates only area (ans) but no handle or text in the workspace
 %
 % [h, txt] = rangeAdd(spec,colorScheme)
-% i can't make it work...bug or just my incompetence?
+% 
 %
 % INPUTS: spec, area plot that displays the mass spectrum (histogram of m/c frequencies) 
 %         either in raw counts or normalised to bin width and total ion count
 %
 %         colorScheme, table with elements assigned to color code
 %
-% OUTPUTS: h, handle to the area plot
-%          txt, corresponding text of the assigned ion
-%
+% OUTPUTS: h, handle to the area plot of the range
+%          txt, corresponding text
+
 % set current axes
 ax = spec.Parent;
 axes(ax);
