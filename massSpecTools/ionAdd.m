@@ -91,8 +91,24 @@ if ~exist('maxHeight','var')
     maxPeak = max(abundance);
     maxDisp = ax.YLim(2);
     plotAbundance = plotAbundance * maxDisp / maxPeak;
-elseif isnumeric('minHeight')
-    warning('not implemented yet');
+elseif isnumeric(maxHeight)
+    % if single value, most abundant isotope will be that height
+    % if two element vector, the peak closest to maxHeight(1) will be
+    % scaled to maxHeight(2)
+    
+    if isscalar(maxHeight)
+        maxDisp = maxHeight;
+        %XXXXX missing implementation
+    else
+        maxDisp = maxHeight(2);
+        dist = maxHeight(1) - plotWeight;
+        peakIdx = find(abs(dist) == min(abs(dist)));
+        peakIdx = peakIdx(1);
+        
+        plotAbundance = plotAbundance * maxDisp / plotAbundance(peakIdx);
+    end
+    
+    
     
 else
     if strcmp(maxHeight,'selection')
@@ -111,6 +127,7 @@ else
         end
         
         plotAbundance = plotAbundance * maxDisp / peak;
+        
     elseif strcmp(maxHeight,'most abundant')
         % adjusts the height of the most abundant peak to the closest peak
         % in the mass spectrum
