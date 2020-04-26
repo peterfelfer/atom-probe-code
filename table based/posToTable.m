@@ -45,7 +45,6 @@ if ~idx
     return
 end
 
-
 fid = fopen(fileName, 'r');
 
 if idx == 1

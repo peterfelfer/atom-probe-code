@@ -1,5 +1,5 @@
 function conc = posCalculateConcentrationSimple(pos, detEff, excludeList,volumeName)
-% posCalculateConcentrationSimple calculates the concentration of a 
+% posCalculateConcentrationSimple calculates the concentration of a
 % categorical list of atoms or ions
 %
 % conc = posCalculateConcentrationSimple(pos, detEff, excludeList,
@@ -21,11 +21,11 @@ function conc = posCalculateConcentrationSimple(pos, detEff, excludeList,volumeN
 %
 % OUTPUT:
 % conc: is a table that contains the count, concentration, and variance for
-% each atom/ion that is not on the excludeList. 
+% each atom/ion that is not on the excludeList.
 % statistical deviation calculated after Danoix et al., https://doi.org/10.1016/j.ultramic.2007.02.005
 % variance(conc) = conc*(1-conc)/numAtomsDetected * (1 - detEff)%
 
-%% detector efficiency 
+%% detector efficiency
 if detEff > 1
     detEff = detEff/100;
 end
@@ -46,7 +46,7 @@ if ~exist('volumeName','var')
     volumeName = inputname(1);
 end
 
-% need to assign, otherwise not counted in countcats 
+% need to assign, otherwise not counted in countcats
 atoms(isundefined(atoms)) = 'unranged';
 
 %% check for excluded types
@@ -60,10 +60,14 @@ isExcluded = isExcluded';
 
 %% calculate concentrations for not excluded variables
 counts = countcats(atoms);
-counts = counts';
+if iscolumn(counts)
+    counts = counts';
+end
 counts(2,:) = counts./sum(counts(~isExcluded));
 counts(2,isExcluded) = 0;
 counts(3,:) = counts(2,:).*(1- counts(2,:))./counts(1,:) * (1-detEff);
+
+
 
 %% creating output table
 conc = array2table(counts,'VariableNames',cats');

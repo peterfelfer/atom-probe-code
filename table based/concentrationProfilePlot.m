@@ -41,8 +41,11 @@ end
 
 ax.Title.String = f.Name;
 ax.YLabel.String = [char(conc.type(1)) ' ' char(conc.format(1))];
-ax.XLabel.String = ['distance [' conc.Properties.VariableUnits{strcmp(conc.Properties.VariableNames,'distance')} ']'];
-
+try
+    ax.XLabel.String = ['distance [' conc.Properties.VariableUnits{strcmp(conc.Properties.VariableNames,'distance')} ']'];
+catch
+    ax.XLabel.String = 'distance';
+end
 
 %check if we are plotting concentrations, need to adjust data
 if any(conc.format == 'concentration')
