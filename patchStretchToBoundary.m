@@ -1,4 +1,4 @@
-function fv = stretchToBoundary(fv,boundary)
+function fv = patchStretchToBoundary(fv,boundary)
 %stretches the boundary of a mesh to a specified boundary mesh
 
 debug = false;
@@ -16,7 +16,7 @@ ed = sort(ed,2);
 
 % filter boundary vertices
 [ed,~,c] = unique(ed,'rows');
-% The last column lists the counts
+% the last column lists the counts
 cnt =  accumarray(c,1);
 
 % bnd edges are those who only occur once
@@ -46,10 +46,10 @@ axisVec = zeros(size(tangent));
 
 for v = 1:length(bndVerts)
     vert = bndVerts(v);
-    %find edges containg this vertex
+    % find edges containing this vertex
     isIn = ~~sum(bndEdg == vert,2);
     idx = unique(bndEdg(isIn,:));
-    idx(idx == vert) = []; %indices of the vertices
+    idx(idx == vert) = []; % indices of the vertices
     
     if length(idx) > 2
         error('invalid boundary');
@@ -75,7 +75,7 @@ end
 
 
 %% calculate axis (ray) surface intersections
-% coose the closest one as the new vertex position
+% choose the closest one as the new vertex position
 
 vert1 = boundary.vertices(boundary.faces(:,1),:);
 vert2 = boundary.vertices(boundary.faces(:,2),:);
