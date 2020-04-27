@@ -30,7 +30,7 @@ if false
 end
 
 
-%% calcualate displacement direction axis
+%% calculate displacement direction axis
 % the displacement axis is defined by the cross product between the vertex
 % normal and the vector between the two neighbouring mesh boundary
 % vertices (tangentional displacement)
