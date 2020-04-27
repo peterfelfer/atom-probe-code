@@ -1,9 +1,9 @@
-function fv =  projectionTessellation(alpha,points)
+function fv =  patchCreateProjectionTessellation(alpha,points)
 % calculates a projection tessellation based on the current projection in
 % the current figure. An alpha shape is used for the tessellation
 
 % if the points are parsed in pts, the projection direction is estimated
-% from the a least squares fit of the points
+% from least squares fit of the points
 
 addpath('alphaHull');
 
@@ -29,7 +29,7 @@ if ~exist('points','var');
         el
     end
     
-    %Construct the normal vector to the viewing plane from these angles.
+    % construct the normal vector to the viewing plane from these angles
     
     az = (az - 90)*pi/180;
     el = el*pi/180;
@@ -38,7 +38,7 @@ if ~exist('points','var');
     
     normalvec=normalvec*[cos(el) 0 sin(el);0 1 0;-sin(el) 0 cos(el)];
     
-    %Project into the viewing plane.
+    % project into the viewing plane
     
     
     handles = get(ax,'Children');
@@ -93,8 +93,8 @@ end
 
 
 function M = LSE(pts)
-% the least squares estimate matrix M is obtained by:
-%M = 1/k sum_i=1^k(pi * pi^T - COM * COM^T)
+% the least squares estimated matrix M is obtained by:
+% M = 1/k sum_i=1^k(pi * pi^T - COM * COM^T)
 % since we've already tranformed, COM = [0,0,0];
 
 k = length(pts(:,1));
