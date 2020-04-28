@@ -1,5 +1,17 @@
 function patchToPly(fv,vertColors,fileName,comment)
-
+% saves a patch to a ply file (polygon file format)
+%
+% INPUTS:
+%   fv: structure with faces (f) and vertices (v)
+%   
+%   vertColors: 
+%   
+%   fileName:
+%
+%   comment:
+%
+%
+%
 if ~exist('fileName','var')
     [file path] = uiputfile('*.ply','Save *.ply file to');
     
