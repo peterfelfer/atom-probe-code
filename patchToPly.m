@@ -1,4 +1,4 @@
-function patch2ply(fv,vertColors,fileName,comment)
+function patchToPly(fv,vertColors,fileName,comment)
 
 if ~exist('fileName','var')
     [file path] = uiputfile('*.ply','Save *.ply file to');
