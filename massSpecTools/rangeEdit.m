@@ -16,7 +16,7 @@ if ~exist('range','var')
     range = gco;
 end
 
-%check if object is a range
+% check if object is a range
 try
     type = range.UserData.plotType;
 catch
