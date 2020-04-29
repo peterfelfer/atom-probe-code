@@ -10,8 +10,7 @@ function patchToPly(fv,vertColors,fileName,comment)
 %
 %   comment:
 %
-%
-% patchToPly(fv);       generates a .ply file 
+% 
 %
 %
 %
