@@ -9,14 +9,16 @@ function [p, ax, f] = concentrationPlot(conc,excludeList, plotType, colorScheme)
 % [p, ax, f] = concentrationPlot(conc)
 %
 % INPUT:
-% conc: is a table that contains the count or the concentration of one or
+% conc: is a table that contains the counts or the concentration of one or
 % more volumes. If multiple volumes are in the variable, the name will be
 % atom/ion + volume name
 % excludeList: is a cell array that contains as character the individual
 % ions that shall not be considered for the plot of the concentration,
 % unranged atoms appear as 'unranged', if not parsed, no atoms will be
 % excluded
+%
 % plotType: can be a 'pie' or 'bar'
+% 
 % colorScheme:  coloring will be according to colorScheme
 % If multiple volumes are parsed and you want to color by volume, than don't
 % parse any colorScheme, default will color the bars by volume.
@@ -24,8 +26,10 @@ function [p, ax, f] = concentrationPlot(conc,excludeList, plotType, colorScheme)
 % OUTPUT:
 % p: bar/pie chart of the volume, with properties (BarLayout, BarWidth, FaceColor,
 % EdgeColor, BaseValue, XData, YData)
+% 
 % ax: axes of the plot with properties (XLim, YLim, XScale, YScale,
 % GridlineStyle, Position, Units)
+% 
 % f: figure that contains the plot (pie or bar chart) with properties
 % (Number, Name, Color, Position, Units)
 %
@@ -36,7 +40,7 @@ function [p, ax, f] = concentrationPlot(conc,excludeList, plotType, colorScheme)
 %       concentration:  conc([conc.format=='concentration'], :)
 %       count:         conc([conc.format=='count'], :)
 %
-% Display the bar plot with a log length scale use
+% Display the bar plot with a log scale use
 %   ax.YScale = 'log';
 %
 %
@@ -51,7 +55,7 @@ end
 if ~exist('excludeList','var')
     excludeList = {};
 end
-% remove elements on the exclude list
+% remove elements, which are on the exclude list
 conc = conc(:,~ismember(conc.Properties.VariableNames,excludeList));
 
 %% check for multiple volumes, presence of variance for error bars, options and compatibility
