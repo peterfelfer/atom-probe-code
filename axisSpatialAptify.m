@@ -1,6 +1,7 @@
 function axisSpatialAptify
-%script that takes current axes and puts them into an APT style display
-%mode
+% script that takes current axes and puts them into an APT style display
+% mode (ready to rotate the reconstructed APT tip; 
+% sets axes and background color, direction of z-axis)
 
 axis equal;
 rotate3d on;
