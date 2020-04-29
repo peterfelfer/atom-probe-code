@@ -1,8 +1,3 @@
-% function works fine if function ionConvertNameTable in line is 
-% changed to convertIonName
-% ionConvertNameTable is "migrated but needs unit testing", therefore is
-% not yet part of the master branch
-
 function rangeTable = rangesExtractFromMassSpec(spec)
 % pulls all ranges and additional information from a mass spectrum plot
 % gets all plots connected to the mass spectrum
