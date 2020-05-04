@@ -6,6 +6,8 @@ function patchToPly(fv,vertColors,fileName,comment)
 %   
 %   vertColors:  represents color code for all vertices;
 %                must be a n-by-3 array with n = number of vertices 
+%                color code values must be all integers between 0 and 255
+%                or all values <1
 %   
 %   fileName:    desired filename, input as character array with .ply suffix
 %
@@ -88,6 +90,9 @@ if exist('vertColors','var')
     
     if max(vertColors)<=1
         vertColors = round(vertColors* 255);
+    end
+    if max(vertColors)>255
+        error('vertColors values exceed 255')
     end
     
     
