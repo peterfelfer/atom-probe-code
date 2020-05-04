@@ -1,9 +1,27 @@
 function patchToObj(patch,objName,fileName)
-% exports obj file into Wavefront obj. If a list (vector) of patches is
-% parsed it will be saved in one obj file. Object names can be parsed in
-% 'objNames'
-
-
+% exports obj file into Wavefront obj
+% if a list (vector) of patches is parsed it will be saved in one obj file 
+% object names can be parsed in 'objNames'
+%
+% INPUTS:
+% patch: structure with faces (f) and vertices (v)
+%
+% objName: object names can be parsed in 'objNames'
+%
+% fileName: desired name of saved file with .obj as suffix
+%
+%
+% patchToObj();
+%           opens a "Save *.obj file to" window if selected object is a
+%           patch
+% patchToObj(patch);
+%           opens a "Save *.obj file to" window
+% patchToObj(patch,[],fileName);
+%           saves file in current folder
+% patchToObj(patch,objName,fileName);
+%           saves file in current folder
+%
+%
 
 if ~exist('patch','var')
     object = gco;
