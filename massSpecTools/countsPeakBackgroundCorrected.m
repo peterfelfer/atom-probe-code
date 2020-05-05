@@ -1,27 +1,33 @@
-function [pkcnt pkdata] = bgCorrectedPeakCount(options,bgRegion,massSpec)
+function [pkcnt pkdata] = countsPeakBackgroundCorrected(options,bgRegion,massSpec)
 % fits a linear background (least squares) to a peak in a mass spectrum
 % based on 'brushed' background bins. For this, the mass spectrum has to be
-% in the active axes, with the background bins marked. Aslo plots the
+% in the active axes, with the background bins marked. Also plots the
 % results.
 
-%options:
-%'r': add a fictional range and calculate the signal to background for that
-%range
-
-%'a': same as 'r', but automatically created ranges by optimising the
-%ratio of missed atoms / background atoms = 1
-
-
-%bgRegion/ctRegion is the option of parsing the background estimate and mass spec for use in
-%further automation.
-
-%bgRegion and massSpec must have .mc and .cts fields.
+% INPUTS:
+%   options:
+%       'r': add a fictional range and calculate the signal to background for that
+%            range
+%       'a': same as 'r', but automatically created ranges by optimising the
+%            ratio of missed atoms / background atoms = 1
+%   bgRegion/ctRegion: is the option of parsing the background estimate and 
+%                mass spec for use in further automation
+%   massSpec: mass spectrum plot
+% 
+% bgRegion and massSpec must have .mc and .cts fields.
+%
+% OUTPUTS:
+% pkcnt: peak counts
+%
+% pkdata: peak data
+%
+%
 
 rngLabelHeight = 0.65; % height of the stem plot delineating the range
 
 
 % determine mc range
-%% all mass to charge and counts in the interval
+%% all mass-to-charge and counts in the interval
 
 
 if ~exist('massSpec','var')
@@ -42,13 +48,13 @@ numAtoms = sum(cnt);
 %% get baseline input
 
 if ~exist('bgRegion','var')
-    %selection of BG region before
+    % selection of BG region before
     sel = getrect;
     BGbeforeXmin = sel(1);
     BGbeforeXmax = sel(1) + sel(3);
     inBefore = mc>BGbeforeXmin & mc<BGbeforeXmax;
     
-    %selection of BG region after
+    % selection of BG region after
     sel = getrect;
     BGafterXmin = sel(1);
     BGafterXmax = sel(1) + sel(3);
@@ -144,7 +150,7 @@ if exist('options','var')
     switch options
         case 'r'
             
-            %signal/background for range
+            % signal/background for range
             rec = getrect(gca);
             
             mcmin = rec(1);
@@ -178,8 +184,8 @@ if exist('options','var')
             
         case 'a'
             
-            % auto range optimisation. moves borders of range until the
-            % peak background matches the amount of ions missed.
+            % auto range optimisation; moves borders of range until the
+            % peak background matches the amount of ions missed
             
             % pkloc = peak location
             % cnt = counts per bin
@@ -206,7 +212,7 @@ if exist('options','var')
             
             
             
-            %after
+            % after
             ctsAfterPk = cnt(mc>=pkloc);
             ctsAfterPk = fliplr(ctsAfterPk);
             
