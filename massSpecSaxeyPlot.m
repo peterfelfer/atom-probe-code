@@ -1,7 +1,7 @@
-function saxeyPlot(mc,multi)
-%creates a correlative ion plot aka Saxey plot for data with the
-%mass-to-charge values mc and the hit multiplicity multi. For a 2D
-%diagram, only multiplicities of 2 are considered.
+function massSpecSaxeyPlot(mc,multi)
+% creates a correlative ion plot aka Saxey plot for data with the
+% mass-to-charge values mc and the hit multiplicity multi. For a 2D
+% diagram, only multiplicities of 2 are considered.
 
 
 % automatically converts hit multiplicites if 0s are present.
@@ -10,9 +10,9 @@ if ~ isempty(multi == 0)
     disp('zeros were removed from hit multiplicity');
 end
 
-% automatically takes the 4th colum if a pos file or epos file is parsed
+% automatically takes the 4th column if a pos file or epos file is parsed
 if length(mc(1,:) > 1)
-    mc = mc(:,4);
+    mc = mc(:,5);
 end
 
 
