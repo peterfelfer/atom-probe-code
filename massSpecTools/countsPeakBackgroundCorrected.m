@@ -19,7 +19,7 @@ function [pkcnt pkdata] = countsPeakBackgroundCorrected(options,bgRegion,massSpe
 % OUTPUTS:
 % pkcnt: peak counts
 %
-% pkdata: peak data
+% pkdata: peak data, peak position in Da
 %
 %
 
