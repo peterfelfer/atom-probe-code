@@ -12,7 +12,7 @@ end
 
 % automatically takes the 4th column if a pos file or epos file is parsed
 if length(mc(1,:) > 1)
-    mc = mc(:,5);
+    mc = mc(:,4);
 end
 
 
@@ -29,7 +29,7 @@ mc1(:,2) = mc(idx2);
 mc1 = sort(mc1,2);
 mc1 = fliplr(mc1);
 
-%query settings for plot
+% query settings for plot
 prompt = {'maximum m/c','bin width'};
 dlg_title = 'bin width';
 def = {'200','0.2'};
@@ -54,11 +54,11 @@ mc1 = mc1(isIn,:);
 figure;
 scatter(mc1(:,1),mc1(:,2),'.k');
 
-%[his, centers] = hist3([mc1(:,1) mc1(:,2)],[numBins numBins]);
-%surf(centers{1},centers{2},his);
-%shading interp;
+% [his, centers] = hist3([mc1(:,1) mc1(:,2)],[numBins numBins]);
+% surf(centers{1},centers{2},his);
+% shading interp;
 
 
-%set(gca,'ZScale','Log');
+% set(gca,'ZScale','Log');
 end
 
