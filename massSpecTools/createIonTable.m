@@ -60,10 +60,14 @@ end
 %% create list of all nucleides used
 %nucleides = nucleideList;
 
-if ~strcmp(elements,'all')
-    nucleides = isotopeTable(ismember(isotopeTable.element{elements}),:);
-end
 
+    for j = 1:length(elements)
+        if j==1
+            nucleides = [isotopeTable([isotopeTable.atomicNumber==elements(j,1)],:)]; 
+        else
+            nucleides = [nucleides; isotopeTable([isotopeTable.atomicNumber==elements(j,1)],:)]; 
+        end
+    end
 
 
 %% create list of complex ions
