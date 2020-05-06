@@ -61,7 +61,7 @@ end
 %nucleides = nucleideList;
 
 if ~strcmp(elements,'all')
-    nucleides = isotopeTable(ismember(isotopeTable.element{'Fe'}),:);%XXXXXXX
+    nucleides = isotopeTable(ismember(isotopeTable.element{elements}),:);
 end
 
 

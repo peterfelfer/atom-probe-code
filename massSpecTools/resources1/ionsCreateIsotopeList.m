@@ -4,7 +4,7 @@ function [ions, abundance, weight] = ionsCreateIsotopeList(ion, isotopeTable)
 
 
 %% interpret ion name into a table [element count]
-ionTable = convertIonName(ion);
+ionTable = ionConvertNameTable(ion);
 
 % calculate individual element count
 atoms = removecats(ionTable.element); % also removes potential unused atom categories
