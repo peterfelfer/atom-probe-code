@@ -84,6 +84,7 @@ if istable(varargin{1})
     if nargin > 1
         chargeState = varargin{2};
         if ~isnan(chargeState) %NaN for undefined chargestate, e.g. in noise
+            ionName = [ionName ' '];
             if chargeState < 0
                 sym = '-';
             else
