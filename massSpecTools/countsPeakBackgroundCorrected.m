@@ -1,25 +1,25 @@
 function [pkcnt pkdata] = countsPeakBackgroundCorrected(options,bgRegion,massSpec)
-% fits a linear background (least squares) to a peak in a mass spectrum
-% based on 'brushed' background bins. For this, the mass spectrum has to be
-% in the active axes, with the background bins marked. Also plots the
-% results.
+% Fits a linear background (least squares) to a peak in a mass spectrum
+% based on 'brushed' background bins. 
+% For this, the mass spectrum has to be in the active axes, with the background bins marked. 
+% Also plots the results.
 
 % INPUTS:
 %   options:
 %       'r': add a fictional range and calculate the signal to background for that
 %            range
-%       'a': same as 'r', but automatically created ranges by optimising the
+%       'a': same as 'r', but automatically creates ranges by optimising the
 %            ratio of missed atoms / background atoms = 1
-%   bgRegion/ctRegion: is the option of parsing the background estimate and 
+%   bgRegion/ctRegion: table, is the option of parsing the background estimate and 
 %                mass spec for use in further automation
-%   massSpec: mass spectrum plot
+%   massSpec: table, mass spectrum
 % 
-% bgRegion and massSpec must have .mc and .cts fields.
+% bgRegion and massSpec must be tables with .mc and .cts fields.
 %
 % OUTPUTS:
 % pkcnt: peak counts
 %
-% pkdata: peak data, peak position in Da
+% pkdata: peak data, peak location in Da
 %
 %
 
@@ -90,7 +90,9 @@ b1 = lin_reg(2);
 fitCts = a1*mc+b1;
 
 sumFitCnt = sum(fitCts);
-sumCnt = sum(cnt);
+sumCnt = sum(cnt);      % Warum haben sumFitCnt und sumCnt denselben Wert???
+                        % Dadurch ist natürlich Die Anzahl der Ionen im
+                        % Peak immer Null.
 
 
 
