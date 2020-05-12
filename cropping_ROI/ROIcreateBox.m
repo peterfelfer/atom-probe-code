@@ -26,12 +26,6 @@ if ~exist('location','var')
     location = [0 0 0];
 end
 %% gets axis
-=======
-% creates box in current or parsed axis with specified length, width and
-% height at the location. You can use it to mark a important region so you
-% can study this region more.
-% 
->>>>>>> Stashed changes
 if not(exist('ax','var'))
     ax = gca;
 end
