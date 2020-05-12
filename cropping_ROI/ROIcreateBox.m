@@ -26,6 +26,12 @@ if ~exist('location','var')
     location = [0 0 0];
 end
 %% gets axis
+=======
+% creates box in current or parsed axis with specified length, width and
+% height at the location. You can use it to mark a important region so you
+% can study this region more.
+% 
+>>>>>>> Stashed changes
 if not(exist('ax','var'))
     ax = gca;
 end
@@ -56,7 +62,11 @@ faces = [... order is such that rgb coloring of axis is correct
     ];
     
 
+<<<<<<< Updated upstream
 %% plotting of pathc object
+=======
+% plotting of patch object
+>>>>>>> Stashed changes
 bh = patch(ax,'Vertices',vertices,'Faces',faces);
 bh.FaceColor = [.5 , .5 , .5];
 bh.FaceAlpha = 0.5;
