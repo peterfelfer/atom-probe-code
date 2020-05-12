@@ -3,14 +3,6 @@ function patchToObj(patch,objName,fileName)
 % if a list (vector) of patches is parsed it will be saved in one obj file 
 % object names can be parsed in 'objNames'
 %
-% INPUTS:
-% patch: structure with faces (f) and vertices (v)
-%
-% objName: object names can be parsed in 'objNames'
-%
-% fileName: desired name of saved file with .obj as suffix
-%
-%
 % patchToObj();
 %           opens a "Save *.obj file to" window if selected object is a
 %           patch
@@ -21,7 +13,12 @@ function patchToObj(patch,objName,fileName)
 % patchToObj(patch,objName,fileName);
 %           saves file in current folder
 %
+% INPUTS:
+% patch: structure with faces (f) and vertices (v)
 %
+% objName: object names can be parsed in 'objNames'
+%
+% fileName: desired name of saved file with .obj as suffix
 
 if ~exist('patch','var')
     object = gco;
