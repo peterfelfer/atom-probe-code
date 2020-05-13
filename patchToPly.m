@@ -1,6 +1,18 @@
 function patchToPly(fv,vertColors,fileName,comment)
 % saves a patch to a ply file (polygon file format)
 %
+% patchToPly(fv);                
+%       opens a "Save *.ply file to" window
+%
+% patchToPly(fv, vertColors);    
+%       opens a "Save *.ply file to" window
+%
+% patchToPly(fv, vertColors, 'filename.ply'); 
+%       saves filename.ply in current folder
+% 
+% patchToPly(fv, vertColors, 'filename.ply', 'comment');
+%       saves filename.ply in current folder, including a comment
+%
 % INPUTS:
 %   fv:          structure with faces (f) and vertices (v)
 %   
@@ -15,14 +27,7 @@ function patchToPly(fv,vertColors,fileName,comment)
 %                input as character array
 %
 %
-% patchToPly(fv);                
-%       opens a "Save *.ply file to" window
-% patchToPly(fv, vertColors);    
-%       opens a "Save *.ply file to" window
-% patchToPly(fv, vertColors, 'filename.ply'); 
-%       saves filename.ply in current folder
-% patchToPly(fv, vertColors, 'filename.ply', 'comment');
-%       saves filename.ply in current folder, including a comment
+% 
 %
 %
 if ~exist('fileName','var')
