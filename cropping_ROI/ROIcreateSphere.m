@@ -1,6 +1,32 @@
-function ch = ROIcreateSphere(radius,subDivisions,ax)
-%creates sphere in current or parsed axis with specified radius
-%Output is handle to the object for later manipulation.
+function sh = ROIcreateSphere(radius,subDivisions,location,ax)
+% creates sphere in current or parsed axis with specified radius
+% Output is handle to the object for later manipulation.
+% sh = ROIcreateSphere()
+% sh = ROIcreateSphere(radius)
+% sh = ROIcreateSphere(radius,subDivisions)   
+% sh = ROIcreateSphere(radius,subDivisions,location)
+% sh = ROIcreateSphere(radius,subDivisions,location,ax)
+%
+% INPUTS
+% radius:       the radius of the ROI, default is 10
+% subDivisions: fineness of the grid, default is 2 
+% location:     the start coordinates of the ROI given as [x y z] default
+%               is [0 0 0]
+% ax:           axis in which the ROI is orientated
+%
+% OUTPUTS
+% sh:           handle to the ROIsphere
+
+if not(exist('radius','var'))
+    radius = 10;
+end
+if not(exist('subDivisons','var'))
+    subDivisions = 2;
+end
+
+if not(exist('location','var'))
+    location = [0 0 0];
+end
 
 if not(exist('ax','var'))
     ax = gca;
@@ -8,19 +34,17 @@ end
 
 
 
-fv = icosphere(subDivisions);
-fv.Vertices = fv.Vertices * radius;
+[fv.vertices fv.faces] = icosphere(subDivisions);
+fv.vertices = fv.vertices * radius;
 
-ch = patch(fv);
-ch.FaceColor = [.5 , .5 , .5];
-ch.FaceAlpha = 0.5;
-ch.UserData.ROIzaxis = [0,0,0 ; 0,0,radius];
-ch.UserData.ROIyaxis = [0,0,0 ; 0,radius,0];
-ch.UserData.ROIxaxis = [0,0,0 ; radius,0,0];
+sh = patch(fv);
+sh.FaceColor = [.5 , .5 , .5];
+sh.FaceAlpha = 0.5;
+sh.Vertices(:,1) = sh.Vertices(:,1) + location(:,1);%shifts x coordinates
+sh.Vertices(:,2) = sh.Vertices(:,2) + location(:,2);%shifts y coordinates
+sh.Vertices(:,3) = sh.Vertices(:,3) + location(:,3);%shifts z coordinates
 
 end
-
-
 function [vv,ff] = icosphere(varargin)
 %ICOSPHERE Generate icosphere.
 % Create a unit geodesic sphere created by subdividing a regular
@@ -42,7 +66,7 @@ function [vv,ff] = icosphere(varargin)
 %   See also SPHERE.
 %
 %   Based on C# code by Andres Kahler
-%   http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html
+%   http://blog.andreaskahler.com/2009/06/creating-icosphere-mech-in-code.html
 %
 %   Wil O.C. Ward 19/03/2015
 %   University of Nottingham, UK
@@ -82,7 +106,7 @@ f = unique(ix(f),'rows');
 switch(nargout)
     case 0 % no output
         cax = newplot(cax); % draw to given axis (or gca)
-        showSphere(cax,f,v);
+        chowSphere(cax,f,v);
     case 1 % return fv structure for patch
         vv = struct('Vertices',v,'Faces',f,...
                     'VertexNormals',v,'FaceVertexCData',v(:,3));
@@ -94,8 +118,7 @@ end
 end
 function [i,v] = getMidPoint(t1,t2,v)
 %GETMIDPOINT calculates point between two vertices
-%   Calculate new vertex in sub-division and normalise to unit length
-%   then find or add it to v and return index
+%   Calculate new vertex in sub-division aex
 %
 %   Wil O.C. Ward 19/03/2015
 %   University of Nottingham, UK
@@ -152,8 +175,8 @@ f = [ 1,12, 6; % f1
       9, 7, 8; % f19
      10, 9, 2];% f20
 end
-function showSphere(cax,f,v)
-%SHOWSPHERE displays icosphere given faces and vertices.
+function chowSphere(cax,f,v)
+%chOWSPHERE displays icosphere given faces and vertices.
 %   Displays a patch surface on the axes, cax, and sets the view.
 %   
 %   Properties:
@@ -165,7 +188,7 @@ function showSphere(cax,f,v)
 %   Wil O.C. Ward 19/03/2015
 %   University of Nottingham, UK
 % set some axes properties if not held
-if ~ishold(cax)
+if ~ichold(cax)
     az = -37.5; el = 30;
     view(az,el)
     grid

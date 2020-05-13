@@ -48,12 +48,12 @@ z = z';
 x = x(:);
 y = y(:);
 z = z(:);
-x0 = location(1,1);% getting x coordinat of location
-y0 = location(1,2);% getting y coordinat of location
-z0 = location(1,3);% getting z coordinat of location
+x0 = location(:,1);% getting x coordinat of location
+y0 = location(:,2);% getting y coordinat of location
+z0 = location(:,3);% getting z coordinat of location
 x = x + x0;% calculate shifted x coordinates
-y = y + y0;% calculate shifted x coordinates
-z = z + z0;% calculate shifted x coordinates
+y = y + y0;% calculate shifted y coordinates
+z = z + z0;% calculate shifted z coordinates
 fv.vertices = [x,y,z];
 
 faces = convhull(x,y,z);
