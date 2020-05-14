@@ -1,5 +1,17 @@
 function fv = patchStretchToBoundary(fv,boundary)
-%stretches the boundary of a mesh to a specified boundary mesh
+% stretches the boundary of a mesh to a specified boundary mesh
+%
+% INPUTS:
+%      fv: structure with fields of faces (f) and vertices (v);
+%          initial mesh
+%
+%      boundary: structure with fields of faces and vertices;
+%                specified boundary mesh
+%
+% OUTPUTS:
+%      fv: structure with fields of faces and vertices;
+%          final mesh with stretched boundary
+%
 
 debug = false;
 
