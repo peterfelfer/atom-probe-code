@@ -15,8 +15,10 @@ function varargout = ionConvertNameTable(varargin)
 %   ionName = ionConvertNameTable(ionCategorical,chargeState,format);
 %   ionName = ionConvertNameTable(ionCategorical,chargeState);
 %   ionName = ionConvertNameTable(ionCategorical)
-% 
-% INPUT:
+% array:
+%   ionName = ionConvertNameTable(ionArray,chargeState,format,isotopeTable);
+%
+% INPUT/OUTPUT:
 %
 % ionName: Name of the ion
 %   (isotope element count) x N chargestate        '56Fe2 16O3 ++' 
@@ -24,13 +26,36 @@ function varargout = ionConvertNameTable(varargin)
 %   (element count) x N                            'Fe2 O3'
 %   individual nucleides will be sorted by atomic number descending e.g. 'O H2'
 % ionTable: Table that contains the element and the isotope
+% ionCategorical: ion table that is stored as an categorical array
+% ionArray: Matrix of element and isotope number e.g. Fe2O3 = [26,56;26,56;8,16;8,16;8,16;];
 % chargeState: is the charge State of the ion 
+% NaN: if no chargeState is parsed
 % format: can be 'plain' or 'LaTeX'
-%
-%array
-%[element, isotope; element, isotope;....]
-% ionName = ionConvertNameTable(ikoxionArray, chargeState, format); %% MISSING
-% IMPLEMENTATION
+% isotopeTable: Table with all isotopes
+
+%% converstion from array to table. The new table is saved as an input 
+%% argument and is converted to ionName as a normal table
+
+% check for input as an array 
+if ismatrix(varargin{1}) & ~istable(varargin{1}) & ~iscategorical(varargin{1}) & ~ischar(varargin{1})
+   %check for isotopeTable as an input variable
+   if nargin == 4 & istable(varargin{4})
+    ionArray = varargin{1};
+    isotopeTable = varargin{4};
+    % create element List
+    for j = 1:length(ionArray)
+        isotopeName = isotopeTable.element(isotopeTable.atomicNumber==ionArray(j,1));
+        element(j,1) = isotopeName(1,1);
+    end
+    % create isotope List
+    isotope = ionArray(:,2);
+    % create ionTable with element and isotope
+    ionTable = table(element, isotope);
+    varargin{1} = ionTable;
+   else
+       error('no isotopeTable is parsed');
+   end
+end
 
 %% conversion from table to name
 if istable(varargin{1})
