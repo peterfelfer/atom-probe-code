@@ -1,6 +1,7 @@
 function sh = ROIcreateSphere(radius,subDivisions,location,ax)
 % creates sphere in current or parsed axis with specified radius
 % Output is handle to the object for later manipulation.
+% 
 % sh = ROIcreateSphere()
 % sh = ROIcreateSphere(radius)
 % sh = ROIcreateSphere(radius,subDivisions)   
@@ -10,8 +11,8 @@ function sh = ROIcreateSphere(radius,subDivisions,location,ax)
 % INPUTS
 % radius:       the radius of the ROI, default is 10
 % subDivisions: fineness of the grid, default is 2 
-% location:     the start coordinates of the ROI given as [x y z] default
-%               is [0 0 0]
+% location:     the start coordinates of the ROI given as [x y z] 
+%               default is [0 0 0]
 % ax:           axis in which the ROI is orientated
 %
 % OUTPUTS
@@ -50,7 +51,7 @@ function [vv,ff] = icosphere(varargin)
 % Create a unit geodesic sphere created by subdividing a regular
 % icosahedron with normalised vertices.
 %
-%   [V,F] = ICOSPHERE(N) generates to matrices containing vertex and face
+%   [V,F] = ICOSPHERE(N) generates two matrices containing vertex and face
 %   data so that patch('Faces',F,'Vertices',V) produces a unit icosphere
 %   with N subdivisions.
 %
@@ -75,7 +76,7 @@ if nargin > 2
     error('Too many input variables, must be 0, 1 or 2.');
 end
 [cax,args,nargs] = axescheck(varargin{:});
-n = 3; % default number of sub-divisions
+n = 3; % default number of subdivisions
 if nargs > 0, n = args{1}; end % override based on input
 % generate regular unit icosahedron (20 faced polyhedron)
 [v,f] = icosahedron(); % size(v) = [12,3]; size(f) = [20,3];
@@ -118,7 +119,7 @@ end
 end
 function [i,v] = getMidPoint(t1,t2,v)
 %GETMIDPOINT calculates point between two vertices
-%   Calculate new vertex in sub-division aex
+%   Calculate new vertex in subdivision aex
 %
 %   Wil O.C. Ward 19/03/2015
 %   University of Nottingham, UK
