@@ -4,33 +4,34 @@ function ch = ROIcreateCylinder(radius,height,location,numSegments,ax)
 % Output is handle to the object for later manipulation.
 %
 % ch = ROIcreateCylinder()
-% ch = ROIcreateCylinder(raadius)
+% ch = ROIcreateCylinder(radius)
 % ch = ROIcreateCylinder(radius,height)
 % ch = ROIcreateCylinder(radius,height,location)
-% ch = ROIcreateCylinder(radius,height,location,numSegemnts)
-% ch = ROIcreateCylinder(radius,height,location,numSegemnts,ax)
+% ch = ROIcreateCylinder(radius,height,location,numSegments)
+% ch = ROIcreateCylinder(radius,height,location,numSegments,ax)
 %
 % INPUTS
 % radius:       radius of the cylinder, default is 5   
 % height:       height of the cylinder, default is 10
-% location:     startcoordinates of the cylinder, default is [0 0 0]
-% numSegments:  number of segements of the cylinder, default is 32
+% location:     start coordinates of the cylinder, default is [0 0 0]
+% numSegments:  number of segments of the cylinder, default is 32
 %
 % OUTPUTS
 % ch:           handle to the ROIcylinder
+
 %% sets default radius to 5
 if not(exist('radius','var'))
     radius = 5;
 end
-%% sets default height is 10
+%% sets default height to 10
 if ~exist('height','var')
     height = 10;
 end
-%% sets default location is [0, 0, 0]
+%% sets default location to [0, 0, 0]
 if ~exist('location','var')
     location = [0 0 0];
 end
-%% sets default numSegments
+%% sets default numSegments to 32
 if not(exist('numSegments','var'))
     numSegments = 32;
 end
@@ -38,7 +39,7 @@ end
 if not(exist('ax','var'))
     ax = gca;
 end
-%% making the cylinder
+%% creates the cylinder
 [x, y, z] = cylinder(radius,numSegments);
 
 z = z * height - height/2;
@@ -48,18 +49,18 @@ z = z';
 x = x(:);
 y = y(:);
 z = z(:);
-x0 = location(:,1);% getting x coordinat of location
-y0 = location(:,2);% getting y coordinat of location
-z0 = location(:,3);% getting z coordinat of location
-x = x + x0;% calculate shifted x coordinates
-y = y + y0;% calculate shifted y coordinates
-z = z + z0;% calculate shifted z coordinates
+x0 = location(:,1); % getting x coordinate of location
+y0 = location(:,2); % getting y coordinate of location
+z0 = location(:,3); % getting z coordinate of location
+x = x + x0; % calculate shifted x coordinates
+y = y + y0; % calculate shifted y coordinates
+z = z + z0; % calculate shifted z coordinates
 fv.vertices = [x,y,z];
 
 faces = convhull(x,y,z);
 fv.faces = faces;
 
-%% plotting the pathc object
+%% plotting the patch object
 ch = patch(fv);
 ch.FaceColor = [.5 , .5 , .5];
 ch.FaceAlpha = 0.5;
