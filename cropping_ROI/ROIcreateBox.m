@@ -9,19 +9,20 @@ function bh = ROIcreateBox(dimensions,location,ax)
 % bh = ROIcreateBox(dimensions,location,ax)
 %
 % INPUTS
-% dimensions:   the length, width and height (x,y,z) of the ROI given as [x
-%               y z] default is [10 10 10]
-% location:     the start coordinates of the ROI given as [x y z] default
-%               is [0 0 0]
+% dimensions:   the length, width and height (x,y,z) of the ROI given as 
+%               [x y z], default is [10 10 10]
+% location:     the start coordinates of the ROI given as [x y z],
+%               default is [0 0 0]
 % ax:           axis in which the ROI is orientated
 %
 % OUTPUTS
 % bh:           handle to the ROIbox
+
 %% sets default dimensions to [10 10 10]
 if not(exist('dimensions','var'))
     dimensions = [10 10 10];
 end
-%% default location is [0, 0, 0]
+%% default location is [0 0 0]
 if ~exist('location','var')
     location = [0 0 0];
 end
@@ -56,11 +57,8 @@ faces = [... order is such that rgb coloring of axis is correct
     ];
     
 
-<<<<<<< Updated upstream
-%% plotting of pathc object
-=======
-% plotting of patch object
->>>>>>> Stashed changes
+
+%% plotting of patch object
 bh = patch(ax,'Vertices',vertices,'Faces',faces);
 bh.FaceColor = [.5 , .5 , .5];
 bh.FaceAlpha = 0.5;
