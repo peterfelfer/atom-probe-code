@@ -86,8 +86,52 @@ if ~isempty(ionPlots)
     
 end
 
+%% check for overlap with already existing peak range
+plots = spec.Parent.Children;
 
-% select which ion it is if necessary
+idx = 1;
+for pl = 1:length(plots)
+    
+    % find all the ones that are ranges
+    try
+        type = plots(pl).UserData.plotType;
+    catch
+        type = "unknown";
+    end
+    
+    % case #1: new range is entirely part of already existing range
+    if type == "range"
+        if lim(1) > plots(pl).XData(1) & lim(2) < plots(pl).XData(end)
+    delete(h);
+      error 'total overlap with existing range'  
+    return
+        end
+    end
+end
+
+%     % case #2: already existing range is entirely covered by new range
+%     
+%     plots = spec.Parent.Children;
+% 
+% idx = 1;
+% for pl = 1:length(plots)
+%     
+%     % find all the ones that are ranges
+%     try
+%         type = plots(pl).UserData.plotType;
+%     catch
+%         type = "unknown";
+%     end
+%     if type == "range"
+%         if lim(1) < plots(pl).XData(1) & lim(2) > plots(pl).XData(end)
+%     delete(h);
+%       error 'new range completely covers already existing range'
+%         end
+%     end
+% end
+
+
+%% select which ion it is if necessary
 
     % manual input
 if isempty(potentialIon) 
