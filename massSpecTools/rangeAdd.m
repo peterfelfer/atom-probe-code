@@ -84,7 +84,7 @@ for pl = 1:length(plots)
     % case #3b: partial overlap on left side
     if type == "range"
         if lim(1) < plots(pl).XData(1) & lim(2) > plots(pl).XData(1)
-            lim(2) = plots(pl).XData(1) + (spec.XData(end) - spec.XData(end-1));
+            lim(2) = plots(pl).XData(1) - (spec.XData(end) - spec.XData(end-1));
             f = msgbox({'Due to a partial overlap,'; 'the new range was clipped to the adjacent range.'},'Notification');
         end
     end
