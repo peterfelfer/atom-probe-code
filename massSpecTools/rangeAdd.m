@@ -179,31 +179,26 @@ txt.UserData.plotType = "text";
 txt.DisplayName = convertIonName(h.UserData.ion,h.UserData.chargeState,'plain');
 
 %% try to connect deletion of text with corresponding area...does not work
-idx = 1;
-for pl = 1:length(plots)
-        try
-             type = plots(pl).UserData.plotType;
-        catch
-             type = "unknown";
-        end
-end
-    if type == "range"
-        if delete(plots(pl))
-             for i = 1:length(spec.Parent.Children)
-                 try
-                     type = spec.Parent.Children(i).UserData.plotType;
-                 catch
-                     type = "unknown"
-                 end
-             end
-             if type == "text"
-                 if spec.Parent.Children(i).Position(1) > spec.Parent.Children(i).XData(1) ...
-                    & spec.Parent.Children(i).Position(1) < spec.Parent.Children(i).XData(end)
-                    delete(spec.Parent.Children(i))
-                 end
-             end
-        end
-    end
-end
+% idx = 1;
+% for pl = 1:length(plots)
+% end
+%     if type == "range"
+%         if delete(plots(pl))
+%              for i = 1:length(spec.Parent.Children)
+%                  try
+%                      type = spec.Parent.Children(i).UserData.plotType;
+%                  catch
+%                      type = "unknown"
+%                  end
+%              end
+%              if type == "text"
+%                  if spec.Parent.Children(i).Position(1) > spec.Parent.Children(i).XData(1) ...
+%                     & spec.Parent.Children(i).Position(1) < spec.Parent.Children(i).XData(end)
+%                     delete(spec.Parent.Children(i))
+%                  end
+%              end
+%         end
+%     end
+% end
 
 
