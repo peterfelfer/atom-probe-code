@@ -1,10 +1,6 @@
 % convertIonName needs to be changed to ionConvertNameTable (function
 % does not yet exist)
 %
-%missing functionality: 
-%check for range overlaps
-%possible cases- total overlap: range dismissed
-%partial overlap: range is clipped to the adjacent range
 %
 %integrate delete function, such that text is deleted with range.
 
@@ -61,7 +57,7 @@ for pl = 1:length(plots)
     % case #1: new range is entirely part of already existing range
     if type == "range"
         if lim(1) > plots(pl).XData(1) & lim(2) < plots(pl).XData(end)
-      error 'total overlap with existing range'  
+      error 'Total overlap with existing range.'  
     return
         end
     end
@@ -69,13 +65,29 @@ for pl = 1:length(plots)
     % case #2: already existing range is entirely covered by new range
     if type == "range"
         if lim(1) < plots(pl).XData(1) & lim(2) > plots(pl).XData(end)
-      error 'input range completely covers already existing range'
+      error 'Input range completely covers already existing range.'
         end
     end
     
     % case #3: new range partially overlaps with already existing range
     %          new range gets clipped to the adjacent range
     
+    % case #3a: partial overlap on right side of already existing range
+    if type == "range"
+        if lim(1) < plots(pl).XData(end) & lim(2) > plots(pl).XData(end)
+            lim(1) = plots(pl).XData(end) + (spec.XData(end) - spec.XData(end-1));
+        f = msgbox({'Due to a partial overlap,'; 'the new range was clipped to the adjacent range.'},'Notification');
+        end
+    end
+    
+    
+    % case #3b: partial overlap on left side
+    if type == "range"
+        if lim(1) < plots(pl).XData(1) & lim(2) > plots(pl).XData(1)
+            lim(2) = plots(pl).XData(1) + (spec.XData(end) - spec.XData(end-1));
+            f = msgbox({'Due to a partial overlap,'; 'the new range was clipped to the adjacent range.'},'Notification');
+        end
+    end
 end
 %%
 
@@ -83,7 +95,6 @@ isIn = (spec.XData > lim(1)) & (spec.XData < lim(2));
 h = area(spec.XData(isIn),spec.YData(isIn));
 h.FaceColor = [1 1 1];
 h.UserData.plotType = "range";
-
 
 %% search for ions in mass spectrum plot
 plots = ax.Children;
@@ -166,3 +177,33 @@ h.UserData.hitMultiplicities = [0 Inf];
 txt = text(h.XData(1),max(h.YData)*1.4,convertIonName(h.UserData.ion,h.UserData.chargeState,'LaTeX'),'clipping','on');
 txt.UserData.plotType = "text";
 txt.DisplayName = convertIonName(h.UserData.ion,h.UserData.chargeState,'plain');
+
+%% try to connect deletion of text with corresponding area...does not work
+idx = 1;
+for pl = 1:length(plots)
+        try
+             type = plots(pl).UserData.plotType;
+        catch
+             type = "unknown";
+        end
+end
+    if type == "range"
+        if delete(plots(pl))
+             for i = 1:length(spec.Parent.Children)
+                 try
+                     type = spec.Parent.Children(i).UserData.plotType;
+                 catch
+                     type = "unknown"
+                 end
+             end
+             if type == "text"
+                 if spec.Parent.Children(i).Position(1) > spec.Parent.Children(i).XData(1) ...
+                    & spec.Parent.Children(i).Position(1) < spec.Parent.Children(i).XData(end)
+                    delete(spec.Parent.Children(i))
+                 end
+             end
+        end
+    end
+end
+
+
