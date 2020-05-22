@@ -1,22 +1,24 @@
-function varargout = ionConvertNameTable(varargin)
-% ionConvertNameTable converts an ion name to a table variable and reverse
+function varargout = ionConvertName(varargin)
+% ionConvertNameTable converts an ion name to a table variable and reverse.
+% As input parameters, also categorical or an array of elements is
+% possible.
 %
 % Create ionTable
-% ionTable = ionConvertNameTable(ionName);
-% [ionTable chargeState] = ionConvertNameTable(ionName);
+% ionTable = ionConvertName(ionName);
+% [ionTable chargeState] = ionConvertName(ionName);
 %
 % Create ionName
 % table:
-%   ionName = ionConvertNameTable(ionTable,chargeState,format);
-%   ionName = ionConvertNameTable(ionTable,chargeState);
-%   ionName = ionConvertNameTable(ionTable,NaN,format);
-%   ionName = ionConvertNameTable(ionTable);
+%   ionName = ionConvertName(ionTable,chargeState,format);
+%   ionName = ionConvertName(ionTable,chargeState);
+%   ionName = ionConvertName(ionTable,NaN,format);
+%   ionName = ionConvertName(ionTable);
 % categorical:
-%   ionName = ionConvertNameTable(ionCategorical,chargeState,format);
-%   ionName = ionConvertNameTable(ionCategorical,chargeState);
-%   ionName = ionConvertNameTable(ionCategorical)
+%   ionName = ionConvertName(ionCategorical,chargeState,format);
+%   ionName = ionConvertName(ionCategorical,chargeState);
+%   ionName = ionConvertName(ionCategorical)
 % array:
-%   ionName = ionConvertNameTable(ionArray,chargeState,format,isotopeTable);
+%   ionName = ionConvertName(ionArray,chargeState,format,isotopeTable);
 %
 % INPUT/OUTPUT:
 %
