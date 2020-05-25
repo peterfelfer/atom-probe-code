@@ -5,7 +5,8 @@ function fv =  patchCreateProjectionTessellation(alpha,points)
 % if the points are parsed in pts, the projection direction is estimated
 % from least squares fit of the points
 
-addpath('alphaHull');
+% addpath('alphaHull');
+addpath('sampledAlphaHull');
 
 DEBUG = false;
 
