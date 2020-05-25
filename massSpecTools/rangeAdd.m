@@ -1,8 +1,5 @@
-% convertIonName needs to be changed to ionConvertNameTable (function
-% does not yet exist)
-%
-%
-%integrate delete function, such that text is deleted with range.
+% missing functionality:
+% integrate delete function, such that text is deleted with range.
 
 function [h, txt] = rangeAdd(spec,colorScheme)
 % adds a range to a mass spectrum using graphical input
@@ -135,25 +132,25 @@ end
     % manual input
 if isempty(potentialIon) 
     txt = inputdlg('manually enter range name','ion selection',[1 40]);
-    [ion, chargeState] = convertIonName(txt{1});
+    [ion, chargeState] = ionConvertNameTable(txt{1});
     h.UserData.ion = ion;
     h.UserData.chargeState = chargeState;
-    h.DisplayName = convertIonName(h.UserData.ion,h.UserData.chargeState);
-    h.FaceColor = colorScheme.color(colorScheme.ion == convertIonName(h.UserData.ion.element),:);
+    h.DisplayName = ionConvertNameTable(h.UserData.ion,h.UserData.chargeState);
+    h.FaceColor = colorScheme.color(colorScheme.ion == ionConvertNameTable(h.UserData.ion.element),:);
     
     
     % clear choice
 elseif length(potentialIon) == 1
     h.UserData.ion = potentialIon{1};
     h.UserData.chargeState = potentialIonChargeState(1);
-    h.DisplayName = convertIonName(h.UserData.ion,h.UserData.chargeState);
-    h.FaceColor = colorScheme.color(colorScheme.ion == convertIonName(h.UserData.ion.element),:);
+    h.DisplayName = ionConvertNameTable(h.UserData.ion,h.UserData.chargeState);
+    h.FaceColor = colorScheme.color(colorScheme.ion == ionConvertNameTable(h.UserData.ion.element),:);
     
        
 else % selection
     numPotIon = length(potentialIon);
     for i = 1:numPotIon
-        names{i} = [convertIonName(potentialIon{i}, potentialIonChargeState(i)) '   ' num2str(potentialIonPeakHeight(i))];
+        names{i} = [ionConvertNameTable(potentialIon{i}, potentialIonChargeState(i)) '   ' num2str(potentialIonPeakHeight(i))];
     end
     % select the ion, defaulting to most abundant
     [idx, isSelection] = listdlg('ListString',names,'PromptString','Select ion species','SelectionMode','single',...
@@ -166,7 +163,7 @@ else % selection
     
     h.UserData.ion = potentialIon{idx};
     h.UserData.chargeState = potentialIonChargeState(idx);
-    h.DisplayName = convertIonName(h.UserData.ion,h.UserData.chargeState);
+    h.DisplayName = ionConvertNameTable(h.UserData.ion,h.UserData.chargeState);
     h.FaceColor = colorScheme.color(colorScheme.ion == h.UserData.ion.element(1),:);%XXXXXfix
 end
 
@@ -174,31 +171,6 @@ end
 h.UserData.hitMultiplicities = [0 Inf];
 
 % add text to denote range
-txt = text(h.XData(1),max(h.YData)*1.4,convertIonName(h.UserData.ion,h.UserData.chargeState,'LaTeX'),'clipping','on');
+txt = text(h.XData(1),max(h.YData)*1.4,ionConvertNameTable(h.UserData.ion,h.UserData.chargeState,'LaTeX'),'clipping','on');
 txt.UserData.plotType = "text";
-txt.DisplayName = convertIonName(h.UserData.ion,h.UserData.chargeState,'plain');
-
-%% try to connect deletion of text with corresponding area...does not work
-% idx = 1;
-% for pl = 1:length(plots)
-% end
-%     if type == "range"
-%         if delete(plots(pl))
-%              for i = 1:length(spec.Parent.Children)
-%                  try
-%                      type = spec.Parent.Children(i).UserData.plotType;
-%                  catch
-%                      type = "unknown"
-%                  end
-%              end
-%              if type == "text"
-%                  if spec.Parent.Children(i).Position(1) > spec.Parent.Children(i).XData(1) ...
-%                     & spec.Parent.Children(i).Position(1) < spec.Parent.Children(i).XData(end)
-%                     delete(spec.Parent.Children(i))
-%                  end
-%              end
-%         end
-%     end
-% end
-
-
+txt.DisplayName = ionConvertNameTable(h.UserData.ion,h.UserData.chargeState,'plain');
