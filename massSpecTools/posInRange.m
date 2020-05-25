@@ -1,7 +1,7 @@
-@Martina and/or Benedict: Please delete the following lines, they are
-just a hint for you.
-Be aware, that the input variable "rng" has nothing to do with the
-output variable of the function readrrng (often used like rng = readrrng)!
+% @Martina and/or Benedict: Please delete the following lines, they are
+% just a hint for you.
+% Be aware, that the input variable "rng" has nothing to do with the
+% output variable of the function readrrng (often used like rng = readrrng)!
 
 function pos = posInRange(pos,rng)
 % gives all ions within a given range [mcbeg1, mcend1; mcbeg2, mcend2 ...
