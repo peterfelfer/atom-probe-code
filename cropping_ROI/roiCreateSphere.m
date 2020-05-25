@@ -1,12 +1,12 @@
-function sh = ROIcreateSphere(radius,subDivisions,location,ax)
+function sh = roiCreateSphere(radius,subDivisions,location,ax)
 % creates sphere in current or parsed axis with specified radius
 % Output is handle to the object for later manipulation.
 % 
-% sh = ROIcreateSphere()
-% sh = ROIcreateSphere(radius)
-% sh = ROIcreateSphere(radius,subDivisions)   
-% sh = ROIcreateSphere(radius,subDivisions,location)
-% sh = ROIcreateSphere(radius,subDivisions,location,ax)
+% sh = roiCreateSphere()
+% sh = roiCreateSphere(radius)
+% sh = roiCreateSphere(radius,subDivisions)   
+% sh = roiCreateSphere(radius,subDivisions,location)
+% sh = roiCreateSphere(radius,subDivisions,location,ax)
 %
 % INPUTS
 % radius:       the radius of the ROI, default is 10
