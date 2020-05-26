@@ -21,6 +21,9 @@ function [pkcnt pkdata] = countsPeakBackgroundCorrected(options,bgRegion,massSpe
 %
 % pkdata: peak data, peak location in Da
 %
+% hint: keep in mind not to use a 'normalised' mass spectrum plot, if you
+%       want to know the number of ions in a peak
+%
 %
 
 rngLabelHeight = 0.65; % height of the stem plot delineating the range
@@ -95,9 +98,7 @@ b1 = lin_reg(2);
 fitCts = a1*mc+b1;
 
 sumFitCnt = sum(fitCts);
-sumCnt = sum(cnt);      % Warum haben sumFitCnt und sumCnt denselben Wert???
-                        % Dadurch ist natürlich Die Anzahl der Ionen im
-                        % Peak immer Null.
+sumCnt = sum(cnt);      
 
 
 
