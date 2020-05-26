@@ -1,5 +1,19 @@
-function [vox gridVec]= point2voxel(pos,bin,gridVec)
-% voxelisation of point cloud, binwidth bin, or gridvector gridVec
+function [vox gridVec]= voxelCreateFromPos(pos,bin,gridVec)
+% voxelisation of the point cloud stored in pos, bin is the binwidth 
+% grid vectors can be parsed
+% 
+% [vox gridVec]= voxelCreateFromPos(pos,bin,gridVec)
+% [vox gridVec]= voxelCreateFromPos(pos,bin)
+% 
+% INPUT
+% pos:      pos File 
+% bin:
+% gridVec:
+% 
+% OUTPUT
+% vox:
+% gridVec:
+
 
 % only coordinates
 pos = pos(:,1:3);
