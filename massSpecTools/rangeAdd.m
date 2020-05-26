@@ -12,6 +12,14 @@ function [h, txt] = rangeAdd(spec,colorScheme)
 % the user can choose the desired ion out of a list in a pop-up window; 
 % default selection is set to the ion with higher natural abundance
 % 
+% if the new range covers an existing range, the command gets abborted
+% 
+% if the new range is entirely covered by an existing range, the command
+% gets abborted
+%
+% if the new range partially overlaps with an existing range, the new range
+% gets clipped to the adjacent range% 
+%
 % if no inserted ion is located within the range, the user can manually enter a
 % range name (must be an ion, which is included in colorScheme) in a pop-up window
 %
@@ -51,7 +59,7 @@ for pl = 1:length(plots)
         type = "unknown";
     end
     
-    % case #1: new range is entirely part of already existing range
+    % case #1: new range is entirely part of existing range
     if type == "range"
         if lim(1) > plots(pl).XData(1) & lim(2) < plots(pl).XData(end)
       error 'Total overlap with existing range.'  
@@ -59,17 +67,17 @@ for pl = 1:length(plots)
         end
     end
         
-    % case #2: already existing range is entirely covered by new range
+    % case #2: existing range is entirely covered by new range
     if type == "range"
         if lim(1) < plots(pl).XData(1) & lim(2) > plots(pl).XData(end)
       error 'Input range completely covers already existing range.'
         end
     end
     
-    % case #3: new range partially overlaps with already existing range
+    % case #3: new range partially overlaps with existing range
     %          new range gets clipped to the adjacent range
     
-    % case #3a: partial overlap on right side of already existing range
+    % case #3a: partial overlap on right side of existing range
     if type == "range"
         if lim(1) < plots(pl).XData(end) & lim(2) > plots(pl).XData(end)
             lim(1) = plots(pl).XData(end) + (spec.XData(end) - spec.XData(end-1));
