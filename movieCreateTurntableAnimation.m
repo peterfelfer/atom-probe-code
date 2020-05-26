@@ -2,7 +2,7 @@ function mov = movieCreateTurntableAnimation(deg,fileName)
 % creates turntable animation of the current figure and returns movie
 % variable.
 %
-% 
+% mov = movieCreateTurntableAnimation(deg,fileName)
 %
 % INPUTS
 % deg:      step sice in degree in which the animation rotates. determines
@@ -31,7 +31,7 @@ end
 
 myVideo = VideoWriter(fileName);
 
-myVideo.FrameRate = 30;  % Default 30
+myVideo.FrameRate = 60;  % Default 30
 myVideo.Quality = 50;    % Default 75
 
 open(myVideo);
