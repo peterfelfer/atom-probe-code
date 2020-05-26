@@ -5,7 +5,7 @@ function mov = movieCreateTurntableAnimation(deg,fileName)
 % 
 %
 % INPUTS
-% deg:      step sice in degree in which the animation rotates. determines
+% deg:      step size in degree in which the animation rotates. determines
 %           the length and speed of the film.
 % fileName: name under which the film is saved.
 %
