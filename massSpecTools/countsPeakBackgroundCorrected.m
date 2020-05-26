@@ -66,8 +66,13 @@ if ~exist('bgRegion','var')
     cntData = cnt(in);
 
 else
-    mcData = bgRegion.mc;
-    cntData = bgRegion.cts;
+    if isnumeric(bgRegion)
+        mcData = bgRegion(:,1);
+        cntData = bgRegion(:,2);
+    elseif isstruct(bgRegion)
+        mcData = bgRegion.mc;
+        cntData = bgRegion.cts;
+    end
 end
 
 
