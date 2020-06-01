@@ -8,8 +8,8 @@ end
 
 
 
-fv = icosphere(subDivisions);
-fv.Vertices = fv.Vertices * radius;
+[fv.vertices, fv.faces] = icosphere(subDivisions);
+fv.vertices = fv.vertices * radius;
 
 ch = patch(fv);
 ch.FaceColor = [.5 , .5 , .5];

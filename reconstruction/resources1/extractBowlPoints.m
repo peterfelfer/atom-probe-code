@@ -3,8 +3,8 @@ function points = extractBowlPoints(detx, dety, mcin, pixelSize, minHeight)
 % local maxima in the mc for bowl fit.
 
 %constants
-MINSEP = .5; % minimum separation of peaks in tof or mc spectrum
-BINWIDTH = 0.1; % bin width of tof spectrum
+MINSEP = 5; % minimum separation of peaks in tof or mc spectrum
+BINWIDTH = 1; % bin width of tof spectrum
 MINCOUNTS = 10; % minimum number of counts in a pixel to have points extracted
 
 xId = round(detx/pixelSize);

@@ -16,7 +16,7 @@ function [p, ax, f] = concentrationPlot(conc,excludeList, plotType, colorScheme)
 % ions that shall not be considered for the plot of the concentration,
 % unranged atoms appear as 'unranged', if not parsed, no atoms will be
 % excluded
-% plotType: can be a 'pie' or 'bar'
+% plotType: can be a 'pie', 'bar' 
 % colorScheme:  coloring will be according to colorScheme
 % If multiple volumes are parsed and you want to color by volume, than don't
 % parse any colorScheme, the default will color the bars by volume.
@@ -52,7 +52,7 @@ if ~exist('excludeList','var')
     excludeList = {};
 end
 % remove elements on the exclude list
-conc = conc(:,~ismember(conc.Properties.VariableNames,excludeList));
+conc = conc(:,~ismember(conc.Properties.VariableNames,excludeList(:)));
 
 %% check for multiple volumes, presence of variance for error bars, options and compatibility
 % check if all variables have the same format
@@ -118,7 +118,8 @@ if strcmp(plotType,'bar')
             
         end
     end
-    
+
+% bar plot
 elseif strcmp(plotType,'pie')
     if numVolumes > 1
         delete(f);
@@ -136,8 +137,8 @@ elseif strcmp(plotType,'pie')
         p(b*2-1).DisplayName = char(x(b));
         legend();
     end
-else
-    error('plot type unknown');
+    
+
 end
 
 %% set plot axis title

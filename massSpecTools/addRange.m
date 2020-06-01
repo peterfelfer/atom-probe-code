@@ -110,3 +110,5 @@ txt = text(h.XData(1),max(h.YData)*1.4,convertIonName(h.UserData.ion,h.UserData.
 txt.UserData.plotType = "text";
 txt.DisplayName = convertIonName(h.UserData.ion,h.UserData.chargeState,'plain');
 
+h.DeleteFcn = @(~,~) delete(txt);
+

@@ -157,5 +157,3 @@ end
 
 %% plot
 h = ionStemPlot(ax, plotWeight, plotAbundance, ionTypeCS, chargeState, colorScheme);
-
-

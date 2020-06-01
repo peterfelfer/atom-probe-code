@@ -4,7 +4,7 @@ function mov = turntableAnimation(deg,fileName)
 
 
 if ~exist('fileName','var')
-    [file path] = uigetfile('*.avi','export movie');
+    [file path] = uiputfile('*.avi','export movie');
     fileName = [path file];
 end
 

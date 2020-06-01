@@ -22,6 +22,7 @@ h.LineWidth = 2;
 h.UserData.plotType = "ion";
 h.UserData.ion = ionList;
 h.UserData.chargeState = chargeStates;
+h.ButtonDownFcn = @(~,~) disp(h.DisplayName);
 
 %change stem line depending on chargesate if only one charge state is given
 if length(chargeStates) == 1

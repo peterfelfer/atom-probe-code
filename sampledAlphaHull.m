@@ -16,6 +16,10 @@ end
 
 vis = false;
 
+if istable(pos)
+    pos = [pos.x, pos.y, pos.z, pos.mc];
+end
+
 if length(pos(:,1)) < sample
     sample = 1:length(pos(:,1));
 else
