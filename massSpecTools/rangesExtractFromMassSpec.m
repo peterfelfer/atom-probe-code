@@ -23,7 +23,7 @@ for pl = 1:length(plots)
     if type == "range"
         mcbegin(idx,:) = plots(pl).XData(1);
         mcend(idx,:) = plots(pl).XData(end);
-        rangeName{idx,:} = ionConvertNameTable(plots(pl).UserData.ion.element);
+        rangeName{idx,:} = convertIonName(plots(pl).UserData.ion.element);
         volume(idx,:) = 0;
         ion{idx,:} = plots(pl).UserData.ion;
         color(idx,:) = plots(pl).FaceColor;
