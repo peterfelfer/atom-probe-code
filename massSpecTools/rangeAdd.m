@@ -1,6 +1,3 @@
-% missing functionality:
-% integrate delete function, such that text is deleted with range.
-
 function [h, txt] = rangeAdd(spec,colorScheme)
 % adds a range to a mass spectrum using graphical input
 % output is the handle to the area plot and the corresponding text
@@ -41,7 +38,7 @@ function [h, txt] = rangeAdd(spec,colorScheme)
 ax = spec.Parent;
 axes(ax);
 
-% user input
+%% user input
 lim = ginput(2);
 lim = lim(:,1);
 lim = sort(lim);
@@ -182,3 +179,6 @@ h.UserData.hitMultiplicities = [0 Inf];
 txt = text(h.XData(1),max(h.YData)*1.4,ionConvertNameTable(h.UserData.ion,h.UserData.chargeState,'LaTeX'),'clipping','on');
 txt.UserData.plotType = "text";
 txt.DisplayName = ionConvertNameTable(h.UserData.ion,h.UserData.chargeState,'plain');
+
+% delete function for ion text and corresponding range
+h.DeleteFcn = @(~,~) delete(txt);
