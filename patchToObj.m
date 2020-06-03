@@ -20,14 +20,14 @@ function patchToObj(patch,objName,fileName)
 %
 % fileName: desired name of saved file with .obj as suffix
 
-if ~exist('patch','var')
+if ~exist('patch','var')         
     object = gco;
     patch.vertices = get(object,'vertices');
     patch.faces = get(object,'faces');
 end
-numPatch = length(patch);
+numPatch = length(patch); 
 
-if ~exist('fileName','var')
+if ~exist('fileName','var')             % Create filepath
     [file path] = uiputfile('*.obj','Save *.obj file to');
     
     fileName = [path file];
@@ -38,13 +38,9 @@ if ~exist('objName','var')
         objName{p} = ['mesh' num2str(p)];
     end
 elseif numPatch == 1
-    objName{1} = objName;
-    
+    objNameCell{1} = objName; % Create a cell array from a string
+    objName = objNameCell;
 end
-
-
-
-
 
 fid = fopen(fileName,'wt');
 
