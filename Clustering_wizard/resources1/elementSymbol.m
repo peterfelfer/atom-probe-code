@@ -5,12 +5,12 @@ function sym = elementSymbol(Z)
 %
 % OUTPUT: sym: character array of the element symbol, e.g., ('H')
 %
-% notice: all ordinary elements are in the function stored, but not all elements; 
-%         if no element is assigned to the input atomic number, the function produces the result 'noise' 
+% notice: elements with an atomic number Z of 1 to 118 are stored in the
+%         function; Z bigger than 118 result in message 'symbol undefined!'
 
 
 switch Z
-    case 1 
+        case 1 
         sym = 'H';
         
     case 2 
@@ -136,6 +136,9 @@ switch Z
     case 42 
         sym = 'Mo';
         
+    case 43
+        sym = 'Tc';
+                
     case 44 
         sym = 'Ru';
         
@@ -170,10 +173,13 @@ switch Z
         sym = 'Xe';
         
     case 55 
-        sym = 'Cs';
-        
+        sym = 'Cs';        
+          
     case 56 
         sym = 'Ba';
+        
+    case 57 
+        sym = 'La';
         
     case 58 
         sym = 'Ce';
@@ -183,6 +189,39 @@ switch Z
         
     case 60 
         sym = 'Nd';
+        
+    case 61
+        sym = 'Pm';
+        
+    case 62
+        sym = 'Sm';
+        
+    case 63
+        sym = 'Eu';
+        
+    case 64
+        sym = 'Gd';
+        
+    case 65
+        sym = 'Tb';
+        
+    case 66
+        sym = 'Dy';
+        
+    case 67
+        sym = 'Ho';
+        
+    case 68
+        sym = 'Er';
+        
+    case 69
+        sym = 'Tm';
+        
+    case 70
+        sym = 'Yb';
+        
+    case 71
+        sym = 'Lu';
         
     case 72 
         sym = 'Hf';
@@ -211,20 +250,123 @@ switch Z
     case 80 
         sym = 'Hg';
         
+    case 81
+        sym = 'Tl';
+        
     case 82 
         sym = 'Pb';
         
     case 83 
         sym = 'Bi';
         
+    case 84
+        sym = 'Po';
+        
+    case 85
+        sym = 'At';
+        
+    case 86
+        sym = 'Rn';
+        
+    case 87
+        sym = 'Fr';
+        
+    case 88
+        sym = 'Ra';
+        
+    case 89
+        sym = 'Ac';
+        
     case 90 
         sym = 'Th';
+        
+    case 91
+        sym = 'Pa';
         
     case 92 
         sym = 'U';
         
+    case 93
+        sym = 'Np';
+        
+    case 94
+        sym = 'Pu';
+        
+    case 95
+        sym = 'Am';
+        
+    case 96
+        sym = 'Cm';
+        
+    case 97
+        sym = 'Bk';
+        
+    case 98
+        sym = 'Cf';
+        
+    case 99
+        sym = 'Es';
+        
+    case 100
+        sym = 'Fm';
+        
+    case 101
+        sym = 'Md';
+        
+    case 102
+        sym = 'No';
+        
+    case 103
+        sym = 'Lr';
+        
+    case 104
+        sym = 'Rf';
+        
+    case 105
+        sym = 'Db';
+        
+    case 106
+        sym = 'Sg';
+        
+    case 107
+        sym = 'Bh';
+        
+    case 108
+        sym = 'Hs';
+        
+    case 109
+        sym = 'Mt';
+        
+    case 110
+        sym = 'Ds';
+        
+    case 111
+        sym = 'Rg';
+        
+    case 112
+        sym = 'Uub';
+        
+    case 113
+        sym = 'Uut';
+        
+    case 114
+        sym = 'Uuq';
+        
+    case 115
+        sym = 'Uup';
+      
+    case 116
+        sym = 'Uuh';
+        
+    case 117
+        sym = 'Uus';
+        
+    case 118
+        sym = 'Uuo';         
+        
     otherwise
-        sym = 'noise';
+        sym = 'undef';
+        disp(' symbol undefined!');
         
 end
     
