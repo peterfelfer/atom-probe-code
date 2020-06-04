@@ -55,11 +55,15 @@ z0 = location(:,3); % getting z coordinate of location
 x = x + x0; % calculate shifted x coordinates
 y = y + y0; % calculate shifted y coordinates
 z = z + z0; % calculate shifted z coordinates
+
 fv.vertices = [x,y,z];
 
 faces = convhull(x,y,z);
 fv.faces = faces;
-
+%defining reference coordinate system
+ch.UserData.ROIzaxis = [location ; location + [0,0,height]];
+ch.UserData.ROIyaxis = [location ; location + [0,radius,0]];
+ch.UserData.ROIxaxis = [location ; location + [radius,0,0]];
 %% plotting the patch object
 ch = patch(fv);
 ch.FaceColor = [.5 , .5 , .5];
