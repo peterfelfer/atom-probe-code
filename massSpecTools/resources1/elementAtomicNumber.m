@@ -4,6 +4,9 @@ function num = elementAtomicNumber(element)
 % INPUT: element: string of the element symbol, e.g., ('H')
 %
 % OUTPUT: num: atomic number of the input element 
+%
+% notice: only ordinary elements are stored in the function;
+%         the function produces for exceptional elements an error
 
 switch element
     case 'H'
