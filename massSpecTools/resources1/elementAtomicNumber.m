@@ -1,8 +1,11 @@
-function num = number4sym(Z)
+function num = elementAtomicNumber(element)
+% elementAtomicNumber produces the atomic number Z of the input element
+%
+% INPUT: element: string of the element symbol, e.g., ('H')
+%
+% OUTPUT: num: atomic number of the input element 
 
-
-
-switch Z
+switch element
     case 'H'
         num = 1;
         
