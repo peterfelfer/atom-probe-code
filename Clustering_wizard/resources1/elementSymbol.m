@@ -1,5 +1,12 @@
-function sym = sym4number(Z)
-
+function sym = elementSymbol(Z)
+% elementSymbol produces the atomic number Z of the input element
+%
+% INPUT: Z: atomic number of the requested element
+%
+% OUTPUT: sym: character array of the element symbol, e.g., ('H')
+%
+% notice: all ordinary elements are in the function stored, but not all elements; 
+%         if no element is assigned to the input atomic number, the function produces the result 'noise' 
 
 
 switch Z
