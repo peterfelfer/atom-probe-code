@@ -3,7 +3,12 @@ function [pkcnt pkdata] = countsPeakBackgroundCorrected(options,bgRegion,massSpe
 % based on 'brushed' background bins. 
 % For this, the mass spectrum has to be in the active axes, with the background bins marked. 
 % Also plots the results.
-
+%
+% [pkcnt pkdata] = countsPeakBackgroundCorrected();
+% [pkcnt pkdata] = countsPeakBackgroundCorrected(options);
+% [pkcnt pkdata] = countsPeakBackgroundCorrected(options, bgRegion);
+% [pkcnt pkdata] = countsPeakBackgroundCorrected(options, bgRegion, massSpec);
+%
 % INPUTS:
 %   options:
 %       'r': add a fictional range and calculate the signal to background for that
@@ -14,12 +19,12 @@ function [pkcnt pkdata] = countsPeakBackgroundCorrected(options,bgRegion,massSpe
 %                mass spec for use in further automation
 %   massSpec: table, mass spectrum
 % 
-% bgRegion and massSpec must be tables with .mc and .cts fields.
+% hint: bgRegion and massSpec must be tables with .mc and .cts fields.
 %
 % OUTPUTS:
-% pkcnt: peak counts
+% pkcnt: scalar with peak count in percent
 %
-% pkdata: peak data, peak location in Da
+% pkdata: structure with peak data, peak location in Da
 %
 % hint: keep in mind not to use a 'normalised' mass spectrum plot, if you
 %       want to know the number of ions in a peak
