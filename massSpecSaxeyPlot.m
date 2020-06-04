@@ -2,6 +2,12 @@ function massSpecSaxeyPlot(mc,multi)
 % creates a correlative ion plot aka Saxey plot for data with the
 % mass-to-charge values mc and the hit multiplicity multi. For a 2D
 % diagram, only multiplicities of 2 are considered.
+%
+% INPUTS:   mc: column of mass-to-charge values, e.g., epos.mc 
+%           
+%           multi: hit multiplicity values, e.g., epos.multi
+%
+% OUTPUTS: no outputs allowed
 
 
 % automatically converts hit multiplicites if 0s are present.
@@ -11,8 +17,10 @@ if ~ isempty(multi == 0)
 end
 
 % automatically takes the 4th column if a pos file or epos file is parsed
-if length(mc(1,:) > 1)
-    mc = mc(:,4);
+if ~exist('mc', 'var')
+        if length(mc(1,:) > 1)
+        mc = mc(:,4);
+        end
 end
 
 
@@ -34,7 +42,7 @@ prompt = {'maximum m/c','bin width'};
 dlg_title = 'bin width';
 def = {'200','0.2'};
 
-maxMC = inputdlg(prompt,dlg_title,1,def);
+maxMC = inputdlg(prompt,dlg_title,1,def,'on');
 
 if isempty(maxMC)
     return;
@@ -53,12 +61,12 @@ mc1 = mc1(isIn,:);
 
 figure;
 scatter(mc1(:,1),mc1(:,2),'.k');
-
+% 
 % [his, centers] = hist3([mc1(:,1) mc1(:,2)],[numBins numBins]);
 % surf(centers{1},centers{2},his);
 % shading interp;
-
-
+% 
+% 
 % set(gca,'ZScale','Log');
 end
 
