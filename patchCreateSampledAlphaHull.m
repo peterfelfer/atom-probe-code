@@ -22,7 +22,7 @@ function fv = patchCreateSampledAlphaHull(pos,alpha,sample)
 %
 %       sample: number of points of the sample
 %
-% OUTPUS:
+% OUTPUT:
 %       fv: structure with fv.vertices and fv.faces (triangulated)
 
 
@@ -80,54 +80,7 @@ patch(fv,'FaceColor',[0 1 1],'FaceAlpha',.2); rotate3d on; axis equal;
 
 
 
-
-%%%% UTILITY FUNCTIONS
-
 function [V,S] = alphavol(X,R,fig)
-%ALPHAVOL Alpha shape of 2D or 3D point set.
-%   V = ALPHAVOL(X,R) gives the area or volume V of the basic alpha shape
-%   for a 2D or 3D point set. X is a coordinate matrix of size Nx2 or Nx3.
-% 
-%   R is the probe radius with default value R = Inf. In the default case
-%   the basic alpha shape (or alpha hull) is the convex hull.
-% 
-%   [V,S] = ALPHAVOL(X,R) outputs a structure S with fields:
-%    S.tri - Triangulation of the alpha shape (Mx3 or Mx4)
-%    S.vol - Area or volume of simplices in triangulation (Mx1)
-%    S.rcc - Circumradius of simplices in triangulation (Mx1)
-%    S.bnd - Boundary facets (Px2 or Px3)
-% 
-%   ALPHAVOL(X,R,1) plots the alpha shape.
-% 
-%   % 2D Example - C shape
-%   t = linspace(0.6,5.7,500)';
-%   X = 2*[cos(t),sin(t)] + rand(500,2);
-%   subplot(221), alphavol(X,inf,1);
-%   subplot(222), alphavol(X,1,1);
-%   subplot(223), alphavol(X,0.5,1);
-%   subplot(224), alphavol(X,0.2,1);
-% 
-%   % 3D Example - Sphere
-%   [x,y,z] = sphere;
-%   [V,S] = alphavol([x(:),y(:),z(:)]);
-%   trisurf(S.bnd,x,y,z,'FaceColor','blue','FaceAlpha',1)
-%   axis equal
-% 
-%   % 3D Example - Ring
-%   [x,y,z] = sphere;
-%   ii = abs(z) < 0.4;
-%   X = [x(ii),y(ii),z(ii)];
-%   X = [X; 0.8*X];
-%   subplot(211), alphavol(X,inf,1);
-%   subplot(212), alphavol(X,0.5,1);
-%
-%   See also DELAUNAY, TRIREP, TRISURF
-
-%   Author: Jonas Lundgren <splinefit@gmail.com> 2010
-
-%   2010-09-27  First version of ALPHAVOL.
-%   2010-10-05  DelaunayTri replaced by DELAUNAYN. 3D plots added.
-%   2012-03-08  More output added. DELAUNAYN replaced by DELAUNAY.
 
 if nargin < 2 || isempty(R), R = inf; end
 if nargin < 3, fig = 0; end
