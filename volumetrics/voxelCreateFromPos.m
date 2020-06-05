@@ -14,11 +14,19 @@ function [vox gridVec]= voxelCreateFromPos(pos,bin,gridVec)
 % vox:
 % gridVec:
 
-
+%% Table based or Array 
 % only coordinates
-pos = pos(:,1:3);
+if istable(pos)
+    posTable(:,1) = pos.x;
+    posTable(:,2) = pos.y;
+    posTable(:,3) = pos.z;
+    pos = posTable;
 
+else 
+    pos = pos(:,1:3);
+end
 
+%% Calculating Grid vectors
 bin = [bin bin bin];
 
 
