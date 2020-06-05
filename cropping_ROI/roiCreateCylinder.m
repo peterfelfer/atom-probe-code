@@ -60,15 +60,16 @@ fv.vertices = [x,y,z];
 
 faces = convhull(x,y,z);
 fv.faces = faces;
-%defining reference coordinate system
-ch.UserData.ROIzaxis = [location ; location + [0,0,height]];
-ch.UserData.ROIyaxis = [location ; location + [0,radius,0]];
-ch.UserData.ROIxaxis = [location ; location + [radius,0,0]];
+
 %% plotting the patch object
 ch = patch(fv);
 ch.FaceColor = [.5 , .5 , .5];
 ch.FaceAlpha = 0.5;
 ch.DisplayName = 'ROI cylinder';
+%% defining reference coordinate system
+ch.UserData.ROIzaxis = [location ; location + [0,0,height]];
+ch.UserData.ROIyaxis = [location ; location + [0,radius,0]];
+ch.UserData.ROIxaxis = [location ; location + [radius,0,0]];
 
 
 

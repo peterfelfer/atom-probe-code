@@ -45,6 +45,11 @@ sh.Vertices(:,1) = sh.Vertices(:,1) + location(:,1);%shifts x coordinates
 sh.Vertices(:,2) = sh.Vertices(:,2) + location(:,2);%shifts y coordinates
 sh.Vertices(:,3) = sh.Vertices(:,3) + location(:,3);%shifts z coordinates
 
+%% defining reference coordinate system
+sh.UserData.ROIzaxis = [location ; location + [0,0,radius]];
+sh.UserData.ROIyaxis = [location ; location + [0,radius,0]];
+sh.UserData.ROIxaxis = [location ; location + [radius,0,0]];
+
 end
 function [vv,ff] = icosphere(varargin)
 %ICOSPHERE Generate icosphere.
