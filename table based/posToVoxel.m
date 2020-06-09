@@ -1,17 +1,16 @@
-function [vox gridVec]= posToVoxel(pos,gridVecIn,species)
+function vox = posToVoxel(pos,gridVec,species)
 % posToVoxel creates a voxelisation of the data in 'pos' based on the bin centers in
 % 'gridVec' for the atoms/ions in species. 
 % 
-% [vox gridVec]= posToVoxel(pos,gridVec,species)
-% [vox gridVec]= posToVoxel(pos,gridVec)
 % vox = posToVoxel(pos,gridVec,species)
-% 
+% vox = posToVoxel(pos,gridVec)
+%
 % INPUT
 % pos:     posfile with allocated range. A decomposed pos file is also
 %          possible.
 % gridVec: are the gridVectors for the grid. If the grid vectors need to be
-%          created, a binwidth can be parsed. The function creates the
-%          gridVectors.
+%          created, use binCenters (Output from binVectorsFromDistance
+%          function)
 % species: Species can be a species list as in {'Fe', 'Mn'}. Ions or Atoms 
 %          in pos can be parsed. Alternatively it can be a logical vector
 %          with the same legth as the pos file.
@@ -20,7 +19,7 @@ function [vox gridVec]= posToVoxel(pos,gridVecIn,species)
 %          To get all ranged ions, use species = categories(pos.ions)
 % OUTPUT
 % vox:     voxelisation of the point cloud stored in pos
-% gridVec: Vecotors of the grid
+
 
 %% Check for species
 if ~exist('species','var')
@@ -43,33 +42,9 @@ end
 
 pos = [pos.x(species), pos.y(species), pos.z(species)];
 
-%% Calculating Grid vectors
-
-% Check if gridVectors is the bin width -> yes -> than create the grid
-% Vectors
-if isnumeric(gridVecIn)
-    bin = gridVecIn;
-    bin = [bin bin bin];
-    % calculating bin centers
-    binvectorRaw = linspace(0,1000*bin(1),1001);
-    binvectorRaw = [fliplr(uminus(binvectorRaw(2:end))) binvectorRaw];
-    
-    
-    %mins and maxs
-    mins = min(pos) - 2*bin;
-    maxs = max(pos) + 2*bin;
-    
-    for d = 1:3
-        gridVec{d} = binvectorRaw(binvectorRaw>=mins(d) & binvectorRaw<=maxs(d));
-    end
-    
-else
-    gridVec = gridVecIn;
-    bin = [gridVec{1}(2)-gridVec{1}(1) gridVec{2}(2)-gridVec{2}(1) gridVec{3}(2)-gridVec{3}(1)];
-    
-end
-
 %% calcualting 3d histogram
+
+bin = [gridVec{1}(2)-gridVec{1}(1) gridVec{2}(2)-gridVec{2}(1) gridVec{3}(2)-gridVec{3}(1)];
 
 % calculating bin association (I do not pretend to know what all of this
 % does)
