@@ -1,14 +1,32 @@
 function [binCenters, binEdges] = binVectorsFromDistance(dist,bin,mode)
-% creates set of grid vectors to be used in nD binning. The bounds are
-% calculated such that they dont go beyond the size of the dataset.
-% dist is the distance variable to be binned, one colum per dimension
-% bin is the bin 'distance' per bin in either a distance metric or a count
-% mode can be constant 'distance' or constant 'count'
-% constant count only makes sense for 1D!
-% in constant count last bin will have a different count if length(dist) is not N x bin
-% constant count: bin centers are the distance of the dist in the bin
-% middle by index
-
+% binVectorsFromDistance creates a set of grid vectors to be used in nD
+% binning. The bounds are calculated such that they don't go beyond the
+% size of the dataset.
+%
+% [binCenters, binEdges] = binVectorsFromDistance(dist,bin,mode)
+% binCenters = binVectorsFromDistance(dist,bin,mode)
+%
+% INPUT
+% dist:     dist is the distance variable to be binned. One column per
+%           dimension. 
+%           It is the generalized distance. Anything that is a metric can 
+%           be used. Reguraly you can use xyz coordinates (from any pos
+%           variable), distance to an object or detector coordinates
+% bin:      bin is the bin 'distance' per bin in either a distance metric
+%           or a count. Non isometric bins are possible
+%           eg. when you use xyz from a pos file -> bin = [1,1,1] 
+% mode:     mode can be constant 'distance' or constant 'count'
+%           'count' for 1D, last bin will have a different count if
+%           length(dist)is not N x bin, in each bin is the same amount of 
+%           atoms, use it for proxygrams 
+%
+% OUTPUT
+% binCenters:   are the bin Centers of each bin 
+%               mode 'distance' the center is the mean value of the distance
+%               mode 'count' the center is the median of the distance (bin
+%               middle by index)               
+% binEdges: Edges of of each bin
+%% 
 isConstantCount = strcmp(mode, 'count');
 isConstantDistance = strcmp(mode, 'distance');
 
@@ -53,4 +71,5 @@ if isConstantCount
     binEdges{1} = dist(idxEdge);
     binEdges{1}(1) = binEdges{1}(1) - 0.0001; % to avoid opening up extra bins because of atoms on the edge
     binEdges{1}(end) = binEdges{1}(end) + 0.0001; % to avoid opening up extra bins because of atoms on the edge
+end
 end
