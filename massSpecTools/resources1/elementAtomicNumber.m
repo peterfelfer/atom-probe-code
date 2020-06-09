@@ -1,8 +1,14 @@
-function num = number4sym(Z)
+function num = elementAtomicNumber(element)
+% elementAtomicNumber produces the atomic number Z of the input element
+%
+% INPUT: element: string of the element symbol, e.g., ('H')
+%
+% OUTPUT: num: atomic number of the input element 
+%
+% notice: element symbols with corresponding atomic number Z of 1 to 118 
+%         are stored in the function
 
-
-
-switch Z
+switch element
     case 'H'
         num = 1;
         
@@ -180,8 +186,38 @@ switch Z
     case 'Nd'
         num = 60;
         
+    case 'Pm'
+        num = 61;
+        
+    case 'Sm'
+        num = 62;
+        
+    case 'Eu'
+        num = 63;
+        
+    case 'Gd'
+        num = 64;
+        
+    case 'Tb'
+        num = 65;
+        
+    case 'Dy'
+        num = 66;
+        
+    case 'Ho'
+        num = 67;
+        
+    case 'Er'
+        num = 68;
+        
+    case 'Tm'
+        num = 69;
+        
     case 'Yb'
         num = 70;
+        
+    case 'Lu'
+        num = 71;
         
     case 'Hf'
         num = 72;
@@ -210,17 +246,119 @@ switch Z
     case 'Hg'
         num = 80;
         
+    case 'Tl'
+        num = 81;
+        
     case 'Pb'
         num = 82;
         
     case 'Bi'
         num = 83;
         
+    case 'Po'
+        num = 84;
+        
+    case 'At'
+        num = 85;
+        
+    case 'Rn'
+        num = 86;
+        
+    case 'Fr'
+        num = 87;
+        
+    case 'Ra'
+        num = 88;
+        
+    case 'Ac'
+        num = 89;
+        
     case 'Th'
         num = 90;
         
+    case 'Pa'
+        num = 91;
+        
     case 'U'
         num = 92;
+        
+    case 'Np'
+        num = 93;
+        
+    case 'Pu'
+        num = 94;
+        
+    case 'Am'
+        num = 95;
+        
+    case 'Cm'
+        num = 96;
+        
+    case 'Bk'
+        num = 97;
+        
+    case 'Cf'
+        num = 98;
+        
+    case 'Es'
+        num = 99;
+        
+    case 'Fm'
+        num = 100;
+        
+    case 'Md'
+        num = 101;
+        
+    case 'No'
+        num = 102;
+        
+    case 'Lr'
+        num = 103;
+        
+    case 'Rf'
+        num = 104;
+        
+    case 'Db'
+        num = 105;
+        
+    case 'Sg'
+        num = 106;
+        
+    case 'Bh'
+        num = 107;
+        
+    case 'Hs'
+        num = 108;
+        
+    case 'Mt'
+        num = 109;
+        
+    case 'Ds'
+        num = 110;
+        
+    case 'Rg'
+        num = 111;
+        
+    case 'Uub'
+        num = 112;
+        
+    case 'Uzt'
+        num = 113;
+        
+    case 'Uuq'
+        num = 114;
+        
+    case 'Uup'
+        num = 115;
+        
+    case 'Uuh'
+        num = 116;
+        
+    case 'Uus'
+        num = 117;
+        
+    case 'Uuo'
+        num = 118;
         
     otherwise
         num = 0;
