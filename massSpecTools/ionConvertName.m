@@ -143,7 +143,7 @@ if iscategorical(varargin{1})
     
     numAtom = length(element);
     for at = 1:numAtom
-        atomicNumber(at,:) = number4sym(char(element(at)));
+        atomicNumber(at,:) = elementAtomicNumber(char(element(at)));
     end
     ionTable = table(element,atomicNumber);
     

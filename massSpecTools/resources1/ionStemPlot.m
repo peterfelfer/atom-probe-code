@@ -4,7 +4,7 @@ function h = ionStemPlot(ax, weight, abundance, ionList, chargeStates, colorSche
 
 
 % generate ion name
-ion = convertIonName(ionList{1}.element);
+ion = ionConvertName(ionList{1}.element);
 
 h = stem(ax,weight, abundance);
 try
