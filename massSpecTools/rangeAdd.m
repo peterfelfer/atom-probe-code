@@ -137,25 +137,25 @@ end
     % manual input
 if isempty(potentialIon) 
     txt = inputdlg('manually enter range name','ion selection',[1 40]);
-    [ion, chargeState] = ionConvertNameTable(txt{1});
+    [ion, chargeState] = ionConvertName(txt{1});
     h.UserData.ion = ion;
     h.UserData.chargeState = chargeState;
-    h.DisplayName = ionConvertNameTable(h.UserData.ion,h.UserData.chargeState);
-    h.FaceColor = colorScheme.color(colorScheme.ion == ionConvertNameTable(h.UserData.ion.element),:);
+    h.DisplayName = ionConvertName(h.UserData.ion,h.UserData.chargeState);
+    h.FaceColor = colorScheme.color(colorScheme.ion == ionConvertName(h.UserData.ion.element),:);
     
     
     % clear choice
 elseif length(potentialIon) == 1
     h.UserData.ion = potentialIon{1};
     h.UserData.chargeState = potentialIonChargeState(1);
-    h.DisplayName = ionConvertNameTable(h.UserData.ion,h.UserData.chargeState);
-    h.FaceColor = colorScheme.color(colorScheme.ion == ionConvertNameTable(h.UserData.ion.element),:);
+    h.DisplayName = ionConvertName(h.UserData.ion,h.UserData.chargeState);
+    h.FaceColor = colorScheme.color(colorScheme.ion == ionConvertName(h.UserData.ion.element),:);
     
        
 else % selection
     numPotIon = length(potentialIon);
     for i = 1:numPotIon
-        names{i} = [ionConvertNameTable(potentialIon{i}, potentialIonChargeState(i)) '   ' num2str(potentialIonPeakHeight(i))];
+        names{i} = [ionConvertName(potentialIon{i}, potentialIonChargeState(i)) '   ' num2str(potentialIonPeakHeight(i))];
     end
     % select the ion, defaulting to most abundant
     [idx, isSelection] = listdlg('ListString',names,'PromptString','Select ion species','SelectionMode','single',...
@@ -168,7 +168,7 @@ else % selection
     
     h.UserData.ion = potentialIon{idx};
     h.UserData.chargeState = potentialIonChargeState(idx);
-    h.DisplayName = ionConvertNameTable(h.UserData.ion,h.UserData.chargeState);
+    h.DisplayName = ionConvertName(h.UserData.ion,h.UserData.chargeState);
     h.FaceColor = colorScheme.color(colorScheme.ion == h.UserData.ion.element(1),:);%XXXXXfix
 end
 
@@ -176,9 +176,9 @@ end
 h.UserData.hitMultiplicities = [0 Inf];
 
 % add text to denote range
-txt = text(h.XData(1),max(h.YData)*1.4,ionConvertNameTable(h.UserData.ion,h.UserData.chargeState,'LaTeX'),'clipping','on');
+txt = text(h.XData(1),max(h.YData)*1.4,ionConvertName(h.UserData.ion,h.UserData.chargeState,'LaTeX'),'clipping','on');
 txt.UserData.plotType = "text";
-txt.DisplayName = ionConvertNameTable(h.UserData.ion,h.UserData.chargeState,'plain');
+txt.DisplayName = ionConvertName(h.UserData.ion,h.UserData.chargeState,'plain');
 
 % delete function for ion text and corresponding range
 h.DeleteFcn = @(~,~) delete(txt);
