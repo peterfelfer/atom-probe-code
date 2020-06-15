@@ -1,35 +1,63 @@
-function varargout = convertIonName(varargin)
-%converts an ion name to a table variable and reverse
-%formats:
+function varargout = ionConvertName(varargin)
+% ionConvertNameTable converts an ion name to a table variable and reverse.
+% As input parameters, also categorical or an array of elements is
+% possible.
 %
-%name:
-% (isotope element count) x N chargestate e.g.   '56Fe2 16O3 ++'
-% (element count) x N chargestate                'Fe2 O3 ++'
-% (element count) x N                            'Fe2 O3'
-% individual nucleides will be sorted by atomic number descending e.g. 'O H2'
-% use:
-% ionTable = convertIonName(ionName);
-% [ionTable chargeState] = convertIonName(ionName);
+% Create ionTable
+% ionTable = ionConvertName(ionName);
+% [ionTable chargeState] = ionConvertName(ionName);
 %
-%table:
-% element isotope x N
-% use:
-% ionName = convertIonName(ionTable,chargeState,format);
-% ionName = convertIonName(ionTable,chargeState);
-% ionName = convertIonName(ionTable,NaN,format);
-% ionName = convertIonName(ionTable);
-% format can be 'plain' or 'LaTeX'
+% Create ionName
+% table:
+%   ionName = ionConvertName(ionTable,chargeState,format);
+%   ionName = ionConvertName(ionTable,chargeState);
+%   ionName = ionConvertName(ionTable,NaN,format);
+%   ionName = ionConvertName(ionTable);
+% categorical:
+%   ionName = ionConvertName(ionCategorical,chargeState,format);
+%   ionName = ionConvertName(ionCategorical,chargeState);
+%   ionName = ionConvertName(ionCategorical)
+% array:
+%   ionName = ionConvertName(ionArray,chargeState,format,isotopeTable);
 %
-%categorical;
-% ionName = convertIonName(ionCategorical,chargeState,format);
-% ionName = convertIonName(ionCategorical,chargeState);
-% ionName = convertIonName(ionCategorical)
-% format can be 'plain' or 'LaTeX'
+% INPUT/OUTPUT:
 %
-%array
-%[element, isotope; element, isotope;....]
-% ionName = convertIonName(ionArray, chargeState, format); %% MISSING
-% IMPLEMENTATION
+% ionName: Name of the ion
+%   (isotope element count) x N chargestate        '56Fe2 16O3 ++' 
+%   (element count) x N chargestate                'Fe2 O3 ++'
+%   (element count) x N                            'Fe2 O3'
+%   individual nucleides will be sorted by atomic number descending e.g. 'O H2'
+% ionTable: Table that contains the element and the isotope
+% ionCategorical: ion table that is stored as an categorical array
+% ionArray: Matrix of element and isotope number e.g. Fe2O3 = [26,56;26,56;8,16;8,16;8,16;];
+% chargeState: is the charge State of the ion 
+% NaN: if no chargeState is parsed
+% format: can be 'plain' or 'LaTeX'
+% isotopeTable: Table with all isotopes
+
+%% converstion from array to table. The new table is saved as an input 
+%% argument and is converted to ionName as a normal table
+
+% check for input as an array 
+if ismatrix(varargin{1}) & ~istable(varargin{1}) & ~iscategorical(varargin{1}) & ~ischar(varargin{1})
+   %check for isotopeTable as an input variable
+   if nargin == 4 & istable(varargin{4})
+    ionArray = varargin{1};
+    isotopeTable = varargin{4};
+    % create element List
+    for j = 1:length(ionArray)
+        isotopeName = isotopeTable.element(isotopeTable.atomicNumber==ionArray(j,1));
+        element(j,1) = isotopeName(1,1);
+    end
+    % create isotope List
+    isotope = ionArray(:,2);
+    % create ionTable with element and isotope
+    ionTable = table(element, isotope);
+    varargin{1} = ionTable;
+   else
+       error('no isotopeTable is parsed');
+   end
+end
 
 %% conversion from table to name
 if istable(varargin{1})
@@ -43,9 +71,9 @@ if istable(varargin{1})
     % add atomic number to table
     numAtom = height(ionTable);
     for at = 1:numAtom
-        atomicNumber(at) = number4sym(char(ionTable.element(at)));
+        atomicNumber(at,:) = number4sym(char(ionTable.element(at)));
     end
-    ionTable = addvars(ionTable, atomicNumber','NewVariableNames','atomicNumber');
+    ionTable = addvars(ionTable, atomicNumber,'NewVariableNames','atomicNumber');
     
     % sort by atomic number descending
     ionTable = sortrows(ionTable,{'atomicNumber','isotope'},{'descend','descend'},'MissingPlacement','first');
@@ -83,6 +111,7 @@ if istable(varargin{1})
     if nargin > 1
         chargeState = varargin{2};
         if ~isnan(chargeState) %NaN for undefined chargestate, e.g. in noise
+            ionName = [ionName ' '];
             if chargeState < 0
                 sym = '-';
             else

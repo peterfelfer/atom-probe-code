@@ -7,9 +7,9 @@ function ionList = createComplexIons(baseNucleides, complexNucleides, complexity
 
 if complexity == 1
     
-    ionList.ionSpecies = [baseNucleides(:,1:2); complexNucleides(1:2)];
+    ionList.ionSpecies = [baseNucleides(:,1:2); complexNucleides(:,1:2)];
     ionList.mass = [baseNucleides(:,3); complexNucleides(:,3)];
-    ionList.relativeAbundance = [baseNucleides(:,4); baseNucleides(:,4)];
+    ionList.relativeAbundance = [baseNucleides(:,4); complexNucleides(:,4)];
         
     %sorting after element and isotope
     

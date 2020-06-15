@@ -61,25 +61,25 @@ end
 %nucleides = nucleideList;
 
 if ~strcmp(elements,'all')
-    nucleides = isotopeTable(ismember(isotopeTable.element{'Fe'}),:);%XXXXXXX
-end
-
+    nucleides = [];
+    for j = 1:length(elements)
+        nucleides = [nucleides; isotopeTable([isotopeTable.atomicNumber==elements(j,1)],:)]; 
+    end
+end 
 
 
 %% create list of complex ions
+
 if exist('maxComplexity','var')
+
+if exist('complexFormers','var')
+
+    complexNucleides = isotopeTable;
+    complexNucleidesUsed = [];
+    for element = 1:length(complexFormers) 
+            complexNucleidesUsed = [complexNucleidesUsed; complexNucleides([complexNucleides.atomicNumber == complexFormers(element,1)],:)];
+    end
     
-    if exist('complexFormers','var')
-        
-        
-        
-        complexNucleides = nucleideList;
-        
-        complexNucleidesUsed = [];
-        for element = 1:length(complexFormers)
-            complexNucleidesUsed = [complexNucleidesUsed; complexNucleides(complexNucleides(:,1) == complexFormers(element),:)];
-        end
-        
         complexNucleides = complexNucleidesUsed;
         
         
@@ -88,10 +88,7 @@ if exist('maxComplexity','var')
         complexNucleides = nucleides;
         
         
-    end
-    
-    
-    
+end    
     %% based on the list 'complexNucleides', the complex ions are
     %% calculated this list includes the element list and the list of
     %% complex forming ions. This mean ions are formed by nucleides from
@@ -120,7 +117,6 @@ if exist('maxComplexity','var')
     [uniqueIons idx idxOld] = unique(uniqueIons,'rows');
     
     tempIonID = idxOld;
-    
     
 end
 
