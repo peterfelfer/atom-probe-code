@@ -71,7 +71,7 @@ if istable(varargin{1})
     % add atomic number to table
     numAtom = height(ionTable);
     for at = 1:numAtom
-        atomicNumber(at,:) = number4sym(char(ionTable.element(at)));
+        atomicNumber(at,:) = elementAtomicNumber(char(ionTable.element(at)));
     end
     ionTable = addvars(ionTable, atomicNumber,'NewVariableNames','atomicNumber');
     
