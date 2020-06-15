@@ -78,8 +78,8 @@ for pl = 1:numPlots
     % element: 'Fe'
     % elemental isotope: '56Fe'
     % ion: 'Fe+' or 'Fe' if pos variable is not decomposed
-    [ionTable, ionChargeState] = ionConvertNameTable(species{pl});
-    displayName = ionConvertNameTable(ionTable, ionChargeState, 'LaTeX');
+    [ionTable, ionChargeState] = ionConvertName(species{pl});
+    displayName = ionConvertName(ionTable, ionChargeState, 'LaTeX');
     
     % finds chemical elements
     if any(isnan(ionTable.isotope)) & isDecomposed & isnan(ionChargeState) & height(ionTable) == 1
@@ -92,23 +92,23 @@ for pl = 1:numPlots
         if height(ionTable) > 1
             error('plotting of ions based on isotopic information not currently supported');
         end
-        speciesIdx = find(pos.atom == ionConvertNameTable(ionTable.element) & pos.isotope == ionTable.isotope);
-        color = colorScheme.color(colorScheme.ion == ionConvertNameTable(ionTable.element),:);
+        speciesIdx = find(pos.atom == ionConvertName(ionTable.element) & pos.isotope == ionTable.isotope);
+        color = colorScheme.color(colorScheme.ion == ionConvertName(ionTable.element),:);
         
     elseif ~any(isnan(ionTable.isotope)) & ~isnan(ionChargeState)
         error('plotting of ions based on isotopic information not currently supported');
     
     % finds specific ions with charge state
     elseif ~isnan(ionChargeState)
-        speciesIdx = find(pos.ion == ionConvertNameTable(ionTable.element) & pos.chargeState == ionChargeState);
-        color = colorScheme.color(colorScheme.ion == ionConvertNameTable(ionTable.element),:);
+        speciesIdx = find(pos.ion == ionConvertName(ionTable.element) & pos.chargeState == ionChargeState);
+        color = colorScheme.color(colorScheme.ion == ionConvertName(ionTable.element),:);
     % finds specific ions without chargestate
     else
-        speciesIdx = find(pos.ion == ionConvertNameTable(ionTable.element));
+        speciesIdx = find(pos.ion == ionConvertName(ionTable.element));
         if height(ionTable) == 1
             displayName = [displayName ' (ion)'];
         end
-        color = colorScheme.color(colorScheme.ion == ionConvertNameTable(ionTable.element),:);
+        color = colorScheme.color(colorScheme.ion == ionConvertName(ionTable.element),:);
     end
     
     
