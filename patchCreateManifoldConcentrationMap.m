@@ -15,8 +15,8 @@ end
 
 
 % variables needed
-pos = pos(:,1:3);
-parentPos = parentPos(:,1:3);
+pos = [pos.x, pos.y, pos.z];
+parentPos = [parentPos.x, parentPos.y, parentPos.z];
 normals = patchnormals(fv);
 
 
@@ -24,11 +24,11 @@ normals = patchnormals(fv);
 %% calculate per vertex count atoms
 % calculate which vertex is closest to an atom
 closest = dsearchn(fv.vertices,pos);
-distVec = pos(:,1:3) - fv.vertices(closest,:);
+distVec = [pos.x, pos.y, pos.z] - fv.vertices(closest,:);
 dist = sum(normals(closest,:) .* distVec,2);
 
 closestP = dsearchn(fv.vertices,parentPos);
-distVecP = parentPos(:,1:3) - fv.vertices(closestP,:);
+distVecP = [parentPos.x, parentPos.y, parentPos.z] - fv.vertices(closestP,:);
 distP = sum(normals(closestP,:) .* distVecP,2);
 
 % clip by distance
