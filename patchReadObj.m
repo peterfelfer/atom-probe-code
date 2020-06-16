@@ -13,11 +13,11 @@ function obj = patchReadObj(fullfilename)
 %
 % OUTPUT:
 %   obj: structure with vertices and objects fields; obj.objects itself is
-%   a structure consisting of field of type and field of vertices
+%   a structure consisting of a field of type and a field of vertices
 %
 % hints: the 'vertices' of the sub-structure obj.objects are the numbers of the vertices,
 % which generate the triangulated faces (fv.faces = obj.objects{1}.vertices). 
-% The 'vertices' of the OUTPUT are the vertices of the patch.
+% The 'vertices' of the OUTPUT are the vertices of the patch fv.
 
 
 if ~exist('fullfilename','var')
