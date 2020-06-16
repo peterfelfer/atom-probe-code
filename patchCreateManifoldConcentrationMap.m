@@ -1,4 +1,4 @@
-function map = pseudo2DconcMap(pos,parentPos,fv,d)
+function map = patchCreateManifoldConcentrationMap(pos,parentPos,fv,d)
 % calculates a pseudo-2D concentration map for a species pos in an atom
 % probe dataset parPos
 % its like a 2D concentration profile, but for general manifolds and is
