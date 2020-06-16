@@ -1,21 +1,11 @@
 function patchCreateExcessValue(pos,parentPos,interface,vertices)
 % calculates the average interfacial excess for an interface with an
 % interactive interface for the interfacial excess determination
-% 
 % reads a pos file (with x, y, and z) and a vertex file (with x, y, and z)
-% and assigns every atom to the closest vertex.
-%
-% 
-% vap: m y z mc vert# disttovert distalongnormal( or to line element)
-% shiftdistance
-% vertex: x y z obj# nx ny nz d A(or l)
-%
-%
+% and assigns every atom to the closest vertex
 %
 % patchCreateExcessValue(pos,parentPos,interface)
 % patchCreateExcessValue(pos,parentPos,interface,vertices)
-%
-% 
 %
 % INPUTS:
 %   pos: table, pos file of the atom species, of which a interfacial excess 
