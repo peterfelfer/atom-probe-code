@@ -3,9 +3,10 @@ function massSpecSaxeyPlot(mc,multi)
 % mass-to-charge values mc and the hit multiplicity multi. For a 2D
 % diagram, only multiplicities of 2 are considered.
 %
-% INPUTS:   mc: column of mass-to-charge values, e.g., epos.mc 
+% INPUTS:   
+%   mc: column of mass-to-charge values, e.g., epos.mc 
 %           
-%           multi: hit multiplicity values, e.g., epos.multi
+%   multi: hit multiplicity values, e.g., epos.multi
 %
 % OUTPUTS: no outputs allowed
 
@@ -15,14 +16,6 @@ if ~ isempty(multi == 0)
     multi = convertMultiplicity(multi);
     disp('zeros were removed from hit multiplicity');
 end
-
-% automatically takes the 4th column if a pos file or epos file is parsed
-if ~exist('mc', 'var')
-        if length(mc(1,:) > 1)
-        mc = mc(:,4);
-        end
-end
-
 
 idx = multi == 2;
 
