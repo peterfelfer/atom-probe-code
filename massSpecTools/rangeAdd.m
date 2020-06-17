@@ -15,7 +15,7 @@ function [h, txt] = rangeAdd(spec,colorScheme)
 % gets abborted
 %
 % if the new range partially overlaps with an existing range, the new range
-% gets clipped to the adjacent range% 
+% gets clipped to the adjacent range
 %
 % if no inserted ion is located within the range, the user can manually enter a
 % range name (must be an ion, which is included in colorScheme) in a pop-up window
@@ -34,7 +34,7 @@ function [h, txt] = rangeAdd(spec,colorScheme)
 % OUTPUTS: h, handle to the area plot of the range
 %          txt, corresponding text
 
-% set current axes
+%% set current axes
 ax = spec.Parent;
 axes(ax);
 
@@ -157,9 +157,11 @@ else % selection
     for i = 1:numPotIon
         names{i} = [ionConvertName(potentialIon{i}, potentialIonChargeState(i)) '   ' num2str(potentialIonPeakHeight(i))];
     end
-    % select the ion, defaulting to most abundant
-    [idx, isSelection] = listdlg('ListString',names,'PromptString','Select ion species','SelectionMode','single',...
-        'InitialValue',find(potentialIonPeakHeight == max(potentialIonPeakHeight)));
+    
+     % select the ion, defaulting to most abundant
+     [~, maxIdx] = max(potentialIonPeakHeight);
+     [idx, isSelection] = listdlg('ListString',names,'PromptString','Select ion species','SelectionMode','single',...
+     'InitialValue',maxIdx);
     
     if ~isSelection
         delete(h);
@@ -169,7 +171,7 @@ else % selection
     h.UserData.ion = potentialIon{idx};
     h.UserData.chargeState = potentialIonChargeState(idx);
     h.DisplayName = ionConvertName(h.UserData.ion,h.UserData.chargeState);
-    h.FaceColor = colorScheme.color(colorScheme.ion == h.UserData.ion.element(1),:);%XXXXXfix
+    h.FaceColor = colorScheme.color(colorScheme.ion == h.UserData.ion.element(1),:);
 end
 
 % define for all hit multiplicities
