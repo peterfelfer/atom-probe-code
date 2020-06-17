@@ -1,5 +1,35 @@
-function patch2ply(fv,vertColors,fileName,comment)
-
+function patchToPly(fv,vertColors,fileName,comment)
+% saves a patch to a ply file (polygon file format)
+%
+% patchToPly(fv);                
+%       opens a "Save *.ply file to" window
+%
+% patchToPly(fv, vertColors);    
+%       opens a "Save *.ply file to" window
+%
+% patchToPly(fv, vertColors, 'filename.ply'); 
+%       saves filename.ply in current folder
+% 
+% patchToPly(fv, vertColors, 'filename.ply', 'comment');
+%       saves filename.ply in current folder, including a comment
+%
+% INPUTS:
+%   fv:          structure with faces (f) and vertices (v)
+%   
+%   vertColors:  represents color code for all vertices;
+%                must be a n-by-3 array with n = number of vertices 
+%                color code values must be all integers between 0 and 255
+%                or all values <1
+%   
+%   fileName:    desired filename, input as character array with .ply suffix
+%
+%   comment:     optional, inserts comment about values used as limits into ply
+%                input as character array
+%
+%
+% 
+%
+%
 if ~exist('fileName','var')
     [file path] = uiputfile('*.ply','Save *.ply file to');
     
@@ -32,7 +62,7 @@ if ~exist('vertColors','var') & ~exist('fv','var')
     vertColors = value2VertColor(vals,cmap,lim);
     
     comment = ['value min: ' num2str(min(vals),2) ' at/nm2 '...
-    'max: ' num2str(max(vals)) ' at/nm2']; %inserts comment about values used as limits into ply
+    'max: ' num2str(max(vals)) ' at/nm2']; % inserts comment about values used as limits into ply
     
     
 end
@@ -53,7 +83,7 @@ if exist('comment','var')
     header = [header comment '\n'];
 end
 
-%vertex properties
+% vertex properties
 
 header = [header 'element vertex ' num2str(numVerts) ' \n'];
 header = [header 'property float x \nproperty float y \nproperty float z \n'];
@@ -61,10 +91,13 @@ header = [header 'property float x \nproperty float y \nproperty float z \n'];
 if exist('vertColors','var')
     header = [header 'property uchar red \nproperty uchar green \nproperty uchar blue \n'];
     
-    %vertex colors are from 0 - 255
+    % vertex colors are from 0 - 255
     
     if max(vertColors)<=1
         vertColors = round(vertColors* 255);
+    end
+    if max(vertColors)>255
+        error('vertColors values exceed 255')
     end
     
     
