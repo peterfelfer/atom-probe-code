@@ -13,7 +13,8 @@ function massSpecReorderPlot(spec,order)
 %           informations are given order can contain follwoing types in any order:
 %           "text": the text in which the art of the ion is written.
 %           "ion": deshed line which shows exact position of element peak.
-%           "range": area of the peaks.
+%           "range": ranged area of the peaks.
+%           "background": background ranges for the mass spectrum
 %           "massSpectrum": the neutral massspectrum.
 %           "unknown": everything else.
 %           default order is
@@ -25,7 +26,7 @@ function massSpecReorderPlot(spec,order)
 
 
 if ~exist('order','var')
-    order = ["text","ion","range","massSpectrum","unknown"];
+    order = ["text","ion","range","background","massSpectrum","unknown"];
 end
 
 

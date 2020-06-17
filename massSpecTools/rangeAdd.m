@@ -1,4 +1,4 @@
-function [h, txt] = rangeAdd(spec,colorScheme)
+function [h, txt] = rangeAdd(spec,colorScheme,manualName)
 % adds a range to a mass spectrum using graphical input
 % output is the handle to the area plot and the corresponding text
 % 
@@ -31,6 +31,9 @@ function [h, txt] = rangeAdd(spec,colorScheme)
 %
 %         colorScheme, table with elements assigned to color code
 %
+%         manualName, name of range if no ion is defined, follwing keywords
+%         are possible: 'background'. This defines a background range
+%
 % OUTPUTS: h, handle to the area plot of the range
 %          txt, corresponding text
 
@@ -42,6 +45,12 @@ axes(ax);
 lim = ginput(2);
 lim = lim(:,1);
 lim = sort(lim);
+
+%% check for manual range name input
+isManual = exist('manualName','var'); % is a manual name present?
+if isManual
+    isBackground = strcmp(manualName,'background'); % is it a background range?
+end
 
 %% check for overlap with already existing peak range
 plots = spec.Parent.Children;
@@ -96,7 +105,31 @@ end
 isIn = (spec.XData > lim(1)) & (spec.XData < lim(2));
 h = area(spec.XData(isIn),spec.YData(isIn));
 h.FaceColor = [1 1 1];
-h.UserData.plotType = "range";
+h.UserData.plotType = "range"; %is overwritten for background ranges
+
+% take care of manual ranges
+if isManual & ~isBackground
+        [ion, chargeState] = ionConvertName(manualName);
+        if ~isnan(chargeState)
+            h.UserData.ion = ion;
+            h.UserData.chargeState = chargeState;
+            h.DisplayName = ionConvertName(h.UserData.ion,h.UserData.chargeState);
+            h.FaceColor = colorScheme.color(colorScheme.ion == ionConvertName(h.UserData.ion.element),:);
+        else
+            h.UserData.ion = manualName;
+            h.UserData.chargeState = NaN;
+            h.DisplayName = manualName;
+            h.FaceColor = colorScheme.color(colorScheme.ion == manualName,:);
+        end
+    
+elseif isManual & isBackground
+    h.UserData.plotType = "background";
+    h.DisplayName = "background";
+    h.FaceColor = colorScheme.color(colorScheme.ion == 'background',:);
+end
+
+
+
 
 %% search for ions in mass spectrum plot
 plots = ax.Children;
@@ -135,28 +168,19 @@ end
 %% select which ion it is if necessary
 
     % manual input
-if isempty(potentialIon) 
-    txt = inputdlg('manually enter range name','ion selection',[1 40]);
-    if isempty(txt)
-        delete(h);
-        return
-    end
-    [ion, chargeState] = ionConvertName(txt{1});
-    h.UserData.ion = ion;
-    h.UserData.chargeState = chargeState;
-    h.DisplayName = ionConvertName(h.UserData.ion,h.UserData.chargeState);
-    h.FaceColor = colorScheme.color(colorScheme.ion == ionConvertName(h.UserData.ion.element),:);
+if isempty(potentialIon) & ~isManual
+    error('no ion defined in this range: provide name manually');
     
     
     % clear choice
-elseif length(potentialIon) == 1
+elseif length(potentialIon) == 1 & ~isManual
     h.UserData.ion = potentialIon{1};
     h.UserData.chargeState = potentialIonChargeState(1);
     h.DisplayName = ionConvertName(h.UserData.ion,h.UserData.chargeState);
     h.FaceColor = colorScheme.color(colorScheme.ion == ionConvertName(h.UserData.ion.element),:);
     
        
-else % selection
+elseif ~isManual % selection
     numPotIon = length(potentialIon);
     for i = 1:numPotIon
         names{i} = [ionConvertName(potentialIon{i}, potentialIonChargeState(i)) '   ' num2str(potentialIonPeakHeight(i))];
@@ -181,10 +205,19 @@ end
 % define for all hit multiplicities
 h.UserData.hitMultiplicities = [0 Inf];
 
-% add text to denote range
-txt = text(h.XData(1),max(h.YData)*1.4,ionConvertName(h.UserData.ion,h.UserData.chargeState,'LaTeX'),'clipping','on');
-txt.UserData.plotType = "text";
-txt.DisplayName = ionConvertName(h.UserData.ion,h.UserData.chargeState,'plain');
+% add text to denote range if its not a background range
+if ~isBackground
+    if isManual
+        txt = text(h.XData(1),max(h.YData)*1.4,manualName,'clipping','on');
+        txt.DisplayName = manualName;
+    else
+        txt = text(h.XData(1),max(h.YData)*1.4,ionConvertName(h.UserData.ion,h.UserData.chargeState,'LaTeX'),'clipping','on');
+        txt.DisplayName = ionConvertName(h.UserData.ion,h.UserData.chargeState,'plain');
+    end
+    txt.UserData.plotType = "text";
 
-% delete function for ion text and corresponding range
-h.DeleteFcn = @(~,~) delete(txt);
+
+    % delete function for ion text and corresponding range
+    h.DeleteFcn = @(~,~) delete(txt);
+end
+    
