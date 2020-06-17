@@ -6,13 +6,15 @@ function pos = posToTable(fileName)
 % pos = posToTable()
 %
 % INPUT
-% fileName: is the Name of the .pos or .epos file, it is optional. 
+% fileName: is the name of the .pos or .epos file, it is optional. 
 %           A dialog box will pop up if no file name is given.
 % 
 % OUTPUT
 % pos: is the variable that contains the entire data from the atom probe for further analysis,
 %       table
-
+%
+% hint: in case of an epos file as input, be aware to select (*.epos) as
+%       displayed data type in the dialog box
 
 if ~exist('fileName','var')
     [file, path, idx] = uigetfile({'*.pos';'*.epos'},'Select a pos file');
@@ -85,8 +87,8 @@ elseif idx == 2
     pulse = pulse';
     
     pos = table(ionIdx,pos(:,1),pos(:,2),pos(:,3),pos(:,4),pos(:,5),pos(:,6),pos(:,7),pos(:,8),pos(:,9),pulse(:,1),pulse(:,2),(1:numAtoms)');
-    pos.Properties.VariableNames = {'ionIdx','x','y','z','mc','tof','VDC','VP','detx','dety','deltaP','multi'};
-    pos.Properties.VariableUnits = {'1','nm','nm','nm','Da','ns','V','V','mm','mm','1','1'};    
+    pos.Properties.VariableNames = {'ionIdx','x','y','z','mc','tof','VDC','VP','detx','dety','deltaP','multi','#atom'};
+    pos.Properties.VariableUnits = {'1','nm','nm','nm','Da','ns','V','V','mm','mm','1','1','1'};    
     
 end
 
