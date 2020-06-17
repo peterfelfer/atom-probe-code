@@ -1,7 +1,8 @@
 function rangeEdit(range,mcbegin,mcend)
 % edits range boundaries 
 % 
-% rangeEdit(gco,mcbegin,mcend) changes range boundaries of selected range 
+% rangeEdit(gco,mcbegin,mcend) 
+% changes range boundaries of selected range 
 % according to input values for mcbegin und mcend
 %
 % rangeEdit() or rangeEdit(gco) uses current selected object in the mass spectrum
