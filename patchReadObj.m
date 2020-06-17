@@ -1,4 +1,23 @@
-function obj = read_wobj_v2(fullfilename)
+function obj = patchReadObj(fullfilename)
+% obj = patchReadObj(fullfilename) opens a wavefront .obj file and 
+% converts it into a structure with vertices and objects.
+%
+% obj = patchReadObj(fullfilename)
+%
+% obj = patchReadObj()
+% A selection window pops up and an .obj file must be selected.
+%
+% INPUT:
+%   fullfilename: full name of the .obj file as a string ('example.obj').
+%   The file must be located in the Current Folder.
+%
+% OUTPUT:
+%   obj: structure with vertices and objects fields; obj.objects itself is
+%   a structure consisting of a field of type and a field of vertices
+%
+% hints: the 'vertices' of the sub-structure obj.objects are the numbers of the vertices,
+% which generate the triangulated faces (fv.faces = obj.objects{1}.vertices). 
+% The 'vertices' of the OUTPUT are the vertices of the patch fv.
 
 
 if ~exist('fullfilename','var')
