@@ -1,9 +1,20 @@
 function map = patchCreateManifoldConcentrationMap(pos,parentPos,fv,d)
 % calculates a pseudo-2D concentration map for a species pos in an atom
-% probe dataset parPos
+% probe dataset parentPos
 % its like a 2D concentration profile, but for general manifolds and is
 % calculated within a clipping distance d. If d is a 2 part vector its from
-%d(1) to d(2)
+% d(1) to d(2)
+% 
+% map = patchCreateManifoldConcentrationMap(pos,parentPos,fv,d)
+%
+% INPUT
+% pos: pos file that only contains interesting points
+% parentPos: complete atom probe dataset
+% fv: faces and vertices on which the conentrationmap is based
+% d: clipping distance in which the concentrationmap will be calculated
+% 
+% OUTPUT
+% handle to the pseudo-2D concentration map
 
 numVerts = length(fv.vertices);
 
