@@ -137,6 +137,10 @@ end
     % manual input
 if isempty(potentialIon) 
     txt = inputdlg('manually enter range name','ion selection',[1 40]);
+    if isempty(txt)
+        delete(h);
+        return
+    end
     [ion, chargeState] = ionConvertName(txt{1});
     h.UserData.ion = ion;
     h.UserData.chargeState = chargeState;
