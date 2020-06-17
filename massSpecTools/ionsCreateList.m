@@ -23,10 +23,10 @@ for i = 1:length(ions)
     isotope = ionList.ionSpecies{i}(:,2);
     ions{i} = table(element,isotope); 
     
-    ion{i} = convertIonName(ions{i}.element);
-    ionIsotopic{i} = convertIonName(ions{i},ionList.chargeState(i));
+    ion{i} = ionConvertName(ions{i}.element);
+    ionIsotopic{i} = ionConvertName(ions{i},ionList.chargeState(i));
     mc(i,:) = ionWeight(ions{i},isotopeTable,ionList.chargeState(i));
-    ionLaTeX{i} = convertIonName(ions{i},ionList.chargeState(i), 'LaTeX');
+    ionLaTeX{i} = ionConvertName(ions{i},ionList.chargeState(i), 'LaTeX');
 end
 
 ion = categorical(ion);
