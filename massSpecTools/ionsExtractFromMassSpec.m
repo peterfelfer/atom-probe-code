@@ -1,7 +1,3 @@
-% function worked properly, however after changing the function name
-% of "convertIonName" to the correct name "ionConvertNameTable" (line 33),
-% function does not work as long as ionConvertNameTable is not updated
-
 function ionTable = ionsExtractFromMassSpec(spec)
 % pulls all ions and corresponding information from a mass spectrum plot
 % gets all plots connected to the mass spectrum
@@ -11,7 +7,6 @@ function ionTable = ionsExtractFromMassSpec(spec)
 %
 % OUTPUT: ionTable, table with allocated ions and additional information
 %         (charge state, corresponding color code)
-%
 
 plots = spec.Parent.Children;
 
