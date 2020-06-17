@@ -1,6 +1,10 @@
 function [vox gridVec]= point2voxel(pos,bin,gridVec)
 % voxelisation of point cloud, binwidth bin, or gridvector gridVec
 
+if istable(pos)
+    pos = [pos.x, pos.y, pos.z];
+end
+
 % only coordinates
 pos = pos(:,1:3);
 

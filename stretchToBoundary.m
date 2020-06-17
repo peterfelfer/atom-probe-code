@@ -1,7 +1,7 @@
 function fv = stretchToBoundary(fv,boundary)
 %stretches the boundary of a mesh to a specified boundary mesh
 
-debug = false;
+DEBUG = false;
 
 addpath('patch_normals');
 addpath('TriangleRayIntersection');
@@ -23,7 +23,7 @@ cnt =  accumarray(c,1);
 bndEdg = ed(cnt == 1,:);
 bndVerts = unique(bndEdg);
 
-if false
+if DEBUG
     figure('Name','boundary');
     plot3(fv.vertices(bndVerts,1),fv.vertices(bndVerts,2),fv.vertices(bndVerts,3),'ok');
     axis equal;
@@ -66,7 +66,7 @@ end
 axisVec = axisVec./ repmat(sqrt(sum(axisVec.^2,2)),[1,3]);
 
 
-if false
+if DEBUG
     hold on;
     quiver3(fv.vertices(bndVerts,1),fv.vertices(bndVerts,2),fv.vertices(bndVerts,3),...
         axisVec(:,1),axisVec(:,2),axisVec(:,3));
@@ -103,7 +103,7 @@ end
 % final shift
 fv.vertices(bndVerts,:) = fv.vertices(bndVerts,:) + axisVec .* repmat(shiftVec', [1, 3]);
 
-if debug
+if DEBUG
     figure('Name','stretched mesh');
     patch(fv,'FaceColor',[0 1 1],'FaceAlpha',.6); axis equal; rotate3d on;
     hold on

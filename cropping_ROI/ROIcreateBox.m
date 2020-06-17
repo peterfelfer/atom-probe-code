@@ -9,7 +9,7 @@ if not(exist('ax','var'))
 end
 
 % default location is [0, 0, 0]
-if ~exist('loc','var')
+if ~exist('location','var')
     location = [0, 0, 0];
 end
 
