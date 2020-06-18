@@ -7,7 +7,9 @@ function colorScheme = colorSchemeIonAdd(colorScheme, newIon, selection)
 %
 % INPUT
 % colorScheme = The existing colorScheme
-% newIon = Name of the newIon
+% newIon = Name of the newIon, if the ion already exists, the function will
+%           end and the command window shows "ion already exists in
+%           colorScheme"
 % selection = 'select' if you want to choose the color
 %               if nothing is parsed, the color is randomly generated
 % OUTPUT
@@ -24,7 +26,7 @@ ionAlreadyExist = false;
 
 for j = 1:length(1,1)
         if colorScheme.ion(j,1) == ionName(1,:)
-            disp ('ion already exist in colorScheme')
+            disp ('ion already exists in colorScheme')
             match = false; % don't start the color searching loop  
             ionAlreadyExist = true;
         else 
