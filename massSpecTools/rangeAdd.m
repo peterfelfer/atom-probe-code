@@ -115,13 +115,22 @@ if isManual & ~isBackground
             h.UserData.ion = ion;
             h.UserData.chargeState = chargeState;
             h.DisplayName = ionConvertName(h.UserData.ion,h.UserData.chargeState);
-            h.FaceColor = colorScheme.color(colorScheme.ion == ionConvertName(h.UserData.ion.element),:);
+            color = colorScheme.color(colorScheme.ion == ionConvertName(h.UserData.ion.element),:);
         else
             h.UserData.ion = manualName;
             h.UserData.chargeState = NaN;
             h.DisplayName = manualName;
-            h.FaceColor = colorScheme.color(colorScheme.ion == manualName,:);
+            color = colorScheme.color(colorScheme.ion == manualName,:);
         end
+        
+        if isempty(color)
+            name = h.DisplayName;
+            delete(h);
+            error(['color for atom/ion ' name ' undefined']);
+        end
+        
+        h.FaceColor = color;
+        
     
 elseif isManual & isBackground
     h.UserData.plotType = "background";

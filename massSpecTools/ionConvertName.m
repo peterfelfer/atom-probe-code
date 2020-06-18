@@ -93,7 +93,7 @@ if istable(varargin{1})
             if strcmp(format,'LaTeX')
                 ionName = [ionName '^{' num2str(ionTable.isotope(idx)) '}'];
             else
-                ionName = [ionName ' ' num2str(ionTable.isotope(idx))];
+                ionName = [ionName num2str(ionTable.isotope(idx))];
             end
         end
         
@@ -108,13 +108,14 @@ if istable(varargin{1})
                 ionName = [ionName num2str(sum(isotopeGroup == i))];
             end
         end
+        ionName = [ionName ' '];
     end
     
     % add + (or -) for chargestates to the name
     if nargin > 1
         chargeState = varargin{2};
         if ~isnan(chargeState) %NaN for undefined chargestate, e.g. in noise
-            ionName = [ionName ' '];
+            
             if chargeState < 0
                 sym = '-';
             else
