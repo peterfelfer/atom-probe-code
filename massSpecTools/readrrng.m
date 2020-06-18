@@ -59,7 +59,7 @@ for r = 1:numRng
         else
             % if range corresponds to a selected ion
             rng(r).atoms(i).atom = ion{1};
-            rng(r).atoms(i).atomicNumber = number4sym(ion{1});
+            rng(r).atoms(i).atomicNumber = symbolConvertAtomicNumber(ion{1});
             rng(r).atoms(i).count = str2num(ion{2});
             
             
