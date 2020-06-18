@@ -31,7 +31,7 @@ for pl = 1:length(plots)
             chargeState(idx,:) = plots(pl).UserData.chargeState;
         else
             rangeName{idx,:} = plots(pl).UserData.ion;
-            element = string(plots(pl).UserData.ion);
+            element = categorical(string(plots(pl).UserData.ion));
             isotope = NaN;
             ion{idx,:} = table(element,isotope);
             chargeState(idx,:) = NaN;

@@ -35,7 +35,7 @@ function varargout = ionConvertName(varargin)
 % format: can be 'plain' or 'LaTeX'
 % isotopeTable: Table with all isotopes
 
-%% converstion from array to table. The new table is saved as an input 
+%% conversion from array to table. The new table is saved as an input 
 %% argument and is converted to ionName as a normal table
 
 % check for input as an array 
@@ -71,8 +71,11 @@ if istable(varargin{1})
     % add atomic number to table
     numAtom = height(ionTable);
     for at = 1:numAtom
-        atomicNumber(at,:) = elementAtomicNumber(char(ionTable.element(at)));
+        atomicNumber(at,:) = symbolConvertAtomicNumber(char(ionTable.element(at)));
     end
+    % for unknown ions, NaNs are swapped for 0, to enable sorting
+    atomicNumber(isnan(atomicNumber)) = 0;
+    
     ionTable = addvars(ionTable, atomicNumber,'NewVariableNames','atomicNumber');
     
     % sort by atomic number descending
@@ -143,7 +146,7 @@ if iscategorical(varargin{1})
     
     numAtom = length(element);
     for at = 1:numAtom
-        atomicNumber(at,:) = elementAtomicNumber(char(element(at)));
+        atomicNumber(at,:) = symbolConvertAtomicNumber(char(element(at)));
     end
     ionTable = table(element,atomicNumber);
     
