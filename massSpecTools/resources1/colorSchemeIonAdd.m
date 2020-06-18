@@ -16,6 +16,9 @@ function colorScheme = colorSchemeIonAdd(colorScheme, newIon, selection)
 % colorScheme = the new colorScheme with the new ion added at the end of
 %               the table
 
+
+NCOLS = 10000; % number of random colors to be generated for farthest point sampling
+
 %% Check for ion name
 ionTable = ionConvertName(newIon); % Convert the name in the table format
 ionName = ionConvertName(ionTable); % make the correct name
@@ -50,7 +53,13 @@ while match == true
             color = uisetcolor(title);
         end
     else
-        color = rand(1,3); 
+        % generate new color from NCOLS number of randomly generated colors,
+        % by picking the one that is the farhtest from all existing colors
+        cols = rand(NCOLS,3);
+        dist = pdist2(colorScheme.color,cols,"euclidean");
+        md = min(dist,[],1);
+        [~, idx] = max(md);
+        color = cols(idx,:);
     end
     
     % check if color already exist and change the match variable 
