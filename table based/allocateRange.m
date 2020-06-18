@@ -76,9 +76,9 @@ elseif strcmp(options,'decompose')
     pos.atom = rngElements(linIdx);
     pos.isotope = rngIsotopes(linIdx);
     
-    % give all unranged an ion complexity of NaN
+    % give all unranged and unknown ions an ion complexity of NaN
     pos.ionComplexity = ionComplexity(mapVec);
-    pos.ionComplexity(isundefined(pos.ion)) = NaN;
+    pos.ionComplexity(isundefined(pos.ion) | isnan(pos.chargeState)) = NaN;
 end
 
 
