@@ -10,6 +10,8 @@ function rangeTable = rangesExtractFromMassSpec(spec)
 %
 plots = spec.Parent.Children;
 
+
+
 idx = 1;
 for pl = 1:length(plots)
     
@@ -23,13 +25,20 @@ for pl = 1:length(plots)
     if type == "range"
         mcbegin(idx,:) = plots(pl).XData(1);
         mcend(idx,:) = plots(pl).XData(end);
-        rangeName{idx,:} = ionConvertName(plots(pl).UserData.ion.element);
+        if istable(plots(pl).UserData.ion)
+            rangeName{idx,:} = ionConvertName(plots(pl).UserData.ion.element);
+            ion{idx,:} = plots(pl).UserData.ion;
+            chargeState(idx,:) = plots(pl).UserData.chargeState;
+        else
+            rangeName{idx,:} = plots(pl).UserData.ion;
+            element = string(plots(pl).UserData.ion);
+            isotope = NaN;
+            ion{idx,:} = table(element,isotope);
+            chargeState(idx,:) = NaN;
+        end
         volume(idx,:) = 0;
-        ion{idx,:} = plots(pl).UserData.ion;
         color(idx,:) = plots(pl).FaceColor;
-        chargeState(idx,:) = plots(pl).UserData.chargeState;
-        
-        
+
         idx = idx +1;
     end
     
