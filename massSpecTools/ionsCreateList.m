@@ -19,7 +19,7 @@ ionIsotopic = ions;
 ionLaTeX = ions;
 
 for i = 1:length(ions)
-    element = categorical(arrayfun(@(sym) atomicNumberToSymbol(sym), ionList.ionSpecies{i}(:,1), 'UniformOutput', false));
+    element = categorical(arrayfun(@(sym) symbolConvertAtomicNumber(sym), ionList.ionSpecies{i}(:,1), 'UniformOutput', false));
     isotope = ionList.ionSpecies{i}(:,2);
     ions{i} = table(element,isotope); 
     

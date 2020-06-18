@@ -82,7 +82,7 @@ if exist('complexFormers','var')
     if ischar(complexFormers)
         complexFormers = strread(complexFormers,'%s');
         for i=1:length(complexFormers)
-            complexFormers{i} = elementAtomicNumber(complexFormers{i});
+            complexFormers{i} = symbolConvertAtomicNumber(complexFormers{i});
         end
         
         complexFormers = cell2mat(complexFormers);
