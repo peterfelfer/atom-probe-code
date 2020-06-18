@@ -12,6 +12,8 @@ function symnum = symbolConvertAtomicNumber(input)
 % symnum: symbol of the element or atomic number of the element
 
 if exist('input','var')
+    
+    %% conversion from element symbol to atomic number
     if ischar(input)==1
         switch input
         case 'H'
@@ -365,9 +367,10 @@ if exist('input','var')
         case 'Uuo'
             symnum = 118;
             otherwise
-        symnum = 0;
-        disp([' element undefined!' symnum]);
+        symnum = NaN;
         end
+        
+        %% conversion from atomic number to element symbol
     elseif ischar(input)==0
         switch input
         case 1 
@@ -724,8 +727,7 @@ if exist('input','var')
         case 118
             symnum = 'Uuo'; 
         otherwise
-        symnum = 'undef';
-        disp(' symbol undefined!');
+        symnum = 'undefined';
         end
     end
 else
