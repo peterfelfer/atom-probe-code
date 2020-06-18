@@ -31,7 +31,7 @@ function [h, txt] = rangeAdd(spec,colorScheme,manualName)
 %
 %         colorScheme, table with elements assigned to color code
 %
-%         manualName, name of range if no ion is defined, follwing keywords
+%         manualName, name of range if no ion is defined, following keywords
 %         are possible: 'background'. This defines a background range
 %
 % OUTPUTS: h, handle to the area plot of the range
@@ -205,7 +205,11 @@ end
 % define for all hit multiplicities
 h.UserData.hitMultiplicities = [0 Inf];
 
-% add text to denote range if its not a background range
+% add text to denote range if it's not a background range
+if ~exist('Background','var');
+    isBackground = false;
+end
+
 if ~isBackground
     if isManual
         txt = text(h.XData(1),max(h.YData)*1.4,manualName,'clipping','on');
