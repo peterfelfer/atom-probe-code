@@ -11,12 +11,16 @@ function colorScheme = colorSchemeCreate(ionTable)
 % colorScheme:  table with ion field and corresponding color field
 
 %% determine values for Saturation (S) and Value (V) of the HSV color code
-S = 1.0;                % Saturation, value between 0 and 1 [1 means 100 %]
+% S = 1.0;                % Saturation, value between 0 and 1 [1 means 100 %]
 V = 1.0;                % Value, value between 0 and 1 [1 means 100 %]
 
 %% generate evenly spaced values for H
-ls = table(linspace(0, 0.8, height(ionTable)));     % value of 0 is equivalent to value of 1, therefore upper limit is set to 0.8
-ls.Properties.VariableNames{1} = 'Hue';
+lsH = table(linspace(0, 0.8, height(ionTable)));     % value of 0 is equivalent to value of 1, therefore upper limit is set to 0.8
+lsH.Properties.VariableNames{1} = 'Hue';
+
+%% generate evenly spaced values for S
+lsS = table(linspace(0, 1, height(ionTable))); 
+lsS.Properties.VariableNames{1} = 'Saturation';
 
 %% generate colorScheme table
 colorScheme = table('Size',[height(ionTable) 2],'VariableTypes',{'categorical','double'});
@@ -26,8 +30,8 @@ colorScheme.Properties.VariableNames{2} = 'color';
 %% fill colorScheme table with HSV values
 for i = 1:height(ionTable);
     colorScheme.ion(i) = ionTable.ion(i);
-    colorScheme.color(i,1) = ls.Hue(1,i);
-    colorScheme.color(i,2) = S;
+    colorScheme.color(i,1) = lsH.Hue(1,i);
+    colorScheme.color(i,2) = lsS.Saturation(1,i);
     colorScheme.color(i,3) = V;
 end
 
