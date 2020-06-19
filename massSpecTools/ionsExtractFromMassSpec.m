@@ -25,7 +25,7 @@ for pl = 1:length(plots)
     if type == "ion"
         ion{idx,:} = plots(pl).UserData.ion{1}.element; % do not extract isotope information
         chargeState(idx,:) = plots(pl).UserData.chargeState(1);
-        ionName{idx,:} = ionConvertNameTable(plots(pl).UserData.ion{1}.element);
+        ionName{idx,:} = ionConvertName(plots(pl).UserData.ion{1}.element);
         color(idx,:) = plots(pl).Color;
         
         idx = idx + 1;
