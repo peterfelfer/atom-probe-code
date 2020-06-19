@@ -19,7 +19,7 @@ lsH = table(linspace(0, 0.8, height(ionTable)));     % value of 0 is equivalent 
 lsH.Properties.VariableNames{1} = 'Hue';
 
 %% generate evenly spaced values for S
-lsS = table(linspace(0, 1, height(ionTable))); 
+lsS = table(linspace(0.2, 1, height(ionTable)));     % start value set to 0.2 so the color white cannot be generated
 lsS.Properties.VariableNames{1} = 'Saturation';
 
 %% generate colorScheme table
