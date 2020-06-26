@@ -22,6 +22,7 @@ for el = 1:numElements
     isoList{el} = isos.isotope(unique(sort(permn(1:height(isos),atomList.count(el)),2),'rows'));
     idx{el} = 1:length(isoList{el}(:,1)); %used later for indexing into ion List
 end
+
 % get combinations of elemental ion combinations
 grid = cell(1,numel(idx));
 [grid{:}] = ndgrid(idx{:});
