@@ -1,9 +1,27 @@
 function vox = posNdBin(pos, distance, binEdges)
 % creates a voxelisation of the data in 'pos' based on the bin centers in
-% 'gridVectorstors' (can be created e.g. using 'gridVectorstorFromPos.m') 
-
-% nD voxelisation for 1, 2 and 3 dimensions
+% 'gridVectorstors', nD voxelisation for 1, 2 and 3 dimensions
 % depending on how many distance entries are given
+%
+% vox = posNdBin(pos, distance, binEdges)
+%
+% INPUT
+% pos:      decomposed pos file or with allocated ranges
+%
+% distance: dist is the distance variable to be binned. One column per
+%           dimension. 
+%           It is the generalized distance. Anything that is a metric can 
+%           be used. Reguraly you can use xyz coordinates (from any pos
+%           variable), distance to an object or detector coordinates
+%
+% binEdges: generated with the gridVectorsFromDistance Function,edges of 
+%           each bin
+%
+% OUTPUT
+% vox:      cell array with different pos files for each bin containing the
+%           atoms/ions from the bin.
+      
+
 
 numDim = length(distance(1,:)); % number of dimensions
 loc = zeros(height(pos),numDim); %memory pre-allocation
