@@ -1,13 +1,18 @@
-function mov = movieCreateTurntableAnimation(deg,fileName)
-% creates turntable animation of the current figure and returns movie
-% variable.
+function mov = movieCreateTurntableAnimation(deg,frameRate,fileName)
+% movieCreateTurntableAnimation creates a turntable animation of the current 
+% figure and returns movie variable. The movie is saved in an *.avi format.
 %
 % mov = movieCreateTurntableAnimation(deg,fileName)
 %
 % INPUTS
-% deg:      step size in degree in which the animation rotates. determines
-%           the length and speed of the film.
-% fileName: name under which the film is saved.
+% deg:       step size in degree in which the animation rotates. determines
+%            the length and speed of the film.
+% 
+% frameRate: frame rate of the movie in frames per second
+% 
+% fileName:  name under which the film is saved.
+%
+%
 %
 % OUTPUT
 %           movie of the turning atom probe tip.
@@ -31,8 +36,8 @@ end
 
 myVideo = VideoWriter(fileName);
 
-myVideo.FrameRate = 60;  % Default 30
-myVideo.Quality = 50;    % Default 75
+myVideo.FrameRate = frameRate;  
+myVideo.Quality = 100;          % Default 100
 
 open(myVideo);
 writeVideo(myVideo, mov);
