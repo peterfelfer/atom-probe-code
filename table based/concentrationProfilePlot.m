@@ -1,4 +1,4 @@
-function [p, ax, f] = concentrationProfilePlot(conc,excludeList, colorScheme)
+function [p, ax, f] = concentrationProfilePlot(conc,excludeList,colorScheme)
 % plots a concentration profile
 % plotType can be inLine or stacked
 % up to 4 volumes with different plot lines
