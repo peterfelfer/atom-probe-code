@@ -11,20 +11,18 @@ if ~ isempty(multi == 0)
 end
 
 % automatically takes the 4th colum if a pos file or epos file is parsed
-if length(mc(1,:) > 1)
+if length(mc(1,:)) > 1
     mc = mc(:,4);
 end
 
 
 idx = multi == 2;
 
-everySecond = logical(repmat([1; 0], sum(idx), 1));
+mcselect = mc(idx);
+everySecond = logical(repmat([1; 0], length(mcselect)/2, 1));
 
-idx1 = idx(everySecond);
-idx2 = idx(~everySecond);
-
-mc1(:,1) = mc(idx1);
-mc1(:,2) = mc(idx2);
+mc1(:,1) = mcselect(everySecond);
+mc1(:,2) = mcselect(~everySecond);
 
 mc1 = sort(mc1,2);
 mc1 = fliplr(mc1);
