@@ -11,7 +11,7 @@ if ~ isempty(multi == 0)
 end
 
 % automatically takes the 4th colum if a pos file or epos file is parsed
-if length(mc(1,:) > 1)
+if length(mc(1,:)) > 1
     mc = mc(:,4);
 end
 
