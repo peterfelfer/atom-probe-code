@@ -6,30 +6,29 @@ function [pkcnt pkdata] = countsPeakBackgroundCorrected(options,bgRegion,massSpe
 %
 % [pkcnt pkdata] = countsPeakBackgroundCorrected();
 % [pkcnt pkdata] = countsPeakBackgroundCorrected(options);
-% [pkcnt pkdata] = countsPeakBackgroundCorrected(options, bgRegion);
-% [pkcnt pkdata] = countsPeakBackgroundCorrected(options, bgRegion, massSpec);
+% [pkcnt pkdata] = countsPeakBackgroundCorrected(options,bgRegion);
+% [pkcnt pkdata] = countsPeakBackgroundCorrected(options,bgRegion,massSpec);
 %
-% INPUTS:
-%   options:
-%       'r': add a fictional range and calculate the signal to background for that
-%            range
-%       'a': same as 'r', but automatically creates ranges by optimising the
-%            ratio of missed atoms / background atoms = 1
-%   bgRegion/ctRegion: table, is the option of parsing the background estimate and 
-%                mass spec for use in further automation
-%   massSpec: table, mass spectrum
+% INPUT
+% options:              'r': add a fictional range and calculate the signal to 
+%                       background for that range
+%                       'a': same as 'r', but automatically creates ranges by optimising the
+%                       ratio of missed atoms / background atoms = 1
+% bgRegion/ctRegion:    table, is the option of parsing the background estimate and 
+%                       mass spec for use in further automation
+% massSpec:             table, mass spectrum
 % 
 % hint: bgRegion and massSpec must be tables with .mc and .cts fields.
 %
-% OUTPUTS:
-% pkcnt: scalar with peak count in percent
+% OUTPUT
+% pkcnt:                scalar with peak count in percent
 %
-% pkdata: structure with peak data, peak location in Da
+% pkdata:               structure with peak data, peak location in Da
 %
 % hint: keep in mind not to use a 'normalised' mass spectrum plot, if you
 %       want to know the number of ions in a peak
 %
-%
+% (c) by Prof. Peter Felfer Group @FAU Erlangen-Nürnberg
 
 rngLabelHeight = 0.65; % height of the stem plot delineating the range
 
