@@ -14,8 +14,15 @@ function [FDM, ctr] = imageCreateFieldDesorptionMap(epos,resolution,plotAxis)
 % plotAxis:     if specified, the FDM will be plotted in the given figure
 %
 % OUTPUS
-% FDM:          
-
+% FDM:          mxm matrix with hit values for each cell, depicting the 
+%               field desorption map if plotted in figure
+%
+% ctr:          cell with two row vectors containing the bin centers
+%
+% NOTE:         For the creation of an element-specific FDM use the 
+%               provided FDM workflow
+%
+% (c) by Prof. Peter Felfer Group @FAU Erlangen-Nürnberg
 
 %% calculating bin centers for FDM
 detx = epos.detx;
