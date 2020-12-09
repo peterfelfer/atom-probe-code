@@ -10,7 +10,7 @@ function [proxi, binVector] = pointCreateProxigram(posSpecies,pos,vertices,bin)
 %
 % pos:          initial pos file with pos.x, pos.y, and pos.z
 %
-% vertices:     vertices, m-by-n matrix, with m>3
+% vertices:     vertices, mx3 matrix, with m>3
 %
 % bin:          bin width in nm
 %
