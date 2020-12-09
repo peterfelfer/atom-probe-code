@@ -1,10 +1,25 @@
-function [FDM, ctr] = fieldDesorptionMap(detx,dety,resolution,plotAxis)
-% calculates field desorption map. resolution is the number of pixels
-% across. Try use powers of 2. ctr are the bin centers. 
-% if a plot axis is parsed, the image will be plotted (scaled appropriately to data)
+function [FDM, ctr] = imageCreateFieldDesorptionMap(epos,resolution,plotAxis)
+% imageCreateFieldDesorptionMap calculates field desorption map. resolution
+% is the number of pixels across. Try use powers of 2. ctr are the bin 
+% centers. If a plot axis is parsed, the image will be plotted (scaled 
+% appropriately to data).
+%
+% INPUT
+% epos:         table with spatial, chemical, and detector hit information
+%               contains x- and y-coordinates of detector hit events (detx
+%               and dety, respectively)
+%
+% resolution:   specification of number of pixels in x- and y-direction
+%
+% plotAxis:     if specified, the FDM will be plotted in the given figure
+%
+% OUTPUS
+% FDM:          
+
 
 %% calculating bin centers for FDM
-
+detx = epos.detx;
+dety = epos.dety;
 mi = min(min(detx),min(dety));
 mx = max(max(detx),max(dety));
 
@@ -19,4 +34,5 @@ if exist('plotAxis','var')
     hold on;
     x = [mi mx];
     imagesc(plotAxis,x,x,FDM);
+    axis equal;
 end
