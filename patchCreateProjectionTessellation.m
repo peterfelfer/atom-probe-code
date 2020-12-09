@@ -1,6 +1,17 @@
 function fv =  patchCreateProjectionTessellation(alpha,points)
 % calculates a projection tessellation based on the current projection in
 % the current figure. An alpha shape is used for the tessellation
+%
+% fv =  projectionTessellation(alpha)
+% fv =  projectionTessellation(alpha,points)
+%
+% INPUT
+% alpha:        
+%
+% points:
+%
+% OUTPUT
+% fv:           struc with field of faces and vertices    
 
 % if the points are parsed in pts, the projection direction is estimated
 % from least squares fit of the points
