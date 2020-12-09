@@ -11,7 +11,7 @@ function fv =  patchCreateProjectionTessellation(alpha,points)
 % points:
 %
 % OUTPUT
-% fv:           struc with field of faces and vertices    
+% fv:           struct with field of faces and vertices    
 
 % if the points are parsed in pts, the projection direction is estimated
 % from least squares fit of the points
