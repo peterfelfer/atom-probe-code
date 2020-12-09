@@ -5,6 +5,8 @@ function [proxi, binVector] = pointCreateProxigram(posSpecies,pos,vertices,bin)
 %
 % INPUT
 % posSpecies:   pos of the desired species, subset of initial pos
+%               can also be input as pos(pos.ion == 'Fe',:) in case of Fe
+%               ions
 %
 % pos:          initial pos file with pos.x, pos.y, and pos.z
 %
@@ -18,6 +20,7 @@ function [proxi, binVector] = pointCreateProxigram(posSpecies,pos,vertices,bin)
 %
 % binVector:    corresponding distance values; x-values of the proxigram
 %
+% (c) by Prof. Peter Felfer Group @FAU Erlangen-Nürnberg
 
 vertices = vertices(:,1:3);
 
