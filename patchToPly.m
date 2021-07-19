@@ -1,5 +1,7 @@
 function patchToPly(fv,vertColors,fileName,comment)
-% saves a patch to a ply file (polygon file format)
+% patchToPly saves a patch to a ply file (polygon file format). This format
+% contains information about the coloring of individual vertices and can be
+% read by many popular 3d programs. A file definition can be found on: http://paulbourke.net/dataformats/ply/
 %
 % patchToPly(fv);                
 %       opens a "Save *.ply file to" window

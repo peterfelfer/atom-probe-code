@@ -8,12 +8,12 @@ function [x, y, z, objectsR] = atomProbeRecon(detx, dety, V, kf, ICF,objects)
 %% constants and variable setup
 
 % instrument parameters
-flightLength = 90; % flight path length in mm
-detEff = 0.55; % detector efficiency
+flightLength = 110; % flight path length in mm
+detEff = 0.7; % detector efficiency
 
 % specimen parameters
-avgDens = 60.2; % atomic density in atoms / nm3
-Fevap = 19; % evaporation field in V/nm
+avgDens = 85; % atomic density in atoms / nm3
+Fevap = 33; % evaporation field in V/nm
 
 %V = V * 1000; %voltage provided in kV
 

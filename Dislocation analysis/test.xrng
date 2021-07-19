@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rangefile>
+   <version>0.1</version>
+   <ranges>
+      <item>
+         <masstochargebegin>0.5</masstochargebegin>
+         <masstochargeend>1.4</masstochargeend>
+         <ions>
+            <item>
+               <atoms>
+                  <item>
+                     <atomicnumber>14</atomicnumber>
+                     <isotope>28</isotope>
+                  </item>
+               </atoms>
+               <volume>0.011765</volume>
+               <chargestate>2</chargestate>
+            </item>
+         </ions>
+      </item>
+      <item>
+         <masstochargebegin>1.5</masstochargebegin>
+         <masstochargeend>2.5</masstochargeend>
+         <ions>
+            <item>
+               <atoms>
+                  <item>
+                     <atomicnumber>26</atomicnumber>
+                     <isotope>56</isotope>
+                  </item>
+               </atoms>
+               <volume>0.011765</volume>
+               <chargestate>2</chargestate>
+            </item>
+         </ions>
+      </item>
+   </ranges>
+</rangefile>
