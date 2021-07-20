@@ -292,7 +292,7 @@ tmpPop = zeros(4,n);
 newPop = zeros(popSize,n);
 
 
-progressbar('segmenting line');
+%progressbar('segmenting line');
 for iter = 1:numIter
     % Evaluate Each Population Member (Calculate Total Distance)
     for p = 1:popSize
@@ -338,7 +338,7 @@ for iter = 1:numIter
     end
     pop = newPop;
     
-    progressbar(iter/numIter);
+    %progressbar(iter/numIter);
 end
 
 
