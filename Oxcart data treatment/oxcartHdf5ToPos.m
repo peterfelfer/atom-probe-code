@@ -17,8 +17,10 @@ end
 
 %% constants
 TOFFACTOR = 27.432/(1000 * 4); % 27.432 ps/bin, tof in ns, data is TDC time sum
-XYFACTOR = 78/4900; % XXX mm/bin
-XYBINSHIFT = 2450; % to center detector
+DETBINS = 4900;
+BINNINGFAC = 2;
+XYFACTOR = 78/DETBINS*BINNINGFAC; % XXX mm/bin
+XYBINSHIFT = DETBINS/BINNINGFAC/2; % to center detector
 
 
 %% loading in data fields from HDF5
